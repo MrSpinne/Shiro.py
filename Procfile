@@ -1,1 +1,1 @@
-shiro jobs:python shiro.py
+release: python shiro.py

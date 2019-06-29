@@ -50,9 +50,6 @@ class Songs(commands.Cog):
         points = {"niemand": -1}
         await ctx.author.voice.channel.connect()
 
-        embed = discord.Embed(color=7830745, title="Songquiz - Start", description="Startet...")
-        message = await ctx.send(embed=embed)
-
         for i in range(0, rounds):
             songs = self.get_songs()
             song = songs[random.randint(0, 4)]
@@ -62,13 +59,14 @@ class Songs(commands.Cog):
             except:
                 continue
 
-            embed.title = f"**Songquiz - Runde {i + 1}/{rounds}**"
-            embed.description = f"1️⃣ {songs[0]['anime']} - {songs[0]['title']}\n" \
-                                f"2️⃣ {songs[1]['anime']} - {songs[1]['title']}\n" \
-                                f"3️⃣ {songs[2]['anime']} - {songs[2]['title']}\n" \
-                                f"4️⃣ {songs[3]['anime']} - {songs[3]['title']}\n" \
-                                f"5️⃣ {songs[4]['anime']} - {songs[4]['title']}"
-            await message.edit(embed=embed)
+            embed = discord.Embed(color=7830745, title=f"**Songquiz - Runde {i + 1}/{rounds}**",
+                                  description=f"1️⃣ {songs[0]['anime']} - {songs[0]['title']}\n" 
+                                              f"2️⃣ {songs[1]['anime']} - {songs[1]['title']}\n" 
+                                              f"3️⃣ {songs[2]['anime']} - {songs[2]['title']}\n" 
+                                              f"4️⃣ {songs[3]['anime']} - {songs[3]['title']}\n" 
+                                              f"5️⃣ {songs[4]['anime']} - {songs[4]['title']}")
+
+            message = await ctx.send(embed=embed)
             self.entries[message.id] = {}
             await message.add_reaction("1⃣")
             await message.add_reaction("2⃣")
@@ -90,20 +88,20 @@ class Songs(commands.Cog):
             self.shiro.loop.create_task(message.clear_reactions())
             embed.description = f"Die Runde hat {round_winner.mention if round_winner is not None else 'niemand'} " \
                                 f"gewonnen!\nSong: [{song['anime']} - {song['title']}]({song['url']})"
-            await message.edit(embed=embed)
+            await message.delete()
+            message = await ctx.send(embed=embed)
             await asyncio.sleep(5)
+            await message.delete()
 
+        embed = discord.Embed(color=7830745, title=f"**Songquiz - Ende**")
         winner_id = max(points, key=points.get)
         if winner_id != "niemand":
-            description = f"Das Songquiz hat {self.shiro.get_user(winner_id).mention} " \
-                          f"mit {points[winner_id]} richtigen Antworten gewonnen!"
+            embed.description = f"Das Songquiz hat {self.shiro.get_user(winner_id).mention} mit {points[winner_id]}" \
+                                f" richtigen Antworten gewonnen! Es gab {rounds} Runden."
         else:
-            description = "Niemand hat das Songquiz gewonnen!"
+            embed.description = f"Niemand hat das Songquiz gewonnen! Es gab {rounds} Runden."
 
-        embed.title = f"**Songquiz - Ende**"
-        embed.description = description
-        await message.edit(embed=embed)
-
+        await ctx.send(embed=embed)
         await ctx.voice_client.disconnect()
 
     def get_songs(self):

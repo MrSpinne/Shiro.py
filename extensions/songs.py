@@ -8,22 +8,6 @@ import random
 import youtube_dl
 
 
-ytdl_format_options = {
-    "format": "bestaudio/best",
-    "outtmpl": "%(extractor)s-%(id)s-%(title)s.%(ext)s",
-    "restrictfilenames": True,
-    "noplaylist": True,
-    "nocheckcertificate": True,
-    "ignoreerrors": False,
-    "logtostderr": False,
-    "quiet": True,
-    "no_warnings": True,
-    "default_search": "auto",
-    "source_address": "0.0.0.0"
-}
-ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
-
-
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, volume=0):
         super().__init__(source, volume)
@@ -33,6 +17,21 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
     @classmethod
     async def from_url(cls, url, *, loop=None):
+        ytdl_format_options = {
+            "format": "bestaudio/best",
+            "outtmpl": "%(extractor)s-%(id)s-%(title)s.%(ext)s",
+            "restrictfilenames": True,
+            "noplaylist": True,
+            "nocheckcertificate": True,
+            "ignoreerrors": False,
+            "logtostderr": False,
+            "quiet": True,
+            "no_warnings": True,
+            "default_search": "auto",
+            "source_address": "0.0.0.0"
+        }
+        ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=True))
         filename = ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, options="-vn"), data=data)

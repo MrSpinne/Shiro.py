@@ -10,6 +10,7 @@ class Shiro(commands.Bot):
 		super().__init__(command_prefix="s.", case_insensitive=True, help_command=None)
 
 	async def on_ready(self):
+		"""Get ready and initialize"""
 		self.load_all_extensions()
 		self.update_status.start()
 		print(f"Shiro ready to serve {len(self.users)} users")

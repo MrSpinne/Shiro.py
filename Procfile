@@ -1,0 +1,1 @@
+shiro jobs:python shiro.py

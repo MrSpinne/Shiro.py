@@ -1,1 +1,1 @@
-worker: python shiro.py
+run: python shiro.py

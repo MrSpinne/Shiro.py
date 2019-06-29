@@ -135,7 +135,6 @@ class Songs(commands.Cog):
     async def on_reaction_add(self, reaction, user):
         """Add user entry if he is in the voice channel"""
         if reaction.message.id in self.entries and not user.bot:
-            await reaction.message.remove_reaction(reaction.emoji, user)
             if user.id not in self.entries[reaction.message.id]:
                 self.entries[reaction.message.id][user.id] = reaction.emoji
 

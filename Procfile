@@ -1,1 +1,1 @@
-release: python shiro.py
+release: nohup python shiro.py &

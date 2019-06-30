@@ -48,9 +48,8 @@ class Songs(commands.Cog):
     async def songquiz(self, ctx, rounds: int = 10):
         """Starts playing anime songs"""
         points = {}
-        await ctx.author.voice.channel.connect()
-
         i = 0
+        await ctx.author.voice.channel.connect()
         while i < rounds:
             songs = self.get_songs()
             song = songs[random.randint(0, 4)]
@@ -70,7 +69,6 @@ class Songs(commands.Cog):
                                               f"3️⃣ {songs[2]['anime']} - {songs[2]['title']}\n" 
                                               f"4️⃣ {songs[3]['anime']} - {songs[3]['title']}\n" 
                                               f"5️⃣ {songs[4]['anime']} - {songs[4]['title']}")
-
             message = await ctx.send(embed=embed)
             self.entries[message.id] = {}
             await message.add_reaction("1⃣")
@@ -115,7 +113,6 @@ class Songs(commands.Cog):
 
         await ctx.send(embed=embed)
         await ctx.voice_client.disconnect()
-
 
     def get_songs(self):
         """Get 5 random songs from file"""

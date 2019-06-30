@@ -6,6 +6,36 @@ class General(commands.Cog):
     def __init__(self, shiro):
         self.shiro = shiro
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        embed = discord.Embed(color=10892179, title="Fehler bei Command")
+
+        if isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
+            embed.description = f"Beim Befehl `{ctx.message.content}` wurde ein falsches Argument angegeben. Für " \
+                                "weiteres benutze `s.help`."
+        elif isinstance(error, commands.MissingRequiredArgument):
+            embed.description = f"Beim Befehl `{ctx.message.content}` fehlt das Argument `{error.param.name}`. Für " \
+                                "weiteres benutze `s.help`."
+        elif isinstance(error, commands.NoPrivateMessage):
+            embed.description = f"Der Befehl `{ctx.message.content}` kann nur im Server ausgeführt werden. Für " \
+                                "weiteres benutze `s.help`."
+        elif isinstance(error, commands.CheckFailure):
+            embed.description = f"Der Befehl `{ctx.message.content}` kann von dir hier nicht ausgeführt werden. " \
+                                "Für weiteres benutze `s.help`."
+        elif isinstance(error, commands.CommandNotFound):
+            embed.description = f"Der Befehl `{ctx.message.content}` existiert nicht. Für weiteres benutze `s.help`."
+        elif isinstance(error, commands.TooManyArguments):
+            embed.description = f"Beim Befehl `{ctx.message.content}` wurden zu viele Argumente angegeben. Für " \
+                                "weiteres benutze `s.help`."
+        else:
+            embed.description = f"Beim Befehl `{ctx.message.content}` ist ein unbekannter Fehler aufgetreten. " \
+                                "Für weiteres benutze `s.help`."
+
+        await ctx.send(embed=embed)
+        embed.description = f"Der User {ctx.author.name}#{ctx.author.discriminator} hat einen Fehler " \
+                            f"ausgelöst.\n`{ctx.message.content}` - `{error}`"
+        await self.shiro.app_info.owner.send(embed=embed)
+
     @commands.command(brief="Übersicht für Commands")
     async def help(self, ctx):
         """Get information about other commands"""

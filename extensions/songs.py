@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from library import checks
 
 import asyncio
@@ -42,21 +42,26 @@ class Songs(commands.Cog):
         self.shiro = shiro
         self.entries = {}
 
-    @commands.command()
+    @commands.command(brief="Songquiz starten", usage="[Runden]")
     @commands.guild_only()
     @checks.voice_available()
     async def songquiz(self, ctx, rounds: int = 10):
         """Starts playing anime songs"""
-        points = {"niemand": -1}
+        points = {}
         await ctx.author.voice.channel.connect()
 
-        for i in range(0, rounds):
+        i = 0
+        while i < rounds:
             songs = self.get_songs()
             song = songs[random.randint(0, 4)]
 
             try:
                 self.shiro.loop.create_task(self.fade_song(ctx, song["url"]))
             except:
+                embed = discord.Embed(color=10892179, title="Fehler bei Songquiz",
+                                      description=f"Der Song {song['title']} mit der URL [{song['url']}]({song['url']})"
+                                                  " ist nicht mehr verfügbar.")
+                await self.shiro.app_info.owner.send(embed=embed)
                 continue
 
             embed = discord.Embed(color=7830745, title=f"**Songquiz - Runde {i + 1}/{rounds}**",
@@ -92,17 +97,25 @@ class Songs(commands.Cog):
             message = await ctx.send(embed=embed)
             await asyncio.sleep(5)
             await message.delete()
+            i += 1
+
+        max_points = max(points.values()) if len(points.values()) != 0 else []
+        winner_ids = [user_id for user_id, user_points in points.items() if user_points == max_points]
+        winners = [self.shiro.get_user(winner_id) for winner_id in winner_ids]
 
         embed = discord.Embed(color=7830745, title=f"**Songquiz - Ende**")
-        winner_id = max(points, key=points.get)
-        if winner_id != "niemand":
-            embed.description = f"Das Songquiz hat {self.shiro.get_user(winner_id).mention} mit {points[winner_id]}" \
-                                f" richtigen Antworten gewonnen! Es gab {rounds} Runden."
+
+        if len(winners) == 0:
+            embed.description = f"Niemand hat das Songquiz gewonnen! Es gab {rounds} Runde{'n' if rounds > 1 else ''}."
+        elif len(winners) == 1:
+            embed.description = f"Es hat {winners[0].mention} mit {points[winner_ids[0]]} richtigen " \
+                                f"Antworten gewonnen! Es gab {rounds} Runde{'n' if rounds > 1 else ''}."
         else:
-            embed.description = f"Niemand hat das Songquiz gewonnen! Es gab {rounds} Runden."
+            embed.description = f"Es ist unentschieden zwischen: {', '.join([user.mention for user in winners])}"
 
         await ctx.send(embed=embed)
         await ctx.voice_client.disconnect()
+
 
     def get_songs(self):
         """Get 5 random songs from file"""

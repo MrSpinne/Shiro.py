@@ -7,10 +7,12 @@ import pathlib
 
 class Shiro(commands.Bot):
 	def __init__(self):
-		super().__init__(command_prefix="s.", case_insensitive=True, help_command=None)
+		super().__init__(command_prefix=commands.when_mentioned_or("s."), case_insensitive=True, help_command=None)
+		self.app_info = None
 
 	async def on_ready(self):
 		"""Get ready and initialize"""
+		self.app_info = await self.application_info()
 		self.load_all_extensions()
 		self.update_status.start()
 		print(f"Shiro ready to serve {len(self.users)} users")

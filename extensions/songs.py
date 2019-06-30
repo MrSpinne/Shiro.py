@@ -43,8 +43,8 @@ class Songs(commands.Cog):
         self.entries = {}
 
     @commands.command(brief="Songquiz starten", usage="[Runden]")
-    @commands.guild_only()
     @checks.voice_available()
+    @commands.guild_only()
     async def songquiz(self, ctx, rounds: int = 10):
         """Starts playing anime songs"""
         points = {}

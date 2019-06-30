@@ -8,6 +8,7 @@ class General(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        """Catch errors on command execution"""
         embed = discord.Embed(color=10892179, title="Fehler bei Command")
 
         if isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):

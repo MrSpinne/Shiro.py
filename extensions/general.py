@@ -9,7 +9,7 @@ class General(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         """Catch errors on command execution"""
-        embed = discord.Embed(color=10892179, title="Fehler bei Command")
+        embed = discord.Embed(color=10892179, title="**Fehler bei Command**")
 
         if isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
             embed.description = f"Beim Befehl `{ctx.message.content}` wurde ein falsches Argument angegeben. Für " \
@@ -57,7 +57,7 @@ class General(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(brief="Songanfrage stellen", usage="[Song]")
-    async def request(self, ctx, song=None):
+    async def request(self, ctx, *, song=None):
         """Request a new song for the song quiz"""
         if song is None:
             embed = discord.Embed(color=7830745, title="**Songanfrage stellen**",

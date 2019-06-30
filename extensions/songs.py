@@ -57,7 +57,7 @@ class Songs(commands.Cog):
             try:
                 self.shiro.loop.create_task(self.fade_song(ctx, song["url"]))
             except:
-                embed = discord.Embed(color=10892179, title="Fehler bei Songquiz",
+                embed = discord.Embed(color=10892179, title="**Fehler bei Songquiz**",
                                       description=f"Der Song {song['title']} mit der URL [{song['url']}]({song['url']})"
                                                   " ist nicht mehr verfügbar.")
                 await self.shiro.app_info.owner.send(embed=embed)
@@ -88,10 +88,9 @@ class Songs(commands.Cog):
                     points[round_winner.id] += 1
 
             self.entries.pop(message.id, None)
-            self.shiro.loop.create_task(message.clear_reactions())
+            await message.delete()
             embed.description = f"Die Runde hat {round_winner.mention if round_winner is not None else 'niemand'} " \
                                 f"gewonnen!\nSong: [{song['anime']} - {song['title']}]({song['url']})"
-            await message.delete()
             message = await ctx.send(embed=embed)
             await asyncio.sleep(5)
             await message.delete()

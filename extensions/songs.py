@@ -113,7 +113,7 @@ class Songs(commands.Cog):
             embed.description = f"Niemand hat das Songquiz gewonnen! Es gab {rounds} Runde{'n' if rounds > 1 else ''}."
         elif len(winners) == 1:
             embed.description = f"{winners[0].mention} hat {points[winner_ids[0]]}/{rounds} Song" \
-                                f"{'s' if rounds > 1 else ''} richtig erraten."
+                                f"{'s' if rounds > 1 else ''} richtig erraten und somit gewonnen!"
         else:
             embed.description = f"{', '.join([user.mention for user in winners])} haben mit jeweils " \
                                 f"{points[winner_ids[0]]}/{rounds} richtig erratenen Song" \

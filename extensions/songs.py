@@ -50,6 +50,13 @@ class Songs(commands.Cog):
         points = {}
         i = 0
         await ctx.author.voice.channel.connect()
+
+        embed = discord.Embed(color=7830745, title=f"**Songquiz - Startet**",
+                              description="Macht euch bereit, in wenigen Sekunden startet das Songquiz!")
+        message = await ctx.send(embed=embed)
+        await asyncio.sleep(3)
+        await message.delete()
+
         while i < rounds:
             songs = self.get_songs()
             song = songs[random.randint(0, 4)]
@@ -105,17 +112,19 @@ class Songs(commands.Cog):
         if len(winners) == 0:
             embed.description = f"Niemand hat das Songquiz gewonnen! Es gab {rounds} Runde{'n' if rounds > 1 else ''}."
         elif len(winners) == 1:
-            embed.description = f"Es hat {winners[0].mention} mit {points[winner_ids[0]]} richtigen " \
-                                f"Antworten gewonnen! Es gab {rounds} Runde{'n' if rounds > 1 else ''}."
+            embed.description = f"{winners[0].mention} hat {points[winner_ids[0]]}/{rounds} Song" \
+                                f"{'s' if rounds > 1 else ''} richtig erraten."
         else:
-            embed.description = f"Es ist unentschieden zwischen: {', '.join([user.mention for user in winners])}"
+            embed.description = f"{', '.join([user.mention for user in winners])} haben mit jeweils " \
+                                f"{points[winner_ids[0]]}/{rounds} richtig erratenen Song" \
+                                f"{'s' if rounds > 1 else ''} ein Unentschieden erzielt."
 
         await ctx.send(embed=embed)
         await ctx.voice_client.disconnect()
 
     def get_songs(self):
         """Get 5 random songs from file"""
-        with open("data/songs.json", "r") as file:
+        with open("data/songs.json", "r", encoding="utf8") as file:
             songs = json.load(file)
             selection = random.sample(songs, k=5)
             return selection

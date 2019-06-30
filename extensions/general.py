@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+import json
+
 
 class General(commands.Cog):
     def __init__(self, shiro):
@@ -48,11 +50,15 @@ class General(commands.Cog):
 
     @commands.command(brief="Information über Shiro")
     async def info(self, ctx):
-        """Show bot author"""
+        """Show bot author and amount of songs"""
+        with open("data/songs.json", "r", encoding="utf8") as file:
+            songs = json.load(file)
+
         embed = discord.Embed(color=7830745, title="**Information über Shiro**",
                               description=f"Shiro wurde von **{self.shiro.app_info.owner.name}#"
-                                          f"{self.shiro.app_info.owner.discriminator}** in Python programmiert.\nBei "
-                                          "Fragen kannst du dich gerne melden!")
+                                          f"{self.shiro.app_info.owner.discriminator}** in Python programmiert. Derzeit"
+                                          f" gibt es **{len(songs)} Songs** in der Datenbank. Bei weiteren Fragen "
+                                          "kannst du dich gerne melden!")
         embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
         await ctx.send(embed=embed)
 

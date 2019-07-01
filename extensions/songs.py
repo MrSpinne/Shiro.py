@@ -1,6 +1,6 @@
 import discord
-from discord.ext import commands, tasks
-from library import checks
+from discord.ext import commands
+from library import checks, converters
 
 import asyncio
 import json
@@ -45,7 +45,7 @@ class Songs(commands.Cog):
     @commands.command(brief="Songquiz starten", usage="[Runden]")
     @checks.voice_available()
     @commands.guild_only()
-    async def songquiz(self, ctx, rounds: int = 10):
+    async def songquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Starts playing anime songs"""
         points = {}
         i = 0
@@ -172,6 +172,10 @@ class Songs(commands.Cog):
         for key, value in self.entries[message_id].items():
             if value == correct_reaction:
                 return self.shiro.get_user(key)
+
+    @commands.command(brief="Audio stoppen")
+    async def stop(self, ctx):
+        pass
 
 
 def setup(shiro):

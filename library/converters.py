@@ -1,4 +1,5 @@
 from discord.ext import commands
+from library import exceptions
 
 
 class RangeInt(commands.Converter):
@@ -15,4 +16,4 @@ class RangeInt(commands.Converter):
         except:
             pass
 
-        raise commands.BadArgument(f"Argument {argument} not in range {self.min_num}-{self.max_num}.")
+        raise exceptions.NotInRange(argument, self.min_num, self.max_num)

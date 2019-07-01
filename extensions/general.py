@@ -34,6 +34,9 @@ class General(commands.Cog):
         elif isinstance(error, commands.TooManyArguments):
             embed.description = f"Beim Befehl `{ctx.message.content}` wurden zu viele Argumente angegeben. Für " \
                                 "weiteres benutze `s.help`."
+        elif isinstance(error, exceptions.NotInRange):
+            embed.description = f"Beim Befehl `{ctx.message.content}` muss das Argument {error.argument} im Bereich" \
+                                f" {error.min_int}-{error.max_int} liegen."
         else:
             embed.description = f"Beim Befehl `{ctx.message.content}` ist ein unbekannter Fehler aufgetreten. " \
                                 "Für weiteres benutze `s.help`."

@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from library import exceptions
 
 import json
 
@@ -22,6 +23,9 @@ class General(commands.Cog):
         elif isinstance(error, commands.NoPrivateMessage):
             embed.description = f"Der Befehl `{ctx.message.content}` kann nur im Server ausgeführt werden. Für " \
                                 "weiteres benutze `s.help`."
+        elif isinstance(error, exceptions.NoVoice):
+            embed.description = f"Beim nutzen des Befehls `{ctx.message.content}` musst du in einem Voicechannel " \
+                                "sein. Außerdem darf der Bot gerade keine Musik abspielen."
         elif isinstance(error, commands.CheckFailure):
             embed.description = f"Der Befehl `{ctx.message.content}` kann von dir hier nicht ausgeführt werden. " \
                                 "Für weiteres benutze `s.help`."

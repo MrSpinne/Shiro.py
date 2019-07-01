@@ -6,6 +6,7 @@ import asyncio
 import json
 import random
 import youtube_dl
+import requests
 
 
 class YTDLSource(discord.PCMVolumeTransformer):
@@ -19,7 +20,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
     async def from_url(cls, url, *, loop=None):
         ytdl_format_options = {
             "format": "bestaudio/best",
-            "outtmpl": "%(extractor)s-%(id)s-%(title)s.%(ext)s",
+            "outtmpl": "cache/%(extractor)s-%(id)s-%(title)s.%(ext)s",
             "restrictfilenames": True,
             "noplaylist": True,
             "nocheckcertificate": True,
@@ -51,7 +52,7 @@ class Songs(commands.Cog):
         i = 0
         await ctx.author.voice.channel.connect()
 
-        embed = discord.Embed(color=7830745, title=f"**Songquiz - Startet**",
+        embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Startet**",
                               description="Macht euch bereit, in wenigen Sekunden startet das Songquiz!")
         message = await ctx.send(embed=embed)
         await asyncio.sleep(3)
@@ -61,21 +62,17 @@ class Songs(commands.Cog):
             songs = self.get_songs()
             song = songs[random.randint(0, 4)]
 
-            try:
-                self.shiro.loop.create_task(self.fade_song(ctx, song["url"]))
-            except:
-                embed = discord.Embed(color=10892179, title="**Fehler bei Songquiz**",
-                                      description=f"Der Song {song['title']} mit der URL [{song['url']}]({song['url']})"
-                                                  " ist nicht mehr verfügbar.")
-                await self.shiro.app_info.owner.send(embed=embed)
+            if not await self.validate_song(song):
                 continue
 
-            embed = discord.Embed(color=7830745, title=f"**Songquiz - Runde {i + 1}/{rounds}**",
-                                  description=f"1️⃣ {songs[0]['anime']} - {songs[0]['title']}\n" 
-                                              f"2️⃣ {songs[1]['anime']} - {songs[1]['title']}\n" 
-                                              f"3️⃣ {songs[2]['anime']} - {songs[2]['title']}\n" 
-                                              f"4️⃣ {songs[3]['anime']} - {songs[3]['title']}\n" 
-                                              f"5️⃣ {songs[4]['anime']} - {songs[4]['title']}")
+            self.shiro.loop.create_task(self.fade_song(ctx, song["url"]))
+
+            embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Runde {i + 1}/{rounds}**",
+                                  description=f"1️⃣ {songs[0]['anime']} ‧ {songs[0]['title']}\n" 
+                                              f"2️⃣ {songs[1]['anime']} ‧ {songs[1]['title']}\n" 
+                                              f"3️⃣ {songs[2]['anime']} ‧ {songs[2]['title']}\n" 
+                                              f"4️⃣ {songs[3]['anime']} ‧ {songs[3]['title']}\n" 
+                                              f"5️⃣ {songs[4]['anime']} ‧ {songs[4]['title']}")
             message = await ctx.send(embed=embed)
             self.entries[message.id] = {}
             await message.add_reaction("1⃣")
@@ -97,7 +94,7 @@ class Songs(commands.Cog):
             self.entries.pop(message.id, None)
             await message.delete()
             embed.description = f"Die Runde hat {round_winner.mention if round_winner is not None else 'niemand'} " \
-                                f"gewonnen!\nSong: [{song['anime']} - {song['title']}]({song['url']})"
+                                f"gewonnen!\nSong: [{song['anime']} ‧ {song['title']}]({song['url']})"
             message = await ctx.send(embed=embed)
             await asyncio.sleep(5)
             await message.delete()
@@ -107,7 +104,7 @@ class Songs(commands.Cog):
         winner_ids = [user_id for user_id, user_points in points.items() if user_points == max_points]
         winners = [self.shiro.get_user(winner_id) for winner_id in winner_ids]
 
-        embed = discord.Embed(color=7830745, title=f"**Songquiz - Ende**")
+        embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Ende**")
 
         if len(winners) == 0:
             embed.description = f"Niemand hat das Songquiz gewonnen! Es gab {rounds} Runde{'n' if rounds > 1 else ''}."
@@ -149,6 +146,18 @@ class Songs(commands.Cog):
             except:
                 pass
 
+    async def validate_song(self, song):
+        """Check if youtube video exists"""
+        try:
+            requests.get(f"https://www.youtube.com/oembed?format=json&url={song['url']}").json()
+            return True
+        except:
+            embed = discord.Embed(color=10892179, title="**Fehler bei Songquiz**",
+                                  description=f"Der Song {song['anime']} ‧ {song['title']} mit der URL "
+                                  f"[{song['url']}]({song['url']}) ist nicht mehr verfügbar.")
+            await self.shiro.app_info.owner.send(embed=embed)
+            return False
+
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         """Add user entry if he is in the voice channel"""
@@ -172,10 +181,6 @@ class Songs(commands.Cog):
         for key, value in self.entries[message_id].items():
             if value == correct_reaction:
                 return self.shiro.get_user(key)
-
-    @commands.command(brief="Audio stoppen")
-    async def stop(self, ctx):
-        pass
 
 
 def setup(shiro):

@@ -119,11 +119,11 @@ class Songs(commands.Cog):
         await ctx.send(embed=embed)
         await ctx.voice_client.disconnect()
 
-    def get_songs(self):
+    def get_songs(self, amount=5):
         """Get 5 random songs from file"""
         with open("data/songs.json", "r", encoding="utf8") as file:
             songs = json.load(file)
-            selection = random.sample(songs, k=5)
+            selection = random.sample(songs, k=amount)
             return selection
 
     async def fade_song(self, ctx, url=None):
@@ -181,6 +181,27 @@ class Songs(commands.Cog):
         for key, value in self.entries[message_id].items():
             if value == correct_reaction:
                 return self.shiro.get_user(key)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.is_owner()
+    async def shuffle(self, ctx, songs: converters.RangeInt(1, 25) = 10):
+        await ctx.author.voice.channel.connect()
+
+        songs = self.get_songs(songs)
+        embed = discord.Embed(color=7830745, title="**Zufällige Wiedergabe**",
+                              description=f"Folgende Songs werden nun abgespielt:\n")
+        for song in songs:
+            embed.description += f"- {song['anime']} ‧ {song['title']}\n"
+
+        await ctx.send(embed=embed)
+
+        for song in songs:
+            await self.fade_song(ctx, song["url"])
+            while ctx.voice_client.is_playing():
+                await asyncio.sleep(0.1)
+
+        await ctx.voice_client.disconnect()
 
 
 def setup(shiro):

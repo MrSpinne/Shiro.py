@@ -14,32 +14,32 @@ class General(commands.Cog):
         """Catch errors on command execution"""
         embed = discord.Embed(color=10892179, title="**Fehler bei Command**")
 
-        if isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
+        if isinstance(error, exceptions.NotInRange):
+            embed.description = f"Beim Befehl `{ctx.message.content}` muss das Argument {error.argument} im Bereich" \
+                                f" {error.min_int}-{error.max_int} liegen."
+        elif isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
             embed.description = f"Beim Befehl `{ctx.message.content}` wurde ein falsches Argument angegeben. Für " \
-                                "weiteres benutze `s.help`."
+                                "Weiteres benutze `s.help`."
         elif isinstance(error, commands.MissingRequiredArgument):
             embed.description = f"Beim Befehl `{ctx.message.content}` fehlt das Argument `{error.param.name}`. Für " \
-                                "weiteres benutze `s.help`."
+                                "Weiteres benutze `s.help`."
         elif isinstance(error, commands.NoPrivateMessage):
             embed.description = f"Der Befehl `{ctx.message.content}` kann nur im Server ausgeführt werden. Für " \
-                                "weiteres benutze `s.help`."
+                                "Weiteres benutze `s.help`."
         elif isinstance(error, exceptions.NoVoice):
             embed.description = f"Beim nutzen des Befehls `{ctx.message.content}` musst du in einem Voicechannel " \
                                 "sein. Außerdem darf der Bot gerade keine Musik abspielen."
         elif isinstance(error, commands.CheckFailure):
             embed.description = f"Der Befehl `{ctx.message.content}` kann von dir hier nicht ausgeführt werden. " \
-                                "Für weiteres benutze `s.help`."
+                                "Für Weiteres benutze `s.help`."
         elif isinstance(error, commands.CommandNotFound):
-            embed.description = f"Der Befehl `{ctx.message.content}` existiert nicht. Für weiteres benutze `s.help`."
+            embed.description = f"Der Befehl `{ctx.message.content}` existiert nicht. Für Weiteres benutze `s.help`."
         elif isinstance(error, commands.TooManyArguments):
             embed.description = f"Beim Befehl `{ctx.message.content}` wurden zu viele Argumente angegeben. Für " \
-                                "weiteres benutze `s.help`."
-        elif isinstance(error, exceptions.NotInRange):
-            embed.description = f"Beim Befehl `{ctx.message.content}` muss das Argument {error.argument} im Bereich" \
-                                f" {error.min_int}-{error.max_int} liegen."
+                                "Weiteres benutze `s.help`."
         else:
             embed.description = f"Beim Befehl `{ctx.message.content}` ist ein unbekannter Fehler aufgetreten. " \
-                                "Für weiteres benutze `s.help`."
+                                "Für Weiteres benutze `s.help`."
 
         await ctx.send(embed=embed)
         embed.description = f"Der User {ctx.author.name}#{ctx.author.discriminator} hat einen Fehler " \
@@ -49,9 +49,11 @@ class General(commands.Cog):
     @commands.command(brief="Übersicht für Commands")
     async def help(self, ctx):
         """Get information about other commands"""
-        embed = discord.Embed(color=7830745, title="**Übersicht für Commands**", description="")
-        for command in self.shiro.commands:
-            embed.description += f"`s.{command.name} {command.usage if command.usage is not None else ''}` - {command.brief}\n"
+        embed = discord.Embed(color=7830745, title="**Übersicht für Commands**",
+                              description=f"`s.help` ‧ {self.shiro.get_command('help').brief}\n"
+                                          f"`s.info` ‧ {self.shiro.get_command('info').brief}\n"
+                                          f"`s.request <anime, song, url>` ‧ {self.shiro.get_command('request').brief}\n"
+                                          f"`s.songquiz <1-25>` ‧ {self.shiro.get_command('songquiz').brief}")
 
         await ctx.send(embed=embed)
 

@@ -193,7 +193,6 @@ class Songs(commands.Cog):
                               description=f"Folgende Songs werden nun abgespielt:\n")
         for song in songs:
             embed.description += f"- {song['anime']} ‧ {song['title']}\n"
-
         await ctx.send(embed=embed)
 
         for song in songs:

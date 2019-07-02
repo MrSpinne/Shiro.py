@@ -90,6 +90,14 @@ class General(commands.Cog):
                                               f"Anfrage gestellt. \nSong: `{song}`")
             await self.shiro.app_info.owner.send(embed=embed)
 
+    @commands.command()
+    @commands.is_owner()
+    async def stop(self, ctx):
+        """Stops the bot and closes connections"""
+        embed = discord.Embed(color=7830745, title="**Bot stoppen**", description="Der Bot wird nun heruntergefahren.")
+        await ctx.send(embed=embed)
+        await self.shiro.stop()
+
 
 def setup(shiro):
     shiro.add_cog(General(shiro))

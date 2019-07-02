@@ -193,12 +193,14 @@ class Songs(commands.Cog):
                               description=f"Folgende Songs werden nun abgespielt:\n")
         for song in songs:
             embed.description += f"- {song['anime']} ‧ {song['title']}\n"
+            
         await ctx.send(embed=embed)
 
         for song in songs:
             await self.fade_song(ctx, song["url"])
-            while ctx.voice_client.is_playing():
-                await asyncio.sleep(0.1)
+            if ctx.voice_client is not None:
+                while ctx.voice_client.is_playing():
+                    await asyncio.sleep(0.1)
 
         await ctx.voice_client.disconnect()
 

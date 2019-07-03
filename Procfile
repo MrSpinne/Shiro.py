@@ -1,1 +1,1 @@
-release: python shiro.py
+shiro: python shiro.py

@@ -2,3 +2,4 @@ discord.py[voice]
 youtube_dl
 requests
 psycopg2
+sentry-sdk

@@ -5,6 +5,7 @@ import json
 import psycopg2
 import asyncio
 import pathlib
+import sentry_sdk
 
 
 class Shiro(commands.Bot):
@@ -21,6 +22,7 @@ class Shiro(commands.Bot):
 		self.load_all_extensions()
 		self.update_status.start()
 		print(f"Shiro ready to serve {len(self.users)} users")
+		print(2/0)
 
 	def load_credentials(self):
 		"""Get credentials from file"""
@@ -78,3 +80,4 @@ class Shiro(commands.Bot):
 
 shiro = Shiro()
 shiro.run(shiro.credentials["discord"]["token"])
+sentry_sdk.init(shiro.credentials["sentry"]["public_dsn"])

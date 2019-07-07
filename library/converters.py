@@ -10,7 +10,7 @@ class RangeInt(commands.Converter):
 
     async def convert(self, ctx, argument):
         try:
-            argument = int(argument)
+            argument = int(float(argument))
             if argument in range(self.min_num, self.max_num+1):
                 return argument
         except:

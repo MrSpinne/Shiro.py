@@ -44,13 +44,11 @@ class Songs(commands.Cog):
         self.entries = {}
 
     @commands.command(brief="Songquiz starten", usage="[Runden]")
-    @checks.voice_available()
-    @commands.guild_only()
+    @commands.check(checks.voice_available)
     async def songquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Starts playing anime songs"""
-        points = {}
-        i = 0
         await ctx.author.voice.channel.connect()
+        points = {}
 
         embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Startet**",
                               description="Macht euch bereit, in wenigen Sekunden startet das Songquiz!")
@@ -58,29 +56,10 @@ class Songs(commands.Cog):
         await asyncio.sleep(3)
         await message.delete()
 
-        while i < rounds:
-            songs = self.get_songs()
-            song = songs[random.randint(0, 4)]
-
-            if not await self.validate_song(song):
-                continue
-
+        for i in range(0, rounds):
+            song, songs = self.get_songs()
             self.shiro.loop.create_task(self.fade_song(ctx, song["url"]))
-
-            embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Runde {i + 1}/{rounds}**",
-                                  description=f"1️⃣ {songs[0]['anime']} ‧ {songs[0]['title']}\n" 
-                                              f"2️⃣ {songs[1]['anime']} ‧ {songs[1]['title']}\n" 
-                                              f"3️⃣ {songs[2]['anime']} ‧ {songs[2]['title']}\n" 
-                                              f"4️⃣ {songs[3]['anime']} ‧ {songs[3]['title']}\n" 
-                                              f"5️⃣ {songs[4]['anime']} ‧ {songs[4]['title']}")
-            message = await ctx.send(embed=embed)
-            self.entries[message.id] = {}
-            await message.add_reaction("1⃣")
-            await message.add_reaction("2⃣")
-            await message.add_reaction("3⃣")
-            await message.add_reaction("4⃣")
-            await message.add_reaction("5⃣")
-
+            message = await self.send_round_embed(ctx, i, rounds, songs)
             await asyncio.sleep(30)
             self.shiro.loop.create_task(self.fade_song(ctx))
 
@@ -98,7 +77,6 @@ class Songs(commands.Cog):
             message = await ctx.send(embed=embed)
             await asyncio.sleep(5)
             await message.delete()
-            i += 1
 
         max_points = max(points.values()) if len(points.values()) != 0 else []
         winner_ids = [user_id for user_id, user_points in points.items() if user_points == max_points]
@@ -119,26 +97,29 @@ class Songs(commands.Cog):
         await ctx.send(embed=embed)
         await ctx.voice_client.disconnect()
 
-    def get_songs(self, amount=5):
+    async def get_songs(self):
         """Get 5 random songs from file"""
         with open("data/songs.json", "r", encoding="utf8") as file:
             songs = json.load(file)
-            selection = random.sample(songs, k=amount)
-            return selection
+
+        while True:
+            selection = random.sample(songs, k=5)
+            choice = selection[random.randint(0, 4)]
+            if await self.validate_song(choice):
+                return choice, selection
 
     async def fade_song(self, ctx, url=None):
         """Fade song in or out"""
         if url is not None:
-            async with ctx.typing():
-                player = await YTDLSource.from_url(url, loop=self.shiro.loop)
-                ctx.voice_client.play(player, after=lambda e: print("Player error: %s" % e) if e else None)
+            player = await YTDLSource.from_url(url, loop=self.shiro.loop)
+            ctx.voice_client.play(player, after=lambda e: print("Player error: %s" % e) if e else None)
 
             for i in range(0, 26):
-                ctx.voice_client.source.volume = i / 50
+                ctx.voice_client.source.volume = i / 30
                 await asyncio.sleep(0.1)
         else:
             for i in range(25, -1, -1):
-                ctx.voice_client.source.volume = i / 50
+                ctx.voice_client.source.volume = i / 30
                 await asyncio.sleep(0.1)
 
             try:
@@ -158,12 +139,22 @@ class Songs(commands.Cog):
             await self.shiro.app_info.owner.send(embed=embed)
             return False
 
-    @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
-        """Add user entry if he is in the voice channel"""
-        if reaction.message.id in self.entries and not user.bot:
-            if user.id not in self.entries[reaction.message.id]:
-                self.entries[reaction.message.id][user.id] = reaction.emoji
+    async def send_round_embed(self, ctx, i, rounds, songs):
+        """Send the default round embed and add reactions"""
+        embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Runde {i + 1}/{rounds}**",
+                              description=f"1️⃣ {songs[0]['anime']} ‧ {songs[0]['title']}\n"
+                              f"2️⃣ {songs[1]['anime']} ‧ {songs[1]['title']}\n"
+                              f"3️⃣ {songs[2]['anime']} ‧ {songs[2]['title']}\n"
+                              f"4️⃣ {songs[3]['anime']} ‧ {songs[3]['title']}\n"
+                              f"5️⃣ {songs[4]['anime']} ‧ {songs[4]['title']}")
+        message = await ctx.send(embed=embed)
+        self.entries[message.id] = {}
+        await message.add_reaction("1⃣")
+        await message.add_reaction("2⃣")
+        await message.add_reaction("3⃣")
+        await message.add_reaction("4⃣")
+        await message.add_reaction("5⃣")
+        return message
 
     async def get_round_winner(self, song, songs, message_id):
         """Get the winner who first reacted with the correct song number"""
@@ -182,27 +173,12 @@ class Songs(commands.Cog):
             if value == correct_reaction:
                 return self.shiro.get_user(key)
 
-    @commands.command()
-    @commands.guild_only()
-    @commands.is_owner()
-    async def shuffle(self, ctx, songs: converters.RangeInt(1, 25) = 10):
-        await ctx.author.voice.channel.connect()
-
-        songs = self.get_songs(songs)
-        embed = discord.Embed(color=7830745, title="**Zufällige Wiedergabe**",
-                              description=f"Folgende Songs werden nun abgespielt:\n")
-        for song in songs:
-            embed.description += f"- {song['anime']} ‧ {song['title']}\n"
-            
-        await ctx.send(embed=embed)
-
-        for song in songs:
-            await self.fade_song(ctx, song["url"])
-            if ctx.voice_client is not None:
-                while ctx.voice_client.is_playing():
-                    await asyncio.sleep(0.1)
-
-        await ctx.voice_client.disconnect()
+    @commands.Cog.listener()
+    async def on_reaction_add(self, reaction, user):
+        """Add user entry if he is in the voice channel"""
+        if reaction.message.id in self.entries and not user.bot:
+            if user.id not in self.entries[reaction.message.id]:
+                self.entries[reaction.message.id][user.id] = reaction.emoji
 
 
 def setup(shiro):

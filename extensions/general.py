@@ -9,15 +9,12 @@ class General(commands.Cog):
 	def __init__(self, shiro):
 		self.shiro = shiro
 
-	@commands.command(brief="Übersicht für Commands")
+	@commands.command()
 	async def help(self, ctx):
 		"""Get information about all commands"""
-		embed = discord.Embed(color=7830745, title="**Übersicht für Commands**", description="")
+		embed = discord.Embed(color=7830745, title=_("**All commands**"),
+		                      description=_(""))
 
-		for command in self.shiro.commands:
-			command_usage = f" {command.usage}" if command.usage is not None else ""
-			if checks.is_bot_owner not in command.checks:
-				embed.description += f"`{ctx.prefix}{command.name}{command_usage}` ‧ {command.brief}\n"""
 
 		await ctx.send(embed=embed)
 

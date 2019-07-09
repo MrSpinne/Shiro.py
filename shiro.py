@@ -10,20 +10,21 @@ import time
 import inspect
 import gettext
 import builtins
+import sentry_sdk.integrations.aiohttp
 
 
 class Shiro(commands.Bot):
 	def __init__(self):
 		super().__init__(command_prefix=commands.when_mentioned, case_insensitive=True, help_command=None)
 		builtins.__dict__["_"] = self.translate
-		self.credentials, self.db_connector, self.db_cursor, self.app_info = None, None, None, None
+		self.credentials, self.db_connector, self.db_cursor, self.app_info, self.sentry = None, None, None, None, sentry_sdk
 		self.startup()
 
 	def startup(self):
 		"""Prepare start"""
 		self.log("Starting Shiro...")
-		_("asd")
 		self.credentials = self.load_credentials()
+		self.sentry.init(dsn=self.credentials["sentry"]["dsn"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
 		self.clear_cache()
 		self.connect_database()
 		self.add_command_handlers()
@@ -31,7 +32,7 @@ class Shiro(commands.Bot):
 
 	def translate(self, string):
 		"""Translate string to language of ctx got from frame (commands only)"""
-		language = None
+		language = "en"
 
 		outer_frames = inspect.getouterframes(inspect.currentframe())
 		for frame in outer_frames:
@@ -42,10 +43,12 @@ class Shiro(commands.Bot):
 					language = self.get_guild_setting(guild_id, "language")
 					break
 
-		if language is None:
-			language = "en"
+		try:
+			translation = gettext.translation("base", "locales/", [language]).gettext(string)
+		except:
+			translation = string
+			self.log(f"Error localizing string \"{string}\" for language \"{language}\"", "error")
 
-		translation = gettext.translation("base", localedir="locales", languages=[language]).gettext(string)
 		return translation
 
 	def load_credentials(self):
@@ -118,7 +121,7 @@ class Shiro(commands.Bot):
 			print(f"[{time.strftime('%H:%M:%S', time.gmtime())}] [{level.upper()}] {message}")
 
 			if level.lower() == "error" and self.app_info is not None:
-				embed = discord.Embed(color=10892179, title="Interner Log", description=f"`{message}`")
+				embed = discord.Embed(color=10892179, title="Internal Log", description=f"`{message}`")
 				await self.app_info.owner.send(embed=embed)
 
 			with open("data/log.txt", "a+", encoding="utf-8") as file:
@@ -169,44 +172,46 @@ class Shiro(commands.Bot):
 
 	async def on_command_error(self, ctx, error):
 		"""Catch errors on command execution"""
-		embed = discord.Embed(color=10892179, title=_("**Fehler bei Command**"))
+		embed = discord.Embed(color=10892179, title=_("**Error on command**"))
 
 		if isinstance(error, commands.MissingRequiredArgument):
-			embed.description = f"Beim Befehl `{ctx.message.content}` fehlt das Argument `{error.param.name}`. Für " \
-				"Weiteres benutze `s.help`."
+			embed.description = _("The command `{0}` is missing the argument `{1}`.")\
+				.format(ctx.message.content, error.param.name)
 		elif isinstance(error, exceptions.NotInRange):
-			embed.description = f"Beim Befehl `{ctx.message.content}` muss das Argument {error.argument} im Bereich" \
-				f" {error.min_int}-{error.max_int} liegen."
+			embed.description = _("The command `{0}` only takes arguments in range `{1}-{2}`, not `{3}`.")\
+				.format(ctx.message.content, error.min_int, error.max_int, error.argument)
 		elif isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
-			embed.description = f"Beim Befehl `{ctx.message.content}` wurde ein falsches Argument angegeben. Für " \
-				"Weiteres benutze `s.help`."
+			embed.description = _("A wrong argument were passed into the command `{0}`.")\
+				.format(ctx.message.content)
 		elif isinstance(error, commands.CommandNotFound) or isinstance(error, commands.NotOwner):
-			embed.description = f"Der Befehl `{ctx.message.content}` existiert nicht. Für Weiteres benutze `s.help`."
+			embed.description = _("The command `{0}` wasn't found. To get a list of command use `{1}`.")\
+				.format(ctx.message.content, f"{ctx.prefix}help")
 		elif isinstance(error, exceptions.NotGuildOwner):
-			embed.description = f"Der Befehl `{ctx.message.content}` kann nur vom Serverbesitzer ausgeführt werden. " \
-								"Für Weiteres benutze `s.help`."
+			embed.description = _("The command `{0}` can only be executed by server owners.")\
+				.format(ctx.message.content)
 		elif isinstance(error, exceptions.NoVoice):
-			embed.description = f"Beim nutzen des Befehls `{ctx.message.content}` musst du in einem Voicechannel " \
-				"sein. Außerdem darf der Bot gerade keine Musik abspielen."
+			embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
+			                      "Also, the bot has to be disconnect from voice.")\
+				.format(ctx.message.content)
 		elif isinstance(error, exceptions.SpecificChannelOnly):
-			embed.description = f"Befehle könnnen nur im Channel {error.channel.mention} ausgeführt werden."
+			embed.description = _("On this server commands can only be executed in channel {0}.")\
+				.format(error.channel.mention)
 		elif isinstance(error, commands.NoPrivateMessage):
 			pass
 		elif isinstance(error, commands.BotMissingPermissions):
-			embed.description = "Bevor Befehle genutzt werden können braucht der Bot folgende Berechtigungen: " \
-				f"`{', '.join(error.missing_perms)}`"
+			embed.description = _("The bot is missing permissions to execute commands: `{0}`")\
+				.format(", ".join(error.missing_perms))
 		elif isinstance(error, commands.CheckFailure):
-			embed.description = f"Der Befehl `{ctx.message.content}` kann von dir hier nicht ausgeführt werden. " \
-				"Für Weiteres benutze `s.help`."
+			embed.description = _("You're lacking permission to execute command `{0}`.")\
+				.format(ctx.message.content)
 		else:
-			embed.description = f"Der User {ctx.author.name}#{ctx.author.discriminator} hat einen Fehler " \
-				f"ausgelöst.\n`{ctx.message.content}` - `{error}`"
-			await self.app_info.owner.send(embed=embed)
-			embed.description = f"Beim Befehl `{ctx.message.content}` ist ein unbekannter Fehler aufgetreten. " \
-				"Für Weiteres benutze `s.help`."
+			embed.description = _("An unknown error occured on command `{0}`. We're going to fix that soon!")\
+				.format(ctx.message.content)
+			sentry_sdk.capture_exception(error)
 
-		if not isinstance(error, commands.BotMissingPermissions) or \
-				(isinstance(error, commands.BotMissingPermissions) and "send_messages" not in error.missing_perms) or \
+		if not isinstance(error, commands.BotMissingPermissions):
+			await ctx.send(embed=embed)
+		elif (isinstance(error, commands.BotMissingPermissions) and "send_messages" not in error.missing_perms) or \
 				(isinstance(error, commands.BotMissingPermissions) and "embed_links" not in error.missing_perms):
 			await ctx.send(embed=embed)
 

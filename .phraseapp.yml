@@ -1,0 +1,10 @@
+phraseapp:
+  access_token: "1085b36c593f786d9b60a3f375537d44e1e977e9847e7d42be8e6f97a47e183f"
+  project_id: "4a29beee0f2b42bfa2e95b16df143d1b"
+  file_format: pot
+  push:
+    sources:
+      - file: ./locales/template.pot
+  pull:
+    targets:
+      - file: ./locales/<locale_name>/LC_MESSAGES/base.mo

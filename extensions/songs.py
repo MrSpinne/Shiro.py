@@ -132,11 +132,8 @@ class Songs(commands.Cog):
         try:
             requests.get(f"https://www.youtube.com/oembed?format=json&url={song['url']}").json()
             return True
-        except:
-            embed = discord.Embed(color=10892179, title="**Fehler bei Songquiz**",
-                                  description=f"Der Song {song['anime']} ‧ {song['title']} mit der URL "
-                                  f"[{song['url']}]({song['url']}) ist nicht mehr verfügbar.")
-            await self.shiro.app_info.owner.send(embed=embed)
+        except :
+            self.shiro.sentry.capture_message(f"Song {song['title']} ({song['anime']}) with url \"{song['url']} isn't available anymore.")
             return False
 
     async def send_round_embed(self, ctx, i, rounds, songs):

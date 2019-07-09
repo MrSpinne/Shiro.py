@@ -29,7 +29,7 @@ class Shiro(commands.Bot):
 		self.connect_database()
 		self.add_command_handlers()
 		self.load_all_extensions()
-		2/0
+		raise BaseException
 
 	def translate(self, string):
 		"""Translate string to language of ctx got from frame (commands only)"""

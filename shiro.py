@@ -45,9 +45,10 @@ class Shiro(commands.Bot):
 					break
 
 		try:
-			translation = gettext.translation("base", "locales/", [language]).gettext(string)
+			translation = gettext.translation("base", "locales/", [language], codeset="utf-8").gettext(string)
 		except Exception as error:
 			translation = string
+			logging.warning(error)
 			self.sentry.capture_exception(error)
 
 		return translation
@@ -203,7 +204,7 @@ class Shiro(commands.Bot):
 		elif isinstance(error, exceptions.NotYoutubeUrl):
 			embed.description = _("The url `{0}` isn't a valid YouTube url.").format(error.argument)
 		elif isinstance(error, commands.BadUnionArgument):
-			embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}.")\
+			embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}")\
 				.format(error.param.name, ctx.message.content, ", ".join([converter.__name__.lower() for converter in error.converters]))
 		elif isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
 			embed.description = _("A wrong argument were passed into the command `{0}`.")\

@@ -16,8 +16,8 @@ class General(commands.Cog):
 		embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
 		embed.description = _("`{0}help` ‧ Display all commands\n"
 		                      "`{0}info` ‧ Show credits of the bot\n"
-							  "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for the songquiz").format(ctx.prefix)
-		await ctx.author.send(embed=embed, content=_("Here're all commands for {0}:").format(ctx.guild.name))
+							  "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for the song quiz").format(ctx.prefix)
+		await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
 
 		embed = discord.Embed(color=7830745, title=_("**\👾 Games**"))
 		embed.description = _("`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds").format(ctx.prefix)
@@ -27,10 +27,10 @@ class General(commands.Cog):
 			return
 
 		embed = discord.Embed(color=7830745, title=_("**\⚙️ Settings**"))
-		embed.description = _("`{0}prefix <1-10 symbols>` ‧ Change  guild prefix\n"
+		embed.description = _("`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 		                      "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
 		                      "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
-		                      "`{0}language <{1}>` ‧ Set bot language\n"
+		                      "`{0}language <{1}>` ‧ Change bot language\n"
 		                      "`{0}config` ‧ Display current configuration").format(ctx.prefix, "/".join(self.shiro.get_languages()))
 		await ctx.author.send(embed=embed)
 
@@ -90,7 +90,7 @@ class General(commands.Cog):
 	@commands.check(checks.is_bot_owner)
 	async def shutdown(self, ctx):
 		"""Stops the bot and closes connection"""
-		embed = discord.Embed(color=7830745, title=_("**\⚠️ Stop bot**"), description=_("Bot is going to be shut down"))
+		embed = discord.Embed(color=7830745, title=_("**\⚠️ Stop bot**"), description=_("Bot is going to be shut down."))
 		await ctx.send(embed=embed)
 		await self.shiro.shutdown()
 

@@ -49,7 +49,7 @@ class Songs(commands.Cog):
 		"""Starts playing anime songs"""
 		points = {}
 		await ctx.author.voice.channel.connect()
-		embed = discord.Embed(color=7830745, title=_("**Song quiz ‧ Starting**"),
+		embed = discord.Embed(color=7830745, title=_("**\👾 Song quiz ‧ Starting**"),
 							  description=_("Get ready, the quiz will start in 3 seconds!"))
 		message = await ctx.send(embed=embed)
 		await asyncio.sleep(3)
@@ -72,7 +72,7 @@ class Songs(commands.Cog):
 			self.entries.pop(message.id, None)
 			await message.delete()
 			round_winner = round_winner.mention if round_winner is not None else _("Nobody")
-			embed.description = _("{0} has won the round!\Song: [{1} ‧ {2}]({3})")\
+			embed.description = _("{0} has won the round!\nSong: [{1} ‧ {2}]({3})")\
 				.format(round_winner, song["anime"], song["title"], song["youtube_url"])
 			message = await ctx.send(embed=embed)
 			await asyncio.sleep(5)
@@ -82,7 +82,7 @@ class Songs(commands.Cog):
 		winner_ids = [user_id for user_id, user_points in points.items() if user_points == max_points]
 		winners = [self.shiro.get_user(winner_id) for winner_id in winner_ids]
 
-		embed = discord.Embed(color=7830745, title=_("**Song quiz ‧ End**"))
+		embed = discord.Embed(color=7830745, title=_("**\👾 Song quiz ‧ End**"))
 
 		if len(winners) == 0:
 			embed.description = _("Nobody won the song quiz! There were {0} rounds.").format(rounds)
@@ -98,7 +98,7 @@ class Songs(commands.Cog):
 
 	async def send_round_embed(self, ctx, i, rounds, songs):
 		"""Send the default round embed and add reactions"""
-		embed = discord.Embed(color=7830745, title=_("**Song quiz ‧ Round {0}/{1}**").format(i+1, rounds),
+		embed = discord.Embed(color=7830745, title=_("**\👾 Song quiz ‧ Round {0}/{1}**").format(i+1, rounds),
 							  description=f"1️⃣ {songs[0]['anime']} ‧ {songs[0]['title']}\n"
 							  f"2️⃣ {songs[1]['anime']} ‧ {songs[1]['title']}\n"
 							  f"3️⃣ {songs[2]['anime']} ‧ {songs[2]['title']}\n"

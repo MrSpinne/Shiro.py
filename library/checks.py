@@ -42,7 +42,7 @@ def guild_only(ctx):
 
 def channel_only(ctx):
     """If enabled only allow command response in specified channel"""
-    allowed_channel = ctx.bot.get_guild_setting(ctx.guild.id, "channel_only")
+    allowed_channel = ctx.bot.get_channel(ctx.bot.get_guild_setting(ctx.guild.id, "channel_only"))
     if ctx.channel != allowed_channel and allowed_channel is not None:
         raise exceptions.SpecificChannelOnly(allowed_channel)
 

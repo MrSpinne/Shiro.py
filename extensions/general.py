@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
-from library import checks
+from library import checks, converters
 
+import asyncio
 import json
 
 
@@ -9,73 +10,87 @@ class General(commands.Cog):
 	def __init__(self, shiro):
 		self.shiro = shiro
 
-	@commands.command()
+	@commands.command(aliases=["?", "cmd", "cmds", "command", "commands"])
 	async def help(self, ctx):
-		"""Get information about all commands"""
-		embed = discord.Embed(color=7830745, title=_("**All commands**"),
-		                      description=_(""))
+		"""Display all commands"""
+		embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
+		embed.description = _("`{0}help` ‧ Display all commands\n"
+		                      "`{0}info` ‧ Show credits of the bot\n"
+							  "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for the songquiz").format(ctx.prefix)
+		await ctx.author.send(embed=embed, content=_("Here're all commands for {0}:").format(ctx.guild.name))
 
+		embed = discord.Embed(color=7830745, title=_("**\👾 Games**"))
+		embed.description = _("`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds").format(ctx.prefix)
+		await ctx.author.send(embed=embed)
 
-		await ctx.send(embed=embed)
+		if ctx.author is not ctx.guild.owner:
+			return
 
-	@commands.command(brief="Information über Shiro")
+		embed = discord.Embed(color=7830745, title=_("**\⚙️ Settings**"))
+		embed.description = _("`{0}prefix <1-10 symbols>` ‧ Change  guild prefix\n"
+		                      "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
+		                      "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
+		                      "`{0}language <{1}>` ‧ Set bot language\n"
+		                      "`{0}config` ‧ Display current configuration").format(ctx.prefix, "/".join(self.shiro.get_languages()))
+		await ctx.author.send(embed=embed)
+
+	@commands.command(aliases=["credits", "about"])
 	async def info(self, ctx):
-		"""Show bot author and amount of songs"""
-		with open("data/songs.json", "r", encoding="utf8") as file:
-			songs = json.load(file)
-
-		embed = discord.Embed(color=7830745, title=_("**Information über Shiro**"),
-		                      description=f"Shiro wurde von **{self.shiro.app_info.owner.name}#"
-		                                  f"{self.shiro.app_info.owner.discriminator}** in Python programmiert. Derzeit"
-		                                  f" gibt es **{len(songs)} Songs** in der Datenbank. Bei weiteren Fragen "
-		                                  "kannst du dich gerne melden!")
+		"""Show credits of the bot"""
+		embed = discord.Embed(color=7830745, title=_("**\📄 About Shiro**"))
 		embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
+		embed.description = _("Shiro were made by **{0}#{1}** in Python. If you have any questions, feel free "
+							  "to contact.\n\n[Support & Feedback]({2}) ‧ [Help translate]({2})")\
+			.format(self.shiro.app_info.owner.name, self.shiro.app_info.owner.discriminator, "https://discord.gg/QPa75ut")
 		await ctx.send(embed=embed)
 
-	@commands.command(brief="Server-Einstellungen")
-	@commands.check(checks.is_guild_owner)
-	async def settings(self, ctx):
-		"""Change the guild settings"""
-		prefix = self.shiro.get_guild_setting(ctx.guild.id, "prefix")
-		command_deletion = "aktiviert" if self.shiro.get_guild_setting(ctx.guild.id, "command_deletion") is True else "deaktiviert"
-		channel_only = self.shiro.get_channel(self.shiro.get_guild_setting(ctx.guild.id, "channel_only"))
-		channel_only = "deaktiviert" if channel_only is None else channel_only.mention
-		language = self.shiro.get_guild_setting(ctx.guild.id, "language")
-		embed = discord.Embed(color=7830745, title="**Server-Einstellungen**",
-		                      description=f"\❕ Command Prefix ‧ `{prefix}`\n"
-					                      f"\📝 Nachrichten löschen ‧ `{command_deletion}`\n"
-		                                  f"\🔒 Nur ein Channel ‧ `{channel_only}`\n"
-		                                  f"\🎌 Sprache ‧ `{language}`")
-		message = await ctx.send(embed=embed)
-		await message.add_reaction("❕")
-		await message.add_reaction("📝")
-		await message.add_reaction("🔒")
-		await message.add_reaction("🎌")
+	@commands.command(aliases=["songrequest"])
+	async def request(self, ctx, title, anime, youtube_url: converters.YoutubeUrl):
+		"""Request a song for the songquiz"""
+		embed = discord.Embed(color=7830745, title="**\⚠️ New song request**")
+		embed.description = f"User {ctx.author.name}#{ctx.author.discriminator} requested a song."
+		embed.add_field(name="Song title", value=title)
+		embed.add_field(name="Youtube URL", value=youtube_url)
+		embed.add_field(name="Anime", value=anime)
+		message = await self.shiro.app_info.owner.send(embed=embed)
+		await message.add_reaction("👍🏻")
+		await message.add_reaction("👎🏻")
 
-	@commands.command(brief="Songanfrage stellen", usage="[Song]")
-	async def request(self, ctx, *, song=None):
-		"""Request a new song for the song quiz"""
-		if song is None:
-			embed = discord.Embed(color=7830745, title="**Songanfrage stellen**",
-			                      description="Du hast ein neues Anime Opening/Ending, was wir ins Songquiz aufnehmen "
-			                                  "sollen? Dafür muss der Song folgendes erfüllen:\n\n- Originalopening/"
-			                                  "-ending\n- unverändert und in guter Qualität\n- von einem relevanten "
-			                                  f"Anime\n\nNutze `s.request <anime - song - url>`")
-			await ctx.send(embed=embed)
+		embed = discord.Embed(color=7830745, title=_("**\📄 Song request**"))
+		embed.description = _("You requested the song `{0}` from anime `{1}` to be added into the song quiz. "
+							  "Thank you for your support, our bot staff will review it.").format(title, anime)
+		await ctx.send(embed=embed)
+
+	@commands.Cog.listener()
+	async def on_raw_reaction_add(self, payload):
+		"""Add song to database if owner accepts"""
+		if payload.emoji.name != "👍🏻" and payload.emoji.name != "👎🏻": return
+		user = self.shiro.get_user(payload.user_id)
+		if user is None: return
+		if user.id != self.shiro.app_info.owner.id: return
+		channel = await self.shiro.fetch_channel(payload.channel_id)
+		if not isinstance(channel, discord.DMChannel): return
+		message = await user.fetch_message(payload.message_id)
+		if message is None: return
+		embeds = message.embeds
+		if embeds is None: return
+		if embeds[0].title != "**\⚠️ New song request**": return
+
+		if payload.emoji.name == "👍🏻":
+			fields = embeds[0].fields
+			title = fields[0].value
+			youtube_url = fields[1].value
+			anime = fields[2].value
+			self.shiro.add_song(title, anime, youtube_url)
+			await message.add_reaction("✅")
 		else:
-			embed = discord.Embed(color=7830745, title="**Songanfrage gestellt**",
-			                      description="Deine Anfrage wurde erfolgreich eingereicht. Vielen Dank.")
-			await ctx.send(embed=embed)
-			embed = discord.Embed(color=7830745, title="**Neue Songanfrage**",
-			                      description=f"Der Nutzer **{ctx.author.name}#{ctx.author.discriminator}** hat eine "
-			                                  f"Anfrage gestellt. \nSong: `{song}`")
-			await self.shiro.app_info.owner.send(embed=embed)
+			await message.add_reaction("❌")
 
-	@commands.command(brief="Bot stoppen")
+	@commands.command()
 	@commands.check(checks.is_bot_owner)
 	async def shutdown(self, ctx):
 		"""Stops the bot and closes connection"""
-		embed = discord.Embed(color=7830745, title="**Bot stoppen**", description="Der Bot wird nun heruntergefahren.")
+		embed = discord.Embed(color=7830745, title=_("**\⚠️ Stop bot**"), description=_("Bot is going to be shut down"))
 		await ctx.send(embed=embed)
 		await self.shiro.shutdown()
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-07-09 17:32+0200\n"
+"POT-Creation-Date: 2019-07-10 15:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,63 +15,9 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: extensions/general.py:15
+#: extensions/general.py:16
 msgid "**All commands**"
 msgstr ""
 
-#: extensions/general.py:16
-msgid ""
-msgstr ""
-
-#: extensions/general.py:27
-msgid "**Information über Shiro**"
-msgstr ""
-
-#: shiro.py:26 shiro.py:27
-msgid "asd"
-msgstr ""
-
-#: shiro.py:177
-msgid "**Error on command**"
-msgstr ""
-
-#: shiro.py:180
-msgid "The command `{0}` is missing the argument `{1}`."
-msgstr ""
-
-#: shiro.py:183
-msgid "The command `{0}` only takes arguments in range `{1}-{2}`, not `{3}`."
-msgstr ""
-
-#: shiro.py:186
-msgid "A wrong argument were passed into the command `{0}`."
-msgstr ""
-
-#: shiro.py:189
-msgid "The command `{0}` wasn't found. To get a list of command use `{1}`."
-msgstr ""
-
-#: shiro.py:192
-msgid "The command `{0}` can only be executed by server owners."
-msgstr ""
-
-#: shiro.py:195
-msgid "To use the command `{0}` you have to be in an voice channel (not afk). Also, the bot has to be disconnect from voice."
-msgstr ""
-
-#: shiro.py:199
-msgid "On this server commands can only be executed in channel {0}."
-msgstr ""
-
-#: shiro.py:204
-msgid "The bot is missing permissions to execute commands: `{0}`"
-msgstr ""
-
-#: shiro.py:207
-msgid "You're lacking permission to execute command `{0}`."
-msgstr ""
-
-#: shiro.py:210
-msgid "An unknown error occured on command `{0}`. We're going to fix that soon!"
-msgstr ""
-
+#: extensions/general.py:17
+msgid 

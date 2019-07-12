@@ -49,8 +49,9 @@ class Songs(commands.Cog):
         """Starts playing anime songs"""
         points = {}
         await ctx.author.voice.channel.connect()
+        member_mentions = " ".join([member.mention for member in ctx.voice_client.channel.members])
         embed = discord.Embed(color=7830745, title=_("**\👾 Song quiz ‧ Starting**"),
-                              description=_("Get ready, the quiz will start in 3 seconds!"))
+                              description=_("Get ready, the quiz will start in 3 seconds!\n{0}").format(member_mentions))
         message = await ctx.send(embed=embed)
         await asyncio.sleep(3)
         await message.delete()

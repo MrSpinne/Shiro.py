@@ -25,8 +25,8 @@ class Shiro(commands.Bot):
 		"""Prepare start"""
 		logging.basicConfig(level=logging.INFO)
 		self.credentials = self.load_credentials()
-		# self.sentry.init(dsn=self.credentials["sentry"]["dsn"],
-		#                  integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
+		self.sentry.init(dsn=self.credentials["sentry"]["dsn"],
+		                 integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
 		self.clear_cache()
 		self.connect_database()
 		self.add_command_handlers()
@@ -95,7 +95,7 @@ class Shiro(commands.Bot):
 		self.db_cursor.execute(sql)
 		for guild_id in self.db_cursor.fetchall():
 			if self.get_guild(guild_id["id"]) not in self.guilds:
-				self.unregister_guild(guild_id)
+				self.unregister_guild(guild_id["id"])
 
 	def add_command_handlers(self):
 		"""Add global command checks and command invokes"""

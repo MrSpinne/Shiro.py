@@ -47,11 +47,10 @@ class Songs(commands.Cog):
 	@commands.check(checks.voice_available)
 	async def songquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
 		"""Starts playing anime songs"""
-		await ctx.author.voice.channel.connect()
 		points = {}
-
-		embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Startet**",
-							  description="Macht euch bereit, in wenigen Sekunden startet das Songquiz!")
+		await ctx.author.voice.channel.connect()
+		embed = discord.Embed(color=7830745, title=_("**Song quiz ‧ Starting**"),
+							  description=_("Get ready, the quiz will start in 3 seconds!"))
 		message = await ctx.send(embed=embed)
 		await asyncio.sleep(3)
 		await message.delete()
@@ -72,8 +71,9 @@ class Songs(commands.Cog):
 
 			self.entries.pop(message.id, None)
 			await message.delete()
-			embed.description = f"Die Runde hat {round_winner.mention if round_winner is not None else 'niemand'} " \
-								f"gewonnen!\nSong: [{song['anime']} ‧ {song['title']}]({song['youtube_url']})"
+			round_winner = round_winner.mention if round_winner is not None else _("Nobody")
+			embed.description = _("{0} has won the round!\Song: [{1} ‧ {2}]({3})")\
+				.format(round_winner, song["anime"], song["title"], song["youtube_url"])
 			message = await ctx.send(embed=embed)
 			await asyncio.sleep(5)
 			await message.delete()
@@ -82,20 +82,36 @@ class Songs(commands.Cog):
 		winner_ids = [user_id for user_id, user_points in points.items() if user_points == max_points]
 		winners = [self.shiro.get_user(winner_id) for winner_id in winner_ids]
 
-		embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Ende**")
+		embed = discord.Embed(color=7830745, title=_("**Song quiz ‧ End**"))
 
 		if len(winners) == 0:
-			embed.description = f"Niemand hat das Songquiz gewonnen! Es gab {rounds} Runde{'n' if rounds > 1 else ''}."
+			embed.description = _("Nobody won the song quiz! There were {0} rounds.").format(rounds)
 		elif len(winners) == 1:
-			embed.description = f"{winners[0].mention} hat {points[winner_ids[0]]}/{rounds} Song" \
-								f"{'s' if rounds > 1 else ''} richtig erraten und somit gewonnen!"
+			embed.description = _("{0} has guessed {1}/{2} songs correctly and won!")\
+				.format(winners[0].mention, points[winner_ids[0]], rounds)
 		else:
-			embed.description = f"{', '.join([user.mention for user in winners])} haben mit jeweils " \
-								f"{points[winner_ids[0]]}/{rounds} richtig erratenen Song" \
-								f"{'s' if rounds > 1 else ''} ein Unentschieden erzielt."
+			embed.description = _("{0} have scored a draw with {1}/{2} songs correctly guessed each. ")\
+				.format(", ".join([user.mention for user in winners]), points[winner_ids[0]], rounds)
 
 		await ctx.send(embed=embed)
 		await ctx.voice_client.disconnect()
+
+	async def send_round_embed(self, ctx, i, rounds, songs):
+		"""Send the default round embed and add reactions"""
+		embed = discord.Embed(color=7830745, title=_("**Song quiz ‧ Round {0}/{1}**").format(i+1, rounds),
+							  description=f"1️⃣ {songs[0]['anime']} ‧ {songs[0]['title']}\n"
+							  f"2️⃣ {songs[1]['anime']} ‧ {songs[1]['title']}\n"
+							  f"3️⃣ {songs[2]['anime']} ‧ {songs[2]['title']}\n"
+							  f"4️⃣ {songs[3]['anime']} ‧ {songs[3]['title']}\n"
+							  f"5️⃣ {songs[4]['anime']} ‧ {songs[4]['title']}")
+		message = await ctx.send(embed=embed)
+		self.entries[message.id] = {}
+		await message.add_reaction("1⃣")
+		await message.add_reaction("2⃣")
+		await message.add_reaction("3⃣")
+		await message.add_reaction("4⃣")
+		await message.add_reaction("5⃣")
+		return message
 
 	async def get_songs(self):
 		"""Get 5 random songs from database"""
@@ -133,23 +149,6 @@ class Songs(commands.Cog):
 			self.shiro.sentry.capture_message(f"Song {song['title']} ({song['anime']}) with url \"{song['youtube_url']} isn't available anymore.")
 			return False
 
-	async def send_round_embed(self, ctx, i, rounds, songs):
-		"""Send the default round embed and add reactions"""
-		embed = discord.Embed(color=7830745, title=f"**Songquiz ‧ Runde {i + 1}/{rounds}**",
-							  description=f"1️⃣ {songs[0]['anime']} ‧ {songs[0]['title']}\n"
-							  f"2️⃣ {songs[1]['anime']} ‧ {songs[1]['title']}\n"
-							  f"3️⃣ {songs[2]['anime']} ‧ {songs[2]['title']}\n"
-							  f"4️⃣ {songs[3]['anime']} ‧ {songs[3]['title']}\n"
-							  f"5️⃣ {songs[4]['anime']} ‧ {songs[4]['title']}")
-		message = await ctx.send(embed=embed)
-		self.entries[message.id] = {}
-		await message.add_reaction("1⃣")
-		await message.add_reaction("2⃣")
-		await message.add_reaction("3⃣")
-		await message.add_reaction("4⃣")
-		await message.add_reaction("5⃣")
-		return message
-
 	async def get_round_winner(self, song, songs, message_id):
 		"""Get the winner who first reacted with the correct song number"""
 		if songs.index(song) == 0:
@@ -163,9 +162,9 @@ class Songs(commands.Cog):
 		else:
 			correct_reaction = "5⃣"
 
-		for key, value in self.entries[message_id].items():
-			if value == correct_reaction:
-				return self.shiro.get_user(key)
+		for user_id, reaction in self.entries[message_id].items():
+			if reaction == correct_reaction:
+				return self.shiro.get_user(user_id)
 
 	@commands.Cog.listener()
 	async def on_reaction_add(self, reaction, user):

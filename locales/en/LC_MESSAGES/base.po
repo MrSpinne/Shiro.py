@@ -1,0 +1,346 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2019-07-13 18:57+0200\n"
+"PO-Revision-Date: 2019-07-13 18:58+0200\n"
+"Last-Translator: Spinne\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.3\n"
+"X-Poedit-Basepath: D:/Meinhart/Workspace/Shiro\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: shiro.py\n"
+"X-Poedit-SearchPath-1: extensions/general.py\n"
+"X-Poedit-SearchPath-2: extensions/settings.py\n"
+"X-Poedit-SearchPath-3: extensions/songs.py\n"
+
+#: extensions/general.py:18
+msgid "**\\📄 General**"
+msgstr "**\\📄 General**"
+
+#: extensions/general.py:19
+#, python-brace-format
+msgid ""
+"`{0}help` ‧ Display all commands\n"
+"`{0}info` ‧ Show credits of the bot\n"
+"`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for "
+"the song quiz"
+msgstr ""
+"`{0}help` ‧ Display all commands\n"
+"`{0}info` ‧ Show credits of the bot\n"
+"`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for "
+"the song quiz"
+
+#: extensions/general.py:22
+#, python-brace-format
+msgid "Here're all commands for **{0}**:"
+msgstr "Here're all commands for **{0}**:"
+
+#: extensions/general.py:24
+msgid "**\\👾 Games**"
+msgstr "**\\👾 Games**"
+
+#: extensions/general.py:25
+#, python-brace-format
+msgid ""
+"`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds"
+msgstr ""
+"`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds"
+
+#: extensions/general.py:31
+msgid "**\\⚙️ Settings**"
+msgstr "**\\⚙️ Settings**"
+
+#: extensions/general.py:32
+#, python-brace-format
+msgid ""
+"`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
+"`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
+"`{0}channel <none/channel>` ‧ Set channel in which commands are allowed "
+"only\n"
+"`{0}language <{1}>` ‧ Change bot language\n"
+"`{0}config` ‧ Display current configuration"
+msgstr ""
+"`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
+"`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
+"`{0}channel <none/channel>` ‧ Set channel in which commands are allowed "
+"only\n"
+"`{0}language <{1}>` ‧ Change bot language\n"
+"`{0}config` ‧ Display current configuration"
+
+#: extensions/general.py:42
+msgid "**\\📄 About Shiro**"
+msgstr "**\\📄 About Shiro**"
+
+#: extensions/general.py:44
+#, python-brace-format
+msgid ""
+"Shiro were made by **{0}#{1}** in Python. If you have any questions, feel "
+"free to contact.\n"
+"\n"
+"[Support & Feedback]({2}) ‧ [Help translate]({2})"
+msgstr ""
+"Shiro were made by **{0}#{1}** in Python. If you have any questions, feel "
+"free to contact.\n"
+"\n"
+"[Support & Feedback]({2}) ‧ [Help translate]({2})"
+
+#: extensions/general.py:61
+msgid "**\\📄 Song request**"
+msgstr "**\\📄 Song request**"
+
+#: extensions/general.py:62
+#, python-brace-format
+msgid ""
+"You requested the song `{0}` from anime `{1}` to be added into the song "
+"quiz. Thank you for your support, our bot staff will review it."
+msgstr ""
+"You requested the song `{0}` from anime `{1}` to be added into the song "
+"quiz. Thank you for your support, our bot staff will review it."
+
+#: extensions/general.py:95
+msgid "**\\⚠️ Stop bot**"
+msgstr "**\\⚠️ Stop bot**"
+
+#: extensions/general.py:96
+msgid "Bot is going to be shut down."
+msgstr "Bot is going to be shut down."
+
+#: extensions/general.py:107
+msgid "**\\⚠️ Status**"
+msgstr "**\\⚠️ Status**"
+
+#: extensions/general.py:108
+#, python-brace-format
+msgid ""
+"Users: {0}\n"
+"Servers: {1}\n"
+"Voice clients: {2}\n"
+"CPU usage: {3}%\n"
+"RAM usage: {4}%\n"
+"Ping: {5}ms"
+msgstr ""
+"Users: {0}\n"
+"Servers: {1}\n"
+"Voice clients: {2}\n"
+"CPU usage: {3}%\n"
+"RAM usage: {4}%\n"
+"Ping: {5}ms"
+
+#: extensions/settings.py:18
+msgid "**\\⚙️ Prefix**"
+msgstr "**\\⚙️ Prefix**"
+
+#: extensions/settings.py:20
+#, python-brace-format
+msgid ""
+"Server prefix were set to `{0}`. If you forget it, you can always use "
+"`@Shiro` to get help."
+msgstr ""
+"Server prefix were set to `{0}`. If you forget it, you can always use "
+"`@Shiro` to get help."
+
+#: extensions/settings.py:29
+msgid "**\\⚙️ Command deletion**"
+msgstr "**\\⚙️ Command deletion**"
+
+#: extensions/settings.py:30
+#, python-brace-format
+msgid "Command message deletion were {0}."
+msgstr "Command message deletion were {0}."
+
+#: extensions/settings.py:38
+msgid "**\\⚙️ Channel only**"
+msgstr "**\\⚙️ Channel only**"
+
+#: extensions/settings.py:39
+#, python-brace-format
+msgid "Commands can now be executed {0}."
+msgstr "Command can now be executed {0}."
+
+#: extensions/settings.py:40
+msgid "everywhere"
+msgstr "everywhere"
+
+#: extensions/settings.py:40
+#, python-brace-format
+msgid "in channel {0}"
+msgstr "in channel {0}"
+
+#: extensions/settings.py:48
+msgid "**\\⚙️ Language**"
+msgstr "**\\⚙️ Language**"
+
+#: extensions/settings.py:49
+#, python-brace-format
+msgid "Language were set to `{0}`."
+msgstr "Language were set to `{0}`."
+
+#: extensions/settings.py:57
+msgid "**\\⚙️ Config**"
+msgstr "**\\⚙️ Config**"
+
+#: extensions/settings.py:58
+#, python-brace-format
+msgid ""
+"Prefix ‧ `{0}`\n"
+"Command deletion ‧ `{1}`\n"
+"Channel only ‧ {2}\n"
+"Language ‧ `{3}`"
+msgstr ""
+"Prefix ‧ `{0}`\n"
+"Command deletion ‧ `{1}`\n"
+"Channel only ‧ {2}\n"
+"Language ‧ `{3}`"
+
+#: extensions/settings.py:65
+msgid "enabled"
+msgstr "enabled"
+
+#: extensions/settings.py:65
+msgid "disabled"
+msgstr "disabled"
+
+#: extensions/settings.py:67
+msgid "`disabled`"
+msgstr "`disabled`"
+
+#: extensions/songs.py:53
+msgid "**\\👾 Song quiz ‧ Starting**"
+msgstr "**\\👾 Song quiz ‧ Starting**"
+
+#: extensions/songs.py:54
+#, python-brace-format
+msgid ""
+"Get ready, the quiz will start in 3 seconds!\n"
+"{0}"
+msgstr ""
+"Get ready, the quiz will start in 3 seconds!\n"
+"{0}"
+
+#: extensions/songs.py:75
+msgid "Nobody"
+msgstr "Nobody"
+
+#: extensions/songs.py:76 extensions/songs.py:103
+#, python-brace-format
+msgid "**\\👾 Song quiz ‧ Round {0}/{1}**"
+msgstr "**\\👾 Song quiz ‧ Round {0}/{1}**"
+
+#: extensions/songs.py:77
+#, python-brace-format
+msgid ""
+"{0} has won the round!\n"
+"Song: [{1} ‧ {2}]({3})"
+msgstr ""
+"{0} has won the round!\n"
+"Song: [{1} ‧ {2}]({3})"
+
+#: extensions/songs.py:87
+msgid "**\\👾 Song quiz ‧ End**"
+msgstr "**\\👾 Song quiz ‧ End**"
+
+#: extensions/songs.py:90
+#, python-brace-format
+msgid "Nobody won the song quiz! There were {0} rounds."
+msgstr "Nobody won the song quiz! There were {0} rounds."
+
+#: extensions/songs.py:92
+#, python-brace-format
+msgid "{0} has guessed {1}/{2} songs correctly and won!"
+msgstr "{0} has guessed {1}/{2} songs correctly and won!"
+
+#: extensions/songs.py:95
+#, python-brace-format
+msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."
+msgstr "{0} have scored a draw with {1}/{2} songs correctly guessed each."
+
+#: shiro.py:190
+msgid "\\❌ **Error on command**"
+msgstr "\\❌ **Error on command**"
+
+#: shiro.py:193
+#, python-brace-format
+msgid "The command `{0}` is missing the `{1}`."
+msgstr "The command `{0}` is missing the `{1}`."
+
+#: shiro.py:196
+#, python-brace-format
+msgid "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
+msgstr "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
+
+#: shiro.py:199
+#, python-brace-format
+msgid "The text `{0}` isn't allowed, it has to be {1}-{2} characters long."
+msgstr "The text `{0}` isn't allowed, it has to be {1}-{2} characters long."
+
+#: shiro.py:202
+#, python-brace-format
+msgid "The value `{0}` isn't allowed, it has to be on or off."
+msgstr "The value `{0}` isn't allowed, it has to be on or off."
+
+#: shiro.py:205
+#, python-brace-format
+msgid "The language `{0}` isn't a available language. Available languages: {1}"
+msgstr ""
+"The language `{0}` isn't a available language. Available languages: {1}"
+
+#: shiro.py:208
+#, python-brace-format
+msgid "The url `{0}` isn't a valid YouTube url."
+msgstr "The url `{0}` isn't a valid YouTube url."
+
+#: shiro.py:210
+#, python-brace-format
+msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
+msgstr "The argument `{0}` in command `{1}` has to be one of these: {2}"
+
+#: shiro.py:214
+#, python-brace-format
+msgid "A wrong argument were passed into the command `{0}`."
+msgstr "A wrong argument were passed into the command `{0}`."
+
+#: shiro.py:217
+#, python-brace-format
+msgid "The command `{0}` wasn't found. To get a list of command use `{1}`."
+msgstr "The command `{0}` wasn't found. To get a list of command use `{1}`."
+
+#: shiro.py:220
+#, python-brace-format
+msgid "The command `{0}` can only be executed by the server owner."
+msgstr "The command `{0}` can only be executed by the server owner."
+
+#: shiro.py:223
+#, python-brace-format
+msgid ""
+"To use the command `{0}` you have to be in an voice channel (not afk). Also, "
+"the bot has to be disconnect from voice."
+msgstr ""
+"To use the command `{0}` you have to be in an voice channel (not afk). Also, "
+"the bot has to be disconnect from voice."
+
+#: shiro.py:227
+#, python-brace-format
+msgid "On this server commands can only be executed in channel {0}."
+msgstr "On this server commands can only be executed in channel {0}."
+
+#: shiro.py:232
+#, python-brace-format
+msgid "The bot is missing permissions to execute commands, please grant: `{0}`"
+msgstr ""
+"The bot is missing permissions to execute commands, please grant: `{0}`"
+
+#: shiro.py:235
+#, python-brace-format
+msgid "You're lacking permission to execute command `{0}`."
+msgstr "You're lacking permission to execute command `{0}`."
+
+#: shiro.py:238
+#, python-brace-format
+msgid ""
+"An unknown error occured on command `{0}`. We're going to fix that soon!"
+msgstr ""
+"An unknown error occured on command `{0}`. We're going to fix that soon!"

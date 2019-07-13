@@ -73,7 +73,7 @@ class Songs(commands.Cog):
             self.entries.pop(message.id, None)
             await message.delete()
             round_winner = round_winner.mention if round_winner is not None else _("Nobody")
-            embed.title = _("**\👾 Song quiz ‧ Round {0}/{1}**")
+            embed.title = _("**\👾 Song quiz ‧ Round {0}/{1}**").format(i + 1, rounds)
             embed.description = _("{0} has won the round!\nSong: [{1} ‧ {2}]({3})") \
                 .format(round_winner, song["anime"], song["title"], song["youtube_url"])
             message = await ctx.send(embed=embed)

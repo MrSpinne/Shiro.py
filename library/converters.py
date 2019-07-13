@@ -69,10 +69,17 @@ class Language(commands.Converter):
     async def convert(self, ctx, argument):
         argument = argument.lower()
         available_languages = ctx.bot.get_languages()
-        if argument in available_languages:
-            return argument
-        elif pycountry.languages.get(name=argument.capitalize()) is not None:
-            return pycountry.languages.get(name=argument.capitalize()).alpha_2
+
+        for language in pycountry.languages:
+            if language.name == argument.capitalize():
+                if language.alpha_2 in available_languages:
+                    return language.alpha_2
+            elif language.alpha_2 == argument:
+                if language.alpha_2 in available_languages:
+                    return language.alpha_2
+            elif language.alpha_3 == argument:
+                if language.alpha_2 in available_languages:
+                    return language.alpha_2
 
         raise exceptions.NotLanguage(argument, available_languages)
 

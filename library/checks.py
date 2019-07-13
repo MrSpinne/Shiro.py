@@ -13,6 +13,9 @@ def voice_available(ctx):
     if ctx.voice_client is not None:
         raise exceptions.NoVoice
 
+    if ["connect", "speak"] not in ctx.author.voice.channel.permission_for(ctx.bot.user):
+        raise exceptions.NoVoice
+
     return True
 
 

@@ -12,6 +12,7 @@ import gettext
 import builtins
 import sentry_sdk.integrations.aiohttp
 import logging
+import dbl
 
 
 class Shiro(commands.Bot):

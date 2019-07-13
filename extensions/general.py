@@ -32,8 +32,7 @@ class General(commands.Cog):
                               "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
                               "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
                               "`{0}language <{1}>` ‧ Change bot language\n"
-                              "`{0}config` ‧ Display current configuration").format(ctx.prefix, "/".join(
-            self.shiro.get_languages()))
+                              "`{0}config` ‧ Display current configuration").format(ctx.prefix, "/".join(self.shiro.get_languages()))
         await ctx.author.send(embed=embed)
 
     @commands.command(aliases=["credits", "about"])

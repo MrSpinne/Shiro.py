@@ -64,7 +64,7 @@ class Settings(commands.Cog):
         prefix = self.shiro.get_guild_setting(ctx.guild.id, "prefix")
         command_deletion = _("enabled") if self.shiro.get_guild_setting(ctx.guild.id, "command_deletion") is True else _("disabled")
         channel_only = self.shiro.get_channel(self.shiro.get_guild_setting(ctx.guild.id, "channel_only"))
-        channel_only = _("disabled") if channel_only is None else channel_only.mention
+        channel_only = _("`disabled`") if channel_only is None else channel_only.mention
         language = self.shiro.get_guild_setting(ctx.guild.id, "language")
 
         return prefix, command_deletion, channel_only, language

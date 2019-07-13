@@ -13,8 +13,11 @@ def voice_available(ctx):
     if ctx.voice_client is not None:
         raise exceptions.NoVoice
 
-    if ["connect", "speak"] not in ctx.author.voice.channel.permission_for(ctx.bot.user):
-        raise exceptions.NoVoice
+    channel_permissions = ctx.author.voice.channel.permissions_for(ctx.guild.me)
+    permissions = ["connect", "speak"]
+    missing = [permission for permission in permissions if getattr(channel_permissions, permission, None) is False]
+    if missing:
+        raise commands.BotMissingPermissions(missing)
 
     return True
 

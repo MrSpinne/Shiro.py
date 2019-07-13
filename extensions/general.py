@@ -4,6 +4,8 @@ from library import checks, converters
 
 import asyncio
 import json
+import psutil
+import time
 
 
 class General(commands.Cog):
@@ -15,13 +17,12 @@ class General(commands.Cog):
         """Display all commands"""
         embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
         embed.description = _("`{0}help` ‧ Display all commands\n`{0}info` ‧ Show credits of the bot\n"
-                              "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for the song quiz").format(
-            ctx.prefix)
+                              "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for the song quiz")\
+            .format(ctx.prefix)
         await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
 
         embed = discord.Embed(color=7830745, title=_("**\👾 Games**"))
-        embed.description = _("`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds").format(
-            ctx.prefix)
+        embed.description = _("`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
         if ctx.author is not ctx.guild.owner:
@@ -42,8 +43,7 @@ class General(commands.Cog):
         embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
         embed.description = _("Shiro were made by **{0}#{1}** in Python. If you have any questions, feel free "
                               "to contact.\n\n[Support & Feedback]({2}) ‧ [Help translate]({2})") \
-            .format(self.shiro.app_info.owner.name, self.shiro.app_info.owner.discriminator,
-                    "https://discord.gg/QPa75ut")
+            .format(self.shiro.app_info.owner.name, self.shiro.app_info.owner.discriminator, "https://discord.gg/QPa75ut")
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["songrequest"])
@@ -96,6 +96,19 @@ class General(commands.Cog):
                               description=_("Bot is going to be shut down."))
         await ctx.send(embed=embed)
         await self.shiro.shutdown()
+
+    @commands.command()
+    @commands.check(checks.is_bot_owner)
+    async def status(self, ctx):
+        """Show current bot stats"""
+        ping = time.monotonic()
+        await self.shiro.application_info()
+        ping = int((time.monotonic() - ping) * 1000)
+        embed = discord.Embed(color=7830745, title=_("**\⚠️ Status**"))
+        embed.description = _("Users: {0}\nServers: {1}\nVoice clients: {2}\nCPU usage: {3}%\nRAM usage: {4}%\nPing: {5}ms")\
+            .format(len(self.shiro.users), len(self.shiro.guilds), len(self.shiro.voice_clients),
+                    psutil.cpu_percent(), psutil.virtual_memory().percent, ping)
+        await ctx.send(embed=embed)
 
 
 def setup(shiro):

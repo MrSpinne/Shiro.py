@@ -71,14 +71,14 @@ class Language(commands.Converter):
         available_languages = ctx.bot.get_languages()
 
         for language in pycountry.languages:
-            if language.name == argument.capitalize():
-                if language.alpha_2 in available_languages:
+            if getattr(language, "name", None) == argument.capitalize():
+                if getattr(language, "alpha_2", None) in available_languages:
                     return language.alpha_2
-            elif language.alpha_2 == argument:
-                if language.alpha_2 in available_languages:
+            elif getattr(language, "alpha_2", None) == argument:
+                if getattr(language, "alpha_2") in available_languages:
                     return language.alpha_2
-            elif language.alpha_3 == argument:
-                if language.alpha_2 in available_languages:
+            elif getattr(language, "alpha_3", None) == argument:
+                if getattr(language, "alpha_2", None) in available_languages:
                     return language.alpha_2
 
         raise exceptions.NotLanguage(argument, available_languages)

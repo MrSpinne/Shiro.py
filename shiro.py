@@ -265,7 +265,7 @@ class Shiro(commands.Bot):
             await asyncio.sleep(300)
     # TODO: Add DBL
 
-    @tasks.loop(minutes=15)
+    @tasks.loop(minutes=45)
     async def update_songs_list(self):
         """Post all songs in database to pastebin and set url"""
         songs = self.get_all_songs()

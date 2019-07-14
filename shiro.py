@@ -272,7 +272,7 @@ class Shiro(commands.Bot):
         formatted_songs = ""
 
         for song in songs:
-            formatted_songs += f"{song['anime']}   ‧   {song['title']}   ‧   {song['youtube_url']}\n"
+            formatted_songs += f"{song['anime']} ∎ {song['title']} ∎ {song['youtube_url']}\n"
 
         url = pbwrap.Pastebin(self.credentials["pastebin"]["api_key"]).create_paste(formatted_songs, 1, "Shiro Songlist", "1H")
         self.songs_list_url = url

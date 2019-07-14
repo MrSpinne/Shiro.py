@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-07-13 18:57+0200\n"
-"PO-Revision-Date: 2019-07-13 18:57+0200\n"
+"POT-Creation-Date: 2019-07-14 22:34+0200\n"
+"PO-Revision-Date: 2019-07-14 22:34+0200\n"
 "Last-Translator: Spinne\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -314,8 +314,8 @@ msgstr ""
 
 #: shiro.py:220
 #, python-brace-format
-msgid "The command `{0}` can only be executed by the server owner."
-msgstr "Der Command `{0}` kann nur vom Serverbesitzer ausgeführt werden."
+msgid "The command `{0}` can only be executed by admins."
+msgstr "Der Command `{0}` kann nur von Admins ausgeführt werden."
 
 #: shiro.py:223
 #, python-brace-format

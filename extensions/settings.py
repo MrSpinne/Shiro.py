@@ -11,7 +11,7 @@ class Settings(commands.Cog):
         self.shiro = shiro
 
     @commands.command(aliases=["setprefix"])
-    @commands.check(checks.is_guild_owner)
+    @commands.check(checks.is_guild_admin)
     async def prefix(self, ctx, prefix: converters.LengthStr(1, 10)):
         """Change  guild prefix"""
         self.shiro.set_guild_setting(ctx.guild.id, "prefix", prefix)
@@ -22,7 +22,7 @@ class Settings(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["setdeletion", "commanddeletion", "cmddel"])
-    @commands.check(checks.is_guild_owner)
+    @commands.check(checks.is_guild_admin)
     async def deletion(self, ctx, state: converters.Bool):
         """Enable or disable command message deletion"""
         self.shiro.set_guild_setting(ctx.guild.id, "command_deletion", state)
@@ -31,7 +31,7 @@ class Settings(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["setchannel", "channelonly", "onechannel"])
-    @commands.check(checks.is_guild_owner)
+    @commands.check(checks.is_guild_admin)
     async def channel(self, ctx, channel: typing.Union[converters.Nothing, discord.TextChannel]):
         """Set channel in which commands are allowed only"""
         self.shiro.set_guild_setting(ctx.guild.id, "channel_only", channel if channel is None else channel.id)
@@ -41,7 +41,7 @@ class Settings(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["setlanguage", "lang"])
-    @commands.check(checks.is_guild_owner)
+    @commands.check(checks.is_guild_admin)
     async def language(self, ctx, language: converters.Language):
         """Set bots language"""
         self.shiro.set_guild_setting(ctx.guild.id, "language", language)
@@ -50,7 +50,7 @@ class Settings(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["configuration", "setting", "settings", "option", "options"])
-    @commands.check(checks.is_guild_owner)
+    @commands.check(checks.is_guild_admin)
     async def config(self, ctx):
         """Display current configuration"""
         prefix, command_deletion, channel_only, language = self.get_formatted_guild_settings(ctx)

@@ -30,10 +30,10 @@ def is_bot_owner(ctx):
     return True
 
 
-def is_guild_owner(ctx):
+def is_guild_admin(ctx):
     """Check if user is the guild owner"""
-    if ctx.author != ctx.guild.owner:
-        raise exceptions.NotGuildOwner
+    if not getattr(ctx.author.guild_permissions, "administrator", None):
+        raise exceptions.NotGuildAdmin
 
     return True
 
@@ -61,7 +61,7 @@ def bot_has_permissions(ctx):
     me = guild.me if guild is not None else ctx.bot.user
     channel_permissions = ctx.channel.permissions_for(me)
     permissions = ["add_reactions", "read_messages", "send_messages", "manage_messages", "embed_links", "attach_files",
-                   "read_message_history", "mention_everyone", "external_emojis"]
+                   "read_message_history"]
 
     missing = [permission for permission in permissions if getattr(channel_permissions, permission, None) is False]
     if missing:

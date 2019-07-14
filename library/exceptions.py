@@ -6,7 +6,7 @@ class NoVoice(commands.CheckFailure):
     pass
 
 
-class NotGuildOwner(commands.CheckFailure):
+class NotGuildAdmin(commands.CheckFailure):
     """Raised when user is not the owner of the guild"""
     pass
 

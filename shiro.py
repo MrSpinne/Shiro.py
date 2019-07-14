@@ -216,8 +216,8 @@ class Shiro(commands.Bot):
         elif isinstance(error, commands.CommandNotFound) or isinstance(error, commands.NotOwner):
             embed.description = _("The command `{0}` wasn't found. To get a list of command use `{1}`.") \
                 .format(ctx.message.content, f"{ctx.prefix}help")
-        elif isinstance(error, exceptions.NotGuildOwner):
-            embed.description = _("The command `{0}` can only be executed by the server owner.") \
+        elif isinstance(error, exceptions.NotGuildAdmin):
+            embed.description = _("The command `{0}` can only be executed by admins.") \
                 .format(ctx.message.content)
         elif isinstance(error, exceptions.NoVoice):
             embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "

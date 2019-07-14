@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-07-13 18:57+0200\n"
-"PO-Revision-Date: 2019-07-13 18:58+0200\n"
+"POT-Creation-Date: 2019-07-14 22:34+0200\n"
+"PO-Revision-Date: 2019-07-14 22:34+0200\n"
 "Last-Translator: Spinne\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -310,8 +310,8 @@ msgstr "The command `{0}` wasn't found. To get a list of command use `{1}`."
 
 #: shiro.py:220
 #, python-brace-format
-msgid "The command `{0}` can only be executed by the server owner."
-msgstr "The command `{0}` can only be executed by the server owner."
+msgid "The command `{0}` can only be executed by admins."
+msgstr "The command `{0}` can only be executed by admins."
 
 #: shiro.py:223
 #, python-brace-format

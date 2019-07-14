@@ -42,15 +42,15 @@ class General(commands.Cog):
         embed = discord.Embed(color=7830745, title=_("**\📄 About Shiro**"))
         embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
         embed.description = _("Shiro were made by **{0}#{1}** in Python. If you have any questions, feel free "
-                              "to contact.\n\n[Support & Feedback]({2}) ‧ [Help translate]({2})") \
-            .format(self.shiro.app_info.owner.name, self.shiro.app_info.owner.discriminator, "https://discord.gg/QPa75ut")
+                              "to contact.\n\n[Support & Feedback]({2}) ‧ [Help translate]({2}) ‧ [All songs]({3})") \
+            .format(self.shiro.app_info.owner.name, self.shiro.app_info.owner.discriminator, "https://discord.gg/QPa75ut", self.shiro.songs_list_url)
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["songrequest"])
     async def request(self, ctx, title, anime, youtube_url: converters.YoutubeUrl):
         """Request a song for the songquiz"""
         embed = discord.Embed(color=7830745, title="**\⚠️ New song request**")
-        embed.description = f"User {ctx.author.name}#{ctx.author.discriminator} requested a song."
+        embed.description = f"User **{ctx.author.name}#{ctx.author.discriminator}** requested a song."
         embed.add_field(name="Song title", value=title)
         embed.add_field(name="Youtube URL", value=youtube_url)
         embed.add_field(name="Anime", value=anime)

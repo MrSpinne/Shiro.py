@@ -38,7 +38,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
         return cls(discord.FFmpegPCMAudio(filename, options="-vn"), data=data)
 
 
-class Songs(commands.Cog):
+class Games(commands.Cog):
     def __init__(self, shiro):
         self.shiro = shiro
         self.entries = {}
@@ -178,4 +178,4 @@ class Songs(commands.Cog):
 
 
 def setup(shiro):
-    shiro.add_cog(Songs(shiro))
+    shiro.add_cog(Games(shiro))

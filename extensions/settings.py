@@ -1,9 +1,8 @@
-import typing
-
 import discord
 from discord.ext import commands
-
 from library import checks, converters
+
+import typing
 
 
 class Settings(commands.Cog):

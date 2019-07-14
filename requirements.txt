@@ -7,3 +7,4 @@ pycountry
 typing
 dblpy
 psutil
+pbwrap

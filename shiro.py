@@ -13,13 +13,15 @@ import builtins
 import sentry_sdk.integrations.aiohttp
 import logging
 import dbl
+import pbwrap
 
 
 class Shiro(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None)
         builtins.__dict__["_"] = self.translate
-        self.credentials, self.db_connector, self.db_cursor, self.app_info, self.sentry = None, None, None, None, sentry_sdk
+        self.credentials, self.db_connector, self.db_cursor, self.app_info = None, None, None, None
+        self.sentry, self.songs_list_url = sentry_sdk, None
         self.startup()
 
     def startup(self):
@@ -31,6 +33,7 @@ class Shiro(commands.Bot):
         self.clear_cache()
         self.connect_database()
         self.add_command_handlers()
+        self.update_songs_list.start()
         self.load_all_extensions()
 
     def translate(self, string):
@@ -128,6 +131,12 @@ class Shiro(commands.Bot):
     def get_random_songs(self):
         """Get 5 random songs from database"""
         sql = psycopg2.sql.SQL("SELECT title, anime, youtube_url FROM public.songs ORDER BY RANDOM() LIMIT 5")
+        self.db_cursor.execute(sql)
+        return self.db_cursor.fetchall()
+
+    def get_all_songs(self):
+        """Get all songs from database in alphabetic order"""
+        sql = psycopg2.sql.SQL("SELECT title, anime, youtube_url FROM public.songs ORDER BY anime ASC")
         self.db_cursor.execute(sql)
         return self.db_cursor.fetchall()
 
@@ -255,6 +264,18 @@ class Shiro(commands.Bot):
             await self.change_presence(activity=activity)
             await asyncio.sleep(300)
     # TODO: Add DBL
+
+    @tasks.loop(minutes=15)
+    async def update_songs_list(self):
+        """Post all songs in database to pastebin and set url"""
+        songs = self.get_all_songs()
+        formatted_songs = ""
+
+        for song in songs:
+            formatted_songs += f"{song['anime']} ‧ {song['title']} ‧ {song['youtube_url']}\n"
+
+        url = pbwrap.Pastebin(self.credentials["pastebin"]["api_key"]).create_paste(formatted_songs, 1, "Shiro Songlist", "1H")
+        self.songs_list_url = url
 
 
 shiro = Shiro()

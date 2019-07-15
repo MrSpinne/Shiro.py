@@ -15,8 +15,8 @@ class Settings(commands.Cog):
         """Change  guild prefix"""
         self.shiro.set_guild_setting(ctx.guild.id, "prefix", prefix)
         embed = discord.Embed(color=7830745, title=_("**\⚙️ Prefix**"))
-        embed.description = _(
-            "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help.")
+        embed.description = _("Server prefix were set to `{0}`. If you forget it, "
+                              "you can always use `@Shiro` to get help.")
         embed.description = embed.description.format(prefix)
         await ctx.send(embed=embed)
 
@@ -26,7 +26,7 @@ class Settings(commands.Cog):
         """Enable or disable command message deletion"""
         self.shiro.set_guild_setting(ctx.guild.id, "command_deletion", state)
         embed = discord.Embed(color=7830745, title=_("**\⚙️ Command deletion**"))
-        embed.description = _("Command message deletion were {0}.").format("enabled" if state else "disabled")
+        embed.description = _("Command message deletion were {0}.").format(_("enabled") if state else _("disabled"))
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["setchannel", "channelonly", "onechannel"])
@@ -54,8 +54,8 @@ class Settings(commands.Cog):
         """Display current configuration"""
         prefix, command_deletion, channel_only, language = self.get_formatted_guild_settings(ctx)
         embed = discord.Embed(color=7830745, title=_("**\⚙️ Config**"))
-        embed.description = _("Prefix ‧ `{0}`\nCommand deletion ‧ `{1}`\nChannel only ‧ {2}\nLanguage ‧ `{3}`")
-        embed.description = embed.description.format(prefix, command_deletion, channel_only, language)
+        embed.description = _("Prefix ‧ `{0}`\nCommand deletion ‧ `{1}`\nChannel only ‧ {2}\nLanguage ‧ `{3}`").format(
+            prefix, command_deletion, channel_only, language)
         await ctx.send(embed=embed)
 
     def get_formatted_guild_settings(self, ctx):

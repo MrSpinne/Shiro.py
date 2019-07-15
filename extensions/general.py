@@ -3,9 +3,6 @@ from discord.ext import commands
 from library import checks, converters
 
 import asyncio
-import json
-import psutil
-import time
 
 
 class General(commands.Cog):
@@ -16,34 +13,38 @@ class General(commands.Cog):
     async def help(self, ctx):
         """Display all commands"""
         embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
-        embed.description = _("`{0}help` ‧ Display all commands\n`{0}info` ‧ Show credits of the bot and links (e.g. song list)\n"
-                              "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for the song quiz")\
-            .format(ctx.prefix)
+        embed.description = _("`{0}help` ‧ Display all commands\n"
+                              "`{0}info` ‧ Show credits of the bot and links (e.g. song list)\n"
+                              "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧"
+                              " Request a song for the song quiz").format(ctx.prefix)
         await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
 
         embed = discord.Embed(color=7830745, title=_("**\👾 Games**"))
-        embed.description = _("`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds").format(ctx.prefix)
+        embed.description = _("`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds").format(
+            ctx.prefix)
         await ctx.author.send(embed=embed)
 
         if ctx.author is not ctx.guild.owner:
             return
 
+        languages = "/".join(self.shiro.get_languages())
         embed = discord.Embed(color=7830745, title=_("**\⚙️ Settings**"))
         embed.description = _("`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
                               "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
                               "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
                               "`{0}language <{1}>` ‧ Change bot language\n"
-                              "`{0}config` ‧ Display current configuration").format(ctx.prefix, "/".join(self.shiro.get_languages()))
+                              "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
         await ctx.author.send(embed=embed)
 
     @commands.command(aliases=["credits", "about"])
     async def info(self, ctx):
         """Show credits of the bot"""
+        owner = f"{self.shiro.app_info.owner.name}#{self.shiro.app_info.owner.discriminator}"
         embed = discord.Embed(color=7830745, title=_("**\📄 About Shiro**"))
         embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
-        embed.description = _("Shiro were made by **{0}#{1}** in Python. If you have any questions, feel free "
-                              "to contact.\n\n[Support & Feedback]({2}) ‧ [Help translate]({2}) ‧ [All songs]({3})") \
-            .format(self.shiro.app_info.owner.name, self.shiro.app_info.owner.discriminator, "https://discord.gg/QPa75ut", self.shiro.songs_list_url)
+        embed.description = _("Shiro were made by **{0}** in Python. If you have any questions, feel free "
+                              "to contact.\n\n[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ "
+                              "[All songs]({2})").format(owner, "https://discord.gg/QPa75ut", self.shiro.songs_list_url)
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["songrequest"])
@@ -66,17 +67,26 @@ class General(commands.Cog):
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         """Add song to database if owner accepts"""
-        if payload.emoji.name != "👍🏻" and payload.emoji.name != "👎🏻": return
+        if payload.emoji.name != "👍🏻" and payload.emoji.name != "👎🏻":
+            return
+
         user = self.shiro.get_user(payload.user_id)
-        if user is None: return
-        if user.id != self.shiro.app_info.owner.id: return
+        if getattr(user, "id", None) != self.shiro.app_info.owner.id:
+            return
+
         channel = await self.shiro.fetch_channel(payload.channel_id)
-        if not isinstance(channel, discord.DMChannel): return
+        if not isinstance(channel, discord.DMChannel):
+            return
+
         message = await user.fetch_message(payload.message_id)
-        if message is None: return
+        if message is None:
+            return
+
         embeds = message.embeds
-        if embeds is None: return
-        if embeds[0].title != "**\⚠️ New song request**": return
+        if embeds is None:
+            return
+        if embeds[0].title != "**\⚠️ New song request**":
+            return
 
         if payload.emoji.name == "👍🏻":
             fields = embeds[0].fields

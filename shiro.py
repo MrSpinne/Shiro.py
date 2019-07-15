@@ -14,6 +14,7 @@ import sentry_sdk.integrations.aiohttp
 import logging
 import dbl
 import pbwrap
+import os
 
 
 class Shiro(commands.Bot):
@@ -27,14 +28,13 @@ class Shiro(commands.Bot):
     def startup(self):
         """Prepare start"""
         logging.basicConfig(level=logging.INFO)
-        self.credentials = self.load_credentials()
+        self.load_credentials()
         self.sentry.init(dsn=self.credentials["sentry"]["dsn"],
                          integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
         self.clear_cache()
         self.connect_database()
         self.add_command_handlers()
         self.update_songs_list.start()
-        self.load_all_extensions()
 
     def translate(self, string):
         """Translate string to language of ctx got from frame (commands only)"""
@@ -58,9 +58,16 @@ class Shiro(commands.Bot):
         return translation
 
     def load_credentials(self):
-        """Get credentials from file"""
+        """Get credentials from file and overwrite them if environment variable is found"""
         with open("data/credentials.json", "r", encoding="utf-8") as file:
-            return json.load(file)
+            credentials = json.load(file)
+
+        for service, service_credentials in credentials.items():
+            for credential in service_credentials.keys():
+                if os.environ.get(f"{service}_{credential}") is not None:
+                    credentials[key][credential] = os.environ[f"{service}_{credential}"]
+
+        self.credentials = credentials
 
     def clear_cache(self):
         """Delete all files located in cache directory"""
@@ -137,7 +144,7 @@ class Shiro(commands.Bot):
 
     def get_all_songs(self):
         """Get all songs from database in alphabetic order"""
-        sql = psycopg2.sql.SQL("SELECT title, anime, youtube_url FROM public.songs ORDER BY anime ASC")
+        sql = psycopg2.sql.SQL("SELECT title, anime, youtube_url FROM public.songs ORDER BY anime")
         self.db_cursor.execute(sql)
         return self.db_cursor.fetchall()
 
@@ -156,6 +163,7 @@ class Shiro(commands.Bot):
         """Get ready and start"""
         self.app_info = await self.application_info()
         self.update_guilds()
+        self.load_all_extensions()
         self.update_status.start()
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
@@ -200,55 +208,49 @@ class Shiro(commands.Bot):
         embed = discord.Embed(color=10892179, title=_("\❌ **Error on command**"))
 
         if isinstance(error, commands.MissingRequiredArgument):
-            embed.description = _("The command `{0}` is missing the `{1}`.") \
-                .format(ctx.message.content, error.param.name)
+            embed.description = _("The command `{0}` is missing the `{1}`.").format(
+                ctx.message.content, error.param.name)
         elif isinstance(error, exceptions.NotInRange):
-            embed.description = _("The number `{0}` isn't allowed, it has to be in range {1}-{2}.") \
-                .format(error.argument, error.min_int, error.max_int)
+            embed.description = _("The number `{0}` isn't allowed, it has to be in range {1}-{2}.").format(
+                error.argument, error.min_int, error.max_int)
         elif isinstance(error, exceptions.NotInLength):
-            embed.description = _("The text `{0}` isn't allowed, it has to be {1}-{2} characters long.") \
-                .format(error.argument, error.min_len, error.max_len)
+            embed.description = _("The text `{0}` isn't allowed, it has to be {1}-{2} characters long.").format(
+                error.argument, error.min_len, error.max_len)
         elif isinstance(error, exceptions.NotBool):
-            embed.description = _("The value `{0}` isn't allowed, it has to be on or off.") \
-                .format(error.argument)
+            embed.description = _("The value `{0}` isn't allowed, it has to be on or off.").format(error.argument)
         elif isinstance(error, exceptions.NotLanguage):
-            embed.description = _("The language `{0}` isn't a available language. Available languages: {1}") \
-                .format(error.argument, ", ".join(error.available_languages))
+            embed.description = _("The language `{0}` isn't a available language. Available languages: {1}").format(
+                error.argument, ", ".join(error.available_languages))
         elif isinstance(error, exceptions.NotYoutubeUrl):
             embed.description = _("The url `{0}` isn't a valid YouTube url.").format(error.argument)
         elif isinstance(error, commands.BadUnionArgument):
-            embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}") \
-                .format(error.param.name, ctx.message.content,
-                        ", ".join([converter.__name__.lower() for converter in error.converters]))
+            converter_names = ", ".join([converter.__name__.lower() for converter in error.converters])
+            embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}").format(
+                error.param.name, ctx.message.content, converter_names)
         elif isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
-            embed.description = _("A wrong argument were passed into the command `{0}`.") \
-                .format(ctx.message.content)
+            embed.description = _("A wrong argument were passed into the command `{0}`.").format(ctx.message.content)
         elif isinstance(error, commands.CommandNotFound) or isinstance(error, commands.NotOwner):
-            embed.description = _("The command `{0}` wasn't found. To get a list of command use `{1}`.") \
-                .format(ctx.message.content, f"{ctx.prefix}help")
+            embed.description = _("The command `{0}` wasn't found. To get a list of command use `{1}`.").format(
+                ctx.message.content, f"{ctx.prefix}help")
         elif isinstance(error, exceptions.NotGuildAdmin):
-            embed.description = _("The command `{0}` can only be executed by admins.") \
-                .format(ctx.message.content)
+            embed.description = _("The command `{0}` can only be executed by admins.").format(
+                ctx.message.content)
         elif isinstance(error, exceptions.NoVoice):
             embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
-                                  "Also, the bot has to be disconnect from voice.") \
-                .format(ctx.message.content)
+                                  "Also, the bot has to be disconnect from voice.").format(ctx.message.content)
         elif isinstance(error, exceptions.SpecificChannelOnly):
-            embed.description = _("On this server commands can only be executed in channel {0}.") \
-                .format(error.channel.mention)
-        elif isinstance(error, commands.NoPrivateMessage):
-            pass
-        elif isinstance(error, exceptions.NotUser):
+            embed.description = _("On this server commands can only be executed in channel {0}.").format(
+                error.channel.mention)
+        elif isinstance(error, commands.NoPrivateMessage) or isinstance(error, exceptions.NotUser):
             pass
         elif isinstance(error, commands.BotMissingPermissions):
-            embed.description = _("The bot is missing permissions to execute commands, please grant: `{0}`") \
-                .format(", ".join(error.missing_perms))
+            embed.description = _("The bot is missing permissions to execute commands, please grant: `{0}`").format(
+                ", ".join(error.missing_perms))
         elif isinstance(error, commands.CheckFailure):
-            embed.description = _("You're lacking permission to execute command `{0}`.") \
-                .format(ctx.message.content)
+            embed.description = _("You're lacking permission to execute command `{0}`.").format(ctx.message.content)
         else:
-            embed.description = _("An unknown error occured on command `{0}`. We're going to fix that soon!") \
-                .format(ctx.message.content)
+            embed.description = _("An unknown error occured on command `{0}`. We're going to fix that soon!").format(
+                ctx.message.content)
             logging.error(error)
             self.sentry.capture_exception(error)
 

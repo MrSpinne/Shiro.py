@@ -5,43 +5,36 @@ from library import checks, converters
 import asyncio
 import json
 import random
-import youtube_dl
 import requests
-
-
-class YTDLSource(discord.PCMVolumeTransformer):
-    def __init__(self, source, *, data, volume=0):
-        super().__init__(source, volume)
-        self.data = data
-        self.title = data.get("title")
-        self.url = data.get("url")
-
-    @classmethod
-    async def from_url(cls, url, *, loop=None):
-        ytdl_format_options = {
-            "format": "bestaudio/best",
-            "outtmpl": "cache/%(extractor)s-%(id)s-%(title)s.%(ext)s",
-            "restrictfilenames": True,
-            "noplaylist": True,
-            "nocheckcertificate": True,
-            "ignoreerrors": False,
-            "logtostderr": False,
-            "quiet": True,
-            "no_warnings": True,
-            "default_search": "auto",
-            "source_address": "0.0.0.0"
-        }
-        ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
-
-        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=True))
-        filename = ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, options="-vn"), data=data)
+import wavelink
 
 
 class Games(commands.Cog):
     def __init__(self, shiro):
         self.shiro = shiro
+        self.wavelink = wavelink.Client(self.shiro)
+        self.shiro.loop.create_task(self.start_node())
         self.entries = {}
+
+    async def start_node(self):
+        """Start node for wavelink"""
+        await self.wavelink.initiate_node(host="127.0.0.1", port=2333, rest_uri="http://127.0.0.1:2333",
+                                          password="^sPSVHi6Fk4&R$$t", identifier="shiro", region="eu_central")
+
+    async def connect(self, ctx):
+        """Connect to voice channel"""
+        player = self.wavelink.get_player(ctx.guild.id)
+        await player.connect(ctx.author.voice.channel.id)
+
+    @commands.command()
+    async def play(self, ctx, url):
+        """Play audio from url"""
+        tracks = await self.wavelink.get_tracks(url)
+        player = self.wavelink.get_player(ctx.guild.id)
+        if not player.is_connected:
+            await ctx.invoke(self.connect)
+
+        await player.play(tracks[0])
 
     @commands.command(aliases=["animequiz", "guesssong"])
     @commands.check(checks.voice_available)

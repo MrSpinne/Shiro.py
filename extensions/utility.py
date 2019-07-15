@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 from library import checks
 
+import psutil
+import time
+
 
 class Utility(commands.Cog):
     def __init__(self, shiro):
@@ -25,23 +28,19 @@ class Utility(commands.Cog):
         ping = int((time.monotonic() - ping) * 1000)
 
         embed = discord.Embed(color=7830745, title=_("**\⚠️ Status**"))
-        embed.description = _("Users: {0}\nServers: {1}\nVoice clients: {2}\nCPU usage: {3}%\nRAM usage: {4}%\nPing: {5}ms")\
-            .format(len(self.shiro.users), len(self.shiro.guilds), len(self.shiro.voice_clients),
-                    psutil.cpu_percent(), psutil.virtual_memory().percent, ping)
+        embed.description = _("Users: {0}\nServers: {1}\nVoice clients: {2}\n"
+                              "CPU usage: {3}%\nRAM usage: {4}%\nPing: {5}ms").format(
+            len(self.shiro.users), len(self.shiro.guilds), len(self.shiro.voice_clients),
+            psutil.cpu_percent(), psutil.virtual_memory().percent, ping)
         await ctx.send(embed=embed)
-
-    @commands.command()
-    @commands.check(checks.is_bot_owner)
-    async def execute(self, ctx, *, string):
-        """Executes a string"""
-        exec(string)
 
     @commands.command()
     @commands.check(checks.is_bot_owner)
     async def evaluate(self, ctx, *, string):
         value = eval(string)
-        embed = discord.Embed(color=7830745, title=_("**\⚠️ Evaluation"))
-        embed.description = _("Evaluated:\n```{0}```").format(value)
+        embed = discord.Embed(color=7830745, title=_("**\⚠️ Evaluation**"))
+        embed.description = _("s.e```{0}```").format(value)
+        await ctx.send(embed=embed)
 
 
 def setup(shiro):

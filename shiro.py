@@ -256,14 +256,14 @@ class Shiro(commands.Bot):
                 (isinstance(error, commands.BotMissingPermissions) and "embed_links" not in error.missing_perms):
             await ctx.send(embed=embed)
 
-    @tasks.loop(minutes=5)
+    @tasks.loop(minutes=30)
     async def update_status(self):
         """Update status every 5 minutes"""
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song quiz 🎵")
         await self.change_presence(activity=activity)
-        # TODO: Add DBL
+        await dbl.Client(self, self.credentials["discordbots"]["api_key"]).post_guild_count()
 
-    @tasks.loop(minutes=45)
+    @tasks.loop(hours=3)
     async def update_songs_list(self):
         """Post all songs in database to pastebin and set url"""
         songs = self.get_all_songs()

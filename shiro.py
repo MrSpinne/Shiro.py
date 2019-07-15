@@ -65,7 +65,7 @@ class Shiro(commands.Bot):
         for service, service_credentials in credentials.items():
             for credential in service_credentials.keys():
                 if os.environ.get(f"{service}_{credential}") is not None:
-                    credentials[key][credential] = os.environ[f"{service}_{credential}"]
+                    credentials[service][credential] = os.environ[f"{service}_{credential}"]
 
         self.credentials = credentials
 

@@ -12,27 +12,27 @@ import wavelink
 class Games(commands.Cog):
     def __init__(self, shiro):
         self.shiro = shiro
-        self.wavelink = wavelink.Client(self.shiro)
+        self.shiro.wavelink = wavelink.Client(self.shiro)
         self.shiro.loop.create_task(self.start_node())
         self.entries = {}
 
     async def start_node(self):
         """Start node for wavelink"""
-        await self.wavelink.initiate_node(host="127.0.0.1", port=2333, rest_uri="http://127.0.0.1:2333",
-                                          password="^sPSVHi6Fk4&R$$t", identifier="shiro", region="eu_central")
+        await self.shiro.wavelink.initiate_node(host="127.0.0.1", port=2333, rest_uri="http://127.0.0.1:2333",
+                                                password="^sPSVHi6Fk4&R$$t", identifier="shiro", region="eu_central")
 
     async def connect(self, ctx):
         """Connect to voice channel"""
-        player = self.wavelink.get_player(ctx.guild.id)
+        player = self.shiro.wavelink.get_player(ctx.guild.id)
         await player.connect(ctx.author.voice.channel.id)
 
     @commands.command()
     async def play(self, ctx, url):
         """Play audio from url"""
-        tracks = await self.wavelink.get_tracks(url)
-        player = self.wavelink.get_player(ctx.guild.id)
+        tracks = await self.shiro.wavelink.get_tracks(url)
+        player = self.shiro.wavelink.get_player(ctx.guild.id)
         if not player.is_connected:
-            await ctx.invoke(self.connect)
+            await self.connect(ctx)
 
         await player.play(tracks[0])
 

@@ -68,3 +68,11 @@ def bot_has_permissions(ctx):
         raise commands.BotMissingPermissions(missing)
 
     return True
+
+
+def is_user(ctx):
+    """Check if user isn't a bot"""
+    if ctx.author.bot:
+        raise exceptions.NotUser
+
+    return True

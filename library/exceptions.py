@@ -57,3 +57,8 @@ class NotYoutubeUrl(commands.BadArgument):
 	"""Raised when a string is not a valid youtube url"""
 	def __init__(self, argument):
 		self.argument = argument
+
+
+class NotUser(commands.CheckFailure):
+    """Raised when user is a bot"""
+    pass

@@ -16,7 +16,7 @@ class General(commands.Cog):
     async def help(self, ctx):
         """Display all commands"""
         embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
-        embed.description = _("`{0}help` ‧ Display all commands\n`{0}info` ‧ Show credits of the bot\n"
+        embed.description = _("`{0}help` ‧ Display all commands\n`{0}info` ‧ Show credits of the bot and links (e.g. song list)\n"
                               "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request a song for the song quiz")\
             .format(ctx.prefix)
         await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
@@ -87,28 +87,6 @@ class General(commands.Cog):
             await message.add_reaction("✅")
         else:
             await message.add_reaction("❌")
-
-    @commands.command()
-    @commands.check(checks.is_bot_owner)
-    async def shutdown(self, ctx):
-        """Stops the bot and closes connection"""
-        embed = discord.Embed(color=7830745, title=_("**\⚠️ Stop bot**"),
-                              description=_("Bot is going to be shut down."))
-        await ctx.send(embed=embed)
-        await self.shiro.shutdown()
-
-    @commands.command()
-    @commands.check(checks.is_bot_owner)
-    async def status(self, ctx):
-        """Show current bot stats"""
-        ping = time.monotonic()
-        await self.shiro.application_info()
-        ping = int((time.monotonic() - ping) * 1000)
-        embed = discord.Embed(color=7830745, title=_("**\⚠️ Status**"))
-        embed.description = _("Users: {0}\nServers: {1}\nVoice clients: {2}\nCPU usage: {3}%\nRAM usage: {4}%\nPing: {5}ms")\
-            .format(len(self.shiro.users), len(self.shiro.guilds), len(self.shiro.voice_clients),
-                    psutil.cpu_percent(), psutil.virtual_memory().percent, ping)
-        await ctx.send(embed=embed)
 
 
 def setup(shiro):

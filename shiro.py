@@ -105,6 +105,7 @@ class Shiro(commands.Bot):
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
         self.add_check(checks.guild_only)
+        self.add_check(checks.is_user)
         self.add_check(checks.channel_only)
         self.add_check(checks.bot_has_permissions)
         self.before_invoke(self.delete_command)
@@ -236,6 +237,8 @@ class Shiro(commands.Bot):
             embed.description = _("On this server commands can only be executed in channel {0}.") \
                 .format(error.channel.mention)
         elif isinstance(error, commands.NoPrivateMessage):
+            pass
+        elif isinstance(error, exceptions.NotUser):
             pass
         elif isinstance(error, commands.BotMissingPermissions):
             embed.description = _("The bot is missing permissions to execute commands, please grant: `{0}`") \

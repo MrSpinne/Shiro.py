@@ -1,1 +1,1 @@
-worker: python shiro.py
+worker: ./start.sh

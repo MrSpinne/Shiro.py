@@ -259,11 +259,9 @@ class Shiro(commands.Bot):
     @tasks.loop(minutes=5)
     async def update_status(self):
         """Update status every 5 minutes"""
-        while True:
-            activity = discord.Activity(type=discord.ActivityType.listening, name=f"{len(self.users)} Users")
-            await self.change_presence(activity=activity)
-            await asyncio.sleep(300)
-    # TODO: Add DBL
+        activity = discord.Activity(type=discord.ActivityType.watching, name="Anime owo")
+        await self.change_presence(activity=activity)
+        # TODO: Add DBL
 
     @tasks.loop(minutes=45)
     async def update_songs_list(self):

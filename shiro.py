@@ -259,7 +259,7 @@ class Shiro(commands.Bot):
     @tasks.loop(minutes=5)
     async def update_status(self):
         """Update status every 5 minutes"""
-        activity = discord.Activity(type=discord.ActivityType.watching, name="Anime owo")
+        activity = discord.Activity(type=discord.ActivityType.playing, name="Song quiz 🎵")
         await self.change_presence(activity=activity)
         # TODO: Add DBL
 

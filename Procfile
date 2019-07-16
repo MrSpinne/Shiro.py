@@ -1,1 +1,1 @@
-web: bash start.sh
+web: java -jar lavalink/Lavalink.jar

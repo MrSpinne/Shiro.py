@@ -264,7 +264,7 @@ class Shiro(commands.Bot):
     @tasks.loop(minutes=30)
     async def update_status(self):
         """Update status every 5 minutes"""
-        activity = discord.Activity(type=discord.ActivityType.playing, name="Song quiz 🎵")
+        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         await dbl.Client(self, self.credentials["discordbots"]["api_key"]).post_guild_count()
 

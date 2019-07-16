@@ -18,8 +18,8 @@ class Games(commands.Cog):
 
     async def start_node(self):
         """Start node for wavelink"""
-        await self.shiro.wavelink.initiate_node(host="127.0.0.1", port=2333, rest_uri="http://127.0.0.1:2333",
-                                                password="^sPSVHi6Fk4&R$$t", identifier="shiro", region="eu_central")
+        await self.shiro.wavelink.initiate_node(host="127.0.0.1", port=80, rest_uri="http://127.0.0.1:80",
+                                                password="NpHaNUkdSh2mpFOXL7cf", identifier="shiro", region="eu_central")
 
     async def connect(self, ctx):
         """Connect to voice channel"""

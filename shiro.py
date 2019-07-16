@@ -213,9 +213,9 @@ class Shiro(commands.Bot):
         elif isinstance(error, exceptions.NotInRange):
             embed.description = _("The number `{0}` isn't allowed, it has to be in range {1}-{2}.").format(
                 error.argument, error.min_int, error.max_int)
-        elif isinstance(error, exceptions.NotInLength):
-            embed.description = _("The text `{0}` isn't allowed, it has to be {1}-{2} characters long.").format(
-                error.argument, error.min_len, error.max_len)
+        elif isinstance(error, exceptions.NotPrefix):
+            embed.description = _("The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only "
+                                  "consist out of numbers and letters.").format(error.argument)
         elif isinstance(error, exceptions.NotBool):
             embed.description = _("The value `{0}` isn't allowed, it has to be on or off.").format(error.argument)
         elif isinstance(error, exceptions.NotLanguage):

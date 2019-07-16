@@ -23,17 +23,13 @@ class RangeInt(commands.Converter):
         raise exceptions.NotInRange(argument, self.min_num, self.max_num)
 
 
-class LengthStr(commands.Converter):
+class Prefix(commands.Converter):
     """Converts to str if values length is in range"""
-    def __init__(self, min_len, max_len):
-        self.min_len = min_len
-        self.max_len = max_len
-
     async def convert(self, ctx, argument):
-        if self.min_len <= len(argument) <= self.max_len:
+        if 1 <= len(argument) <= 10 and argument.isalnum():
             return argument
 
-        raise exceptions.NotInLength(argument, self.min_len, self.max_len)
+        raise exceptions.NotPrefix(argument)
 
 
 class Bool(commands.Converter):

@@ -25,12 +25,10 @@ class NotInRange(commands.BadArgument):
         self.max_int = max_int
 
 
-class NotInLength(commands.BadArgument):
+class NotPrefix(commands.BadArgument):
     """Raised when string is not in length"""
     def __init__(self, argument, min_len, max_len):
         self.argument = argument
-        self.min_len = min_len
-        self.max_len = max_len
 
 
 class NotBool(commands.BadArgument):

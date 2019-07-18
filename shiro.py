@@ -15,6 +15,7 @@ import logging
 import dbl
 import pbwrap
 import os
+import lavalink
 
 
 class Shiro(commands.Bot):
@@ -22,7 +23,7 @@ class Shiro(commands.Bot):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None)
         builtins.__dict__["_"] = self.translate
         self.credentials, self.db_connector, self.db_cursor, self.app_info = None, None, None, None
-        self.sentry, self.songs_list_url = sentry_sdk, None
+        self.sentry, self.songs_list_url, self.lavalink, self.dbl = sentry_sdk, None, None, None
         self.startup()
 
     def startup(self):
@@ -31,10 +32,19 @@ class Shiro(commands.Bot):
         self.load_credentials()
         self.sentry.init(dsn=self.credentials["sentry"]["dsn"],
                          integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
-        self.clear_cache()
         self.connect_database()
         self.add_command_handlers()
         self.update_songs_list.start()
+
+    async def on_ready(self):
+        """Get ready and start"""
+        self.app_info = await self.application_info()
+        self.update_guilds()
+        self.connect_lavalink()
+        self.dbl = dbl.Client(self, self.credentials["discordbots"]["api_key"])
+        self.load_all_extensions()
+        self.update_status.start()
+        logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
     def translate(self, string):
         """Translate string to language of ctx got from frame (commands only)"""
@@ -69,12 +79,6 @@ class Shiro(commands.Bot):
 
         self.credentials = credentials
 
-    def clear_cache(self):
-        """Delete all files located in cache directory"""
-        files = [file for file in pathlib.Path("cache").glob("**/*") if file.is_file()]
-        for file in files:
-            file.unlink()
-
     def connect_database(self):
         """Establish connection to postgres database"""
         self.db_connector = psycopg2.connect(**self.credentials["postgres"])
@@ -85,6 +89,11 @@ class Shiro(commands.Bot):
         if self.db_connector:
             self.db_cursor.close()
             self.db_connector.close()
+
+    def connect_lavalink(self):
+        """Connect to lavalink server"""
+        self.lavalink = lavalink.Client(self.user.id)
+        self.lavalink.add_node(**self.credentials["lavalink"])
 
     def register_guild(self, guild_id):
         """Register guild to database if it is not already registered"""
@@ -136,22 +145,27 @@ class Shiro(commands.Bot):
         self.db_cursor.execute(sql, [value, guild_id])
         self.db_connector.commit()
 
-    def get_random_songs(self):
-        """Get 5 random songs from database"""
-        sql = psycopg2.sql.SQL("SELECT title, anime, youtube_url FROM public.songs ORDER BY RANDOM() LIMIT 5")
-        self.db_cursor.execute(sql)
+    def get_random_songs(self, category, amount):
+        """Get random songs from database"""
+        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
+        self.db_cursor.execute(sql, [category, amount])
+        return self.db_cursor.fetchall()
+
+    def get_choice_songs(self, category, exclusion):
+        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
+        self.db_cursor.execute(sql, [category, exclusion])
         return self.db_cursor.fetchall()
 
     def get_all_songs(self):
         """Get all songs from database in alphabetic order"""
-        sql = psycopg2.sql.SQL("SELECT title, anime, youtube_url FROM public.songs ORDER BY anime")
+        sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY reference")
         self.db_cursor.execute(sql)
         return self.db_cursor.fetchall()
 
-    def add_song(self, title, anime, youtube_url):
+    def add_song(self, title, reference, url, category):
         """Add a song to the database"""
-        sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, anime, youtube_url) VALUES (%s, %s, %s)")
-        self.db_cursor.execute(sql, [title, anime, youtube_url])
+        sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
+        self.db_cursor.execute(sql, [title, reference, url, category])
         self.db_connector.commit()
 
     def get_languages(self):
@@ -159,19 +173,14 @@ class Shiro(commands.Bot):
         languages = [item.name for item in pathlib.Path("locales").iterdir() if item.is_dir()]
         return languages
 
-    async def on_ready(self):
-        """Get ready and start"""
-        self.app_info = await self.application_info()
-        self.update_guilds()
-        self.load_all_extensions()
-        self.update_status.start()
-        logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
-
     async def delete_command(self, ctx):
         """Delete command if enabled in guild settings"""
         if ctx.guild is not None:
             if self.get_guild_setting(ctx.guild.id, "command_deletion") is True:
-                await ctx.message.delete()
+                try:
+                    await ctx.message.delete()
+                except:
+                    pass
 
     async def on_message(self, message):
         """Send help if bot is mentioned"""
@@ -222,7 +231,7 @@ class Shiro(commands.Bot):
             embed.description = _("The language `{0}` isn't a available language. Available languages: {1}").format(
                 error.argument, ", ".join(error.available_languages))
         elif isinstance(error, exceptions.NotYoutubeUrl):
-            embed.description = _("The url `{0}` isn't a valid YouTube url.").format(error.argument)
+            embed.description = _("The url `{0}` isn't a valid YouTube url or it's geo restricted.").format(error.argument)
         elif isinstance(error, commands.BadUnionArgument):
             converter_names = ", ".join([converter.__name__.lower() for converter in error.converters])
             embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}").format(
@@ -237,7 +246,14 @@ class Shiro(commands.Bot):
                 ctx.message.content)
         elif isinstance(error, exceptions.NoVoice):
             embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
-                                  "Also, the bot has to be disconnect from voice.").format(ctx.message.content)
+                                  "Also, the bot can't serve multiple channels.").format(ctx.message.content)
+        elif isinstance(error, exceptions.NotVoted):
+            embed.description = _("This command is only available for voters. Please [vote for free]({0}) "
+                                  "to support this bot!").format("https://discordbots.org/bot/593116701281746955/vote")
+        elif isinstance(error, exceptions.NoPlayer):
+            embed.description = _("There's no quiz to stop.")
+        elif isinstance(error, exceptions.NotRequester):
+            embed.description = _("Only the user who started the quiz or an admin can stop the playback.")
         elif isinstance(error, exceptions.SpecificChannelOnly):
             embed.description = _("On this server commands can only be executed in channel {0}.").format(
                 error.channel.mention)
@@ -266,7 +282,7 @@ class Shiro(commands.Bot):
         """Update status every 5 minutes"""
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
-        await dbl.Client(self, self.credentials["discordbots"]["api_key"]).post_guild_count()
+        await self.dbl.post_guild_count()
 
     @tasks.loop(hours=3)
     async def update_songs_list(self):
@@ -275,9 +291,9 @@ class Shiro(commands.Bot):
         formatted_songs = ""
 
         for song in songs:
-            formatted_songs += f"{song['anime']} ∎ {song['title']} ∎ {song['youtube_url']}\n"
+            formatted_songs += f"{song['title']} ∎ {song['reference']} ∎ {song['category']} ∎ {song['url']}\n"
 
-        url = pbwrap.Pastebin(self.credentials["pastebin"]["api_key"]).create_paste(formatted_songs, 1, "Shiro Songlist", "1H")
+        url = pbwrap.Pastebin(self.credentials["pastebin"]["api_key"]).create_paste(formatted_songs, 1, "Shiro Songlist", "1D")
         self.songs_list_url = url
 
 

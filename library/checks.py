@@ -10,7 +10,8 @@ def voice_available(ctx):
     if ctx.author.voice.afk:
         raise exceptions.NoVoice
 
-    if ctx.voice_client is not None:
+    player = ctx.bot.lavalink.players.get(ctx.guild.id)
+    if player:
         raise exceptions.NoVoice
 
     channel_permissions = ctx.author.voice.channel.permissions_for(ctx.guild.me)
@@ -18,6 +19,18 @@ def voice_available(ctx):
     missing = [permission for permission in permissions if getattr(channel_permissions, permission, None) is False]
     if missing:
         raise commands.BotMissingPermissions(missing)
+
+    return True
+
+
+def player_available(ctx):
+    """Check if a player is registered on guild"""
+    player = ctx.bot.lavalink.players.get(ctx.guild.id)
+    if not player:
+        raise exceptions.NoPlayer
+
+    if not player.is_playing:
+        raise exceptions.NoPlayer
 
     return True
 
@@ -74,5 +87,22 @@ def is_user(ctx):
     """Check if user isn't a bot"""
     if ctx.author.bot:
         raise exceptions.NotUser
+
+    return True
+
+
+async def has_voted(ctx):
+    """Check if the user has voted on dbl"""
+    if not await ctx.bot.dbl.get_user_vote(ctx.author.id) and ctx.author.id != ctx.bot.app_info.owner.id:
+        raise exceptions.NotVoted
+
+    return True
+
+
+def is_requester(ctx):
+    """Check if a user has requested a song or is admin"""
+    player = ctx.bot.lavalink.players.get(ctx.guild.id)
+    if not getattr(ctx.author.guild_permissions, "administrator", None) and player.current.requester != ctx.author.id:
+        raise exceptions.NotRequester
 
     return True

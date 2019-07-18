@@ -14,14 +14,16 @@ class General(commands.Cog):
         """Display all commands"""
         embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
         embed.description = _("`{0}help` ‧ Display all commands\n"
-                              "`{0}info` ‧ Show credits of the bot and links (e.g. song list)\n"
-                              "`{0}request \"<song>\" \"<anime>\" \"<youtube url>\"` ‧"
-                              " Request a song for the song quiz").format(ctx.prefix)
+                              "`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
+                              "`{0}openingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request opening for quiz\n"
+                              "`{0}endingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request ending for quiz"
+                              ).format(ctx.prefix)
         await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
 
-        embed = discord.Embed(color=7830745, title=_("**\👾 Games**"))
-        embed.description = _("`{0}songquiz [1-25]` ‧ Guess anime songs with specified amount of rounds").format(
-            ctx.prefix)
+        embed = discord.Embed(color=7830745, title=_("**\🎵 Songs**"))
+        embed.description = _("`{0}openingquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
+                              "`{0}endingquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
+                              "`{0}stop` ‧ Stop running quiz or playback").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
         if ctx.author is not ctx.guild.owner:
@@ -44,25 +46,38 @@ class General(commands.Cog):
         embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
         embed.description = _("Shiro were made by **{0}** in Python. If you have any questions, feel free "
                               "to contact.\n\n[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ "
-                              "[All songs]({2})").format(owner, "https://discord.gg/QPa75ut", self.shiro.songs_list_url)
+                              "[Vote]({2}) ‧ [All songs]({3})").format(
+            owner, "https://discord.gg/5z4z8kh", "https://discordbots.org/bot/593116701281746955/vote", self.shiro.songs_list_url)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["songrequest"])
-    async def request(self, ctx, title, anime, youtube_url: converters.YoutubeUrl):
+    @commands.command(aliases=["oprequest", "requestopening"])
+    async def openingrequest(self, ctx, title, anime, youtube_url: converters.YoutubeUrl):
         """Request a song for the songquiz"""
-        embed = discord.Embed(color=7830745, title="**\⚠️ New song request**")
-        embed.description = f"User **{ctx.author.name}#{ctx.author.discriminator}** requested a song."
-        embed.add_field(name="Song title", value=title)
-        embed.add_field(name="Youtube URL", value=youtube_url)
-        embed.add_field(name="Anime", value=anime)
-        message = await self.shiro.app_info.owner.send(embed=embed)
-        await message.add_reaction("👍🏻")
-        await message.add_reaction("👎🏻")
-
-        embed = discord.Embed(color=7830745, title=_("**\📄 Song request**"))
-        embed.description = _("You requested the song `{0}` from anime `{1}` to be added into the song quiz. "
+        await self.do_request(ctx, title, anime, youtube_url, "Opening")
+        embed = discord.Embed(color=7830745, title=_("**\📄 Opening request**"))
+        embed.description = _("You requested the opening `{0}` from anime `{1}` to be added into the song quiz. "
                               "Thank you for your support, our bot staff will review it.").format(title, anime)
         await ctx.send(embed=embed)
+
+    @commands.command(aliases=["endrequest", "requestending"])
+    async def endingrequest(self, ctx, title, anime, youtube_url: converters.YoutubeUrl):
+        await self.do_request(ctx, title, anime, youtube_url, "Ending")
+        embed = discord.Embed(color=7830745, title=_("**\📄 Ending request**"))
+        embed.description = _("You requested the ending `{0}` from anime `{1}` to be added into the song quiz. "
+                              "Thank you for your support, our bot staff will review it.").format(title, anime)
+        await ctx.send(embed=embed)
+
+    async def do_request(self, ctx, title, reference, url, category):
+        """Request a song for specified category"""
+        embed = discord.Embed(color=7830745, title="**\⚠️ New song request**")
+        embed.description = f"User **{ctx.author.name}#{ctx.author.discriminator}** requested a song."
+        embed.add_field(name="Title", value=title)
+        embed.add_field(name="Reference", value=reference)
+        embed.add_field(name="Category", value=category)
+        embed.add_field(name="URL", value=url)
+        message = await self.shiro.get_channel(601374759724384272).send(embed=embed)
+        await message.add_reaction("👍🏻")
+        await message.add_reaction("👎🏻")
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -70,16 +85,21 @@ class General(commands.Cog):
         if payload.emoji.name != "👍🏻" and payload.emoji.name != "👎🏻":
             return
 
+        if payload.channel_id != 601374759724384272:
+            return
+
         user = self.shiro.get_user(payload.user_id)
-        if getattr(user, "id", None) != self.shiro.app_info.owner.id:
+        if user.bot:
             return
 
-        channel = await self.shiro.fetch_channel(payload.channel_id)
-        if not isinstance(channel, discord.DMChannel):
-            return
-
-        message = await user.fetch_message(payload.message_id)
+        channel = self.shiro.get_channel(payload.channel_id)
+        message = await channel.fetch_message(payload.message_id)
         if message is None:
+            return
+
+        emojis = [reaction.emoji for reaction in message.reactions]
+
+        if "✅" in emojis or "❌" in emojis:
             return
 
         embeds = message.embeds
@@ -91,9 +111,10 @@ class General(commands.Cog):
         if payload.emoji.name == "👍🏻":
             fields = embeds[0].fields
             title = fields[0].value
-            youtube_url = fields[1].value
-            anime = fields[2].value
-            self.shiro.add_song(title, anime, youtube_url)
+            reference = fields[1].value
+            category = fields[2].value.lower()
+            url = fields[3].value
+            self.shiro.add_song(title, reference, url, category)
             await message.add_reaction("✅")
         else:
             await message.add_reaction("❌")

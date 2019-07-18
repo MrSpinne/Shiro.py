@@ -6,6 +6,11 @@ class NoVoice(commands.CheckFailure):
     pass
 
 
+class NoPlayer(commands.CheckFailure):
+    """Raised when no player is existing"""
+    pass
+
+
 class NotGuildAdmin(commands.CheckFailure):
     """Raised when user is not the owner of the guild"""
     pass
@@ -59,4 +64,14 @@ class NotYoutubeUrl(commands.BadArgument):
 
 class NotUser(commands.CheckFailure):
     """Raised when user is a bot"""
+    pass
+
+
+class NotVoted(commands.CheckFailure):
+    """Raised when user hasn't voted on dbl"""
+    pass
+
+
+class NotRequester(commands.CheckFailure):
+    """Raised when user isn't requester of the song or isn't admin"""
     pass

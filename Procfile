@@ -1,1 +1,1 @@
-web: java -jar lavalink/Lavalink.jar
+worker: python shiro.py

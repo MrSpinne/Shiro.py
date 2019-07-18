@@ -39,7 +39,7 @@ class Utility(commands.Cog):
     async def evaluate(self, ctx, *, string):
         value = eval(string)
         embed = discord.Embed(color=7830745, title=_("**\⚠️ Evaluation**"))
-        embed.description = _("s.e```{0}```").format(value)
+        embed.description = f"```{value}```"
         await ctx.send(embed=embed)
 
 

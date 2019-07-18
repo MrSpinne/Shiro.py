@@ -3,7 +3,6 @@ from library import exceptions
 
 import pycountry
 import requests
-import re
 
 
 class RangeInt(commands.Converter):
@@ -83,8 +82,8 @@ class Language(commands.Converter):
 class YoutubeUrl(commands.Converter):
     """Convert to youtube url if video is available"""
     async def convert(self, ctx, argument):
-        try:
-            requests.get(f"https://www.youtube.com/oembed?format=json&url={argument}").json()
+        results = await ctx.bot.lavalink.get_tracks(argument)
+        if results and results["tracks"]:
             return argument
-        except:
-            raise exceptions.NotYoutubeUrl(argument)
+
+        raise exceptions.NotYoutubeUrl(argument)

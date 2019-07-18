@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Shiro.py\n"
+"Language: nl\n"
+
+#: extensions/general.py:15
+msgid "**\\📄 General**"
+msgstr "**\\📄 Algemeen**"
+
+#: extensions/general.py:21
+msgid "Here're all commands for **{0}**:"
+msgstr "Hier zijn alle commands voor **{0}**:"
+
+#: extensions/general.py:23
+msgid "**\\🎵 Songs**"
+msgstr "**\\🎵 Liedjes**"
+
+#: extensions/general.py:24
+msgid "`{0}openingquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
+"`{0}endingquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
+"`{0}stop` ‧ Stop running quiz or playback"
+msgstr "`{0}openingquiz [1-25]` ‧ Kies anime openingen met het aantal rondes.\n"
+"`{0}endingquiz [1-25]` ‧ Zijn de openingen te makkelijk voor je? Dit is het volgende level!\n"
+"`{0}stop` ‧ Stop met de quiz of begin opnieuw."
+
+#: extensions/general.py:33
+msgid "**\\⚙️ Settings**"
+msgstr "**\\⚙️ Instellingen**"
+
+#: extensions/general.py:34
+msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
+"`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
+"`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
+"`{0}language <{1}>` ‧ Change bot language\n"
+"`{0}config` ‧ Display current configuration"
+msgstr "`{0}prefix <1-10 symbolen>` ‧ Verander server prefix.\n"
+"`{0}deletion <on/off>` ‧ Schakel berichten van het command in of uit.\n"
+"`{0}channel <none/channel>` ‧ Specificeer in welke channel je alleen commands mag gebruiken.\n"
+"`{0}language <{1}>` ‧ Verander de taal van de bot.\n"
+"`{0}config` ‧ Laat de momentele configuratie zien."
+
+#: extensions/general.py:45
+msgid "**\\📄 About Shiro**"
+msgstr "**\\📄 Over Shiro**"
+
+#: extensions/general.py:47
+msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n"
+"\n"
+"[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
+msgstr "Shiro is gemaakt door **{0}** in Python. Als je vragen hebt, neem contact met ons op.\n"
+"\n"
+"[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
+
+#: extensions/general.py:57
+msgid "**\\📄 Opening request**"
+msgstr "**\\📄 Verzoek openen**"
+
+#: extensions/general.py:58
+msgid "You requested the opening `{0}` from anime `{1}` to be added into the song quiz. Thank you for your support, our bot staff will review it."
+msgstr "Je verzocht de opening `{0}` van anime `{1}` toe te voegen aan de liedjes quiz. Bedankt voor je medewerking, onze bot staff zal je zo snel mogelijk helpen."
+
+#: extensions/general.py:65
+msgid "**\\📄 Ending request**"
+msgstr "**\\📄 Verzoek beëindigen."
+
+#: extensions/general.py:66
+msgid "You requested the ending `{0}` from anime `{1}` to be added into the song quiz. Thank you for your support, our bot staff will review it."
+msgstr "Je verzocht de afsluiting `{0}` van anime `{1}` toe te voegen aan de liedjes quiz. Bedankt voor je medewerking, onze bot staff zal je zo snel mogelijk helpen."
+
+#: extensions/settings.py:17
+msgid "**\\⚙️ Prefix**"
+msgstr "**\\⚙️ Prefix**"
+
+#: extensions/settings.py:18
+msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
+msgstr "Server prefix is veranderd naar `{0}`. Als je het bent vergeten, kun je altijd `@Shiro` gebruiken voor hulp."
+
+#: extensions/settings.py:28
+msgid "**\\⚙️ Command deletion**"
+msgstr "**\\⚙️ Command verwijdering**"
+
+#: extensions/settings.py:29
+msgid "Command message deletion were {0}."
+msgstr "Command bericht verwijderen was {0}."
+
+#: extensions/settings.py:29 extensions/settings.py:64
+msgid "disabled"
+msgstr "uitgeschakeld"
+
+#: extensions/settings.py:29 extensions/settings.py:64
+msgid "enabled"
+msgstr "ingeschakeld"
+
+#: extensions/settings.py:37
+msgid "**\\⚙️ Channel only**"
+msgstr "**\\⚙️ Kanaal**"
+
+#: extensions/settings.py:38
+msgid "Commands can now be executed {0}."
+msgstr "Commands kunnen nu worden uitgevoerd {0}."
+
+#: extensions/settings.py:39
+msgid "everywhere"
+msgstr "overal"
+
+#: extensions/settings.py:39
+msgid "in channel {0}"
+msgstr "in kanaal {0}"
+
+#: extensions/settings.py:47
+msgid "**\\⚙️ Language**"
+msgstr "**\\⚙️ Taal**"
+
+#: extensions/settings.py:48
+msgid "Language were set to `{0}`."
+msgstr "De taal is veranderd naar `{0}`."
+
+#: extensions/settings.py:56
+msgid "**\\⚙️ Config**"
+msgstr "**\\⚙️ Configuratie**"
+
+#: extensions/settings.py:57
+msgid "Prefix ‧ `{0}`\n"
+"Command deletion ‧ `{1}`\n"
+"Channel only ‧ {2}\n"
+"Language ‧ `{3}`"
+msgstr "Prefix ‧ `{0}`\n"
+"Command verwijderen ‧ `{1}`\n"
+"Kanaal ‧ {2}\n"
+"Taal ‧ `{3}`"
+
+#: extensions/settings.py:66
+msgid "`disabled`"
+msgstr "`uitgeschakeld`"
+
+#: extensions/songs.py:111 extensions/songs.py:137
+msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"
+msgstr "**\\🎵 {0} quiz ‧ Ronde {1}/{2}**"
+
+#: extensions/songs.py:131
+msgid "Nobody"
+msgstr "Niemand"
+
+#: extensions/songs.py:139
+msgid "{0} has won the round!\n"
+"Song: [{1} ‧ {2}]({3})"
+msgstr "{0} heeft de ronde gewonnen!\n"
+"Liedje: [{1} ‧ {2}]({3})"
+
+#: extensions/songs.py:153
+msgid "**\\🎵 {0} quiz ‧ Starting**"
+msgstr "**\\🎵 {0} quiz ‧ Beginnen**"
+
+#: extensions/songs.py:154
+msgid "Get ready, the quiz will start in 3 seconds!\n"
+"{0}"
+msgstr "Maak je klaar, de quiz begint in 3 seconden!\n"
+"{0}"
+
+#: extensions/songs.py:176
+msgid "**\\🎵 {0} quiz ‧ End**"
+msgstr "**\\🎵 {0} quiz ‧ Einde**"
+
+#: extensions/songs.py:179
+msgid "Nobody won the song quiz! There were {0} round(s)."
+msgstr "Niemand heeft de song quiz gewonenn! Er waren {0} ronde(s)."
+
+#: extensions/songs.py:181
+msgid "{0} has guessed {1}/{2} songs correctly and won!"
+msgstr "{0} heeft {1}/{2} goed geraden en heeft gewonnen!"
+
+#: extensions/songs.py:184
+msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."
+msgstr "{0} heeft gelijkspel met {1}/{2} het aantal goed geraden liedjes."
+
+#: extensions/songs.py:214
+msgid "**\\🎵 Stop quiz**"
+msgstr "**\\🎵 Stop quiz**"
+
+#: extensions/songs.py:216
+msgid "Quiz already ends after this round. Playback will be stopped then."
+msgstr "Quiz eindigt al na deze ronde. Het afspelen zal dan worden stopgezet."
+
+#: extensions/songs.py:218
+msgid "Reducing quiz rounds from {0} to {1}. Playback will end after current round."
+msgstr "Verminderen van quiz rondes van {0} naar {1}. Het afspelen zal stopgezet worden na deze ronde."
+
+#: extensions/songs.py:231
+msgid "\\❌ **Bot kicked**"
+msgstr "\\❌ **Bot gekicked**"
+
+#: extensions/songs.py:232
+msgid "The bot was kicked from voice channel so it reconnected. You can stop the quiz with `{0}stop`"
+msgstr "De bot was uit de voice channel gekickt, dus de bot is terug gejoined. Je kunt de quiz stoppen door middel van `{0}stop`."
+
+#: extensions/utility.py:17
+msgid "**\\⚠️ Restarting bot**"
+msgstr "**\\⚠️ Bot opnieuw opstarten**"
+
+#: extensions/utility.py:18
+msgid "Bot is going to be restartet."
+msgstr "De bot wordt opnieuw opgestart."
+
+#: extensions/utility.py:30
+msgid "**\\⚠️ Status**"
+msgstr "**\\⚠️ Status**"
+
+#: extensions/utility.py:31
+msgid "Users: {0}\n"
+"Servers: {1}\n"
+"Voice clients: {2}\n"
+"CPU usage: {3}%\n"
+"RAM usage: {4}%\n"
+"Ping: {5}ms"
+msgstr "Gebruikers: {0}\n"
+"Servers: {1}\n"
+"Voice gebruikers: {2}\n"
+"CPU usage: {3}%\n"
+"RAM usage: {4}%\n"
+"Ping: {5}ms"
+
+#: extensions/utility.py:41
+msgid "**\\⚠️ Evaluation**"
+msgstr "**\\⚠️ Evaluatie**"
+
+#: shiro.py:217
+msgid "\\❌ **Error on command**"
+msgstr "\\❌ **Error met het command**"
+
+#: shiro.py:220
+msgid "The command `{0}` is missing the `{1}`."
+msgstr "De command `{0}` is missing the `{1}`."
+
+#: shiro.py:223
+msgid "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
+msgstr "Het nummer `{0}` is niet toegestaan, het moet tussen {1}-{2} liggen."
+
+#: shiro.py:226
+msgid "The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only consist out of numbers and letters."
+msgstr "De prefix `{0}` is niet toegestaan, het moet tussen 1-10 karakters lang zijn en kan alleen bestaan uit nummers en letters."
+
+#: shiro.py:229
+msgid "The value `{0}` isn't allowed, it has to be on or off."
+msgstr "De waarde `{0}` is niet toegestaan, het moet aan of uit staan."
+
+#: shiro.py:231
+msgid "The language `{0}` isn't a available language. Available languages: {1}"
+msgstr "De taal `{0}` is geen beschikbare taal. Beschikbare talen: {1}"
+
+#: shiro.py:234
+msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
+msgstr "De URL `{0}` is geen echte YouTube URL of het is geo"
+
+#: shiro.py:237
+msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
+msgstr "Het argument `{0}` in command `{1}` moet een van deze twee zijn: {2}"
+
+#: shiro.py:240
+msgid "A wrong argument were passed into the command `{0}`."
+msgstr "Een verkeerd argument was aan de command toegevoegd `{0}`."
+
+#: shiro.py:242
+msgid "The command `{0}` wasn't found. To get a list of command use `{1}`."
+msgstr "De command `{0}` was niet gevonden. Om een lijst te krijgen van commands, gebruik: `{1}`."
+
+#: shiro.py:245
+msgid "The command `{0}` can only be executed by admins."
+msgstr "De command `{0}` kan alleen worden uitgevoerd door admins."
+
+#: shiro.py:248
+msgid "To use the command `{0}` you have to be in an voice channel (not afk). Also, the bot can't serve multiple channels."
+msgstr "Om de command `{0}` te gebruiken, moet je je in een spreekkanaal bevinden (niet AFK). Ook kan de bot niet meerdere kanalen tegelijk bedienen."
+
+#: shiro.py:251
+msgid "This command is only available for voters. Please [vote for free]({0}) to support this bot!"
+msgstr "Dit command is alleen beschikbaar voor stemmers. Stem [gratis stemmen]({0}) om deze bot te ondersteunen!"
+
+#: shiro.py:254
+msgid "There's no quiz to stop."
+msgstr "Er is geen quiz om te stoppen."
+
+#: shiro.py:256
+msgid "Only the user who started the quiz or an admin can stop the playback."
+msgstr "Alleen de gebruiker wie de quiz heeft gestart of een admin kan het afspelen stopzetten."
+
+#: shiro.py:258
+msgid "On this server commands can only be executed in channel {0}."
+msgstr "Op deze server kunnen commands alleen worden uitgevoerd in {0}."
+
+#: shiro.py:263
+msgid "The bot is missing permissions to execute commands, please grant: `{0}`"
+msgstr "De bot mist permissies om commands uit te voeren, geef deze permissions alsjeblieft: `{0}`"
+
+#: shiro.py:266
+msgid "You're lacking permission to execute command `{0}`."
+msgstr "Je hebt niet genoeg permissie om dit command uit te voeren`{0}`."
+
+#: shiro.py:268
+msgid "An unknown error occured on command `{0}`. We're going to fix that soon!"
+msgstr "Er is een onbekende fout opgetreden `{0}`. We gaan het voor je oplossen!"
+
+#: extensions/general.py:16
+msgid "`{0}help` ‧ Display all commands\n"
+"`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
+"`{0}openingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request opening for quiz\n"
+"`{0}endingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request ending for quiz"
+msgstr "`{0}help` ‧ Laat alle commands zien\n"
+"`{0}info` ‧ Laat de credits van de bot en eventuele links zien (e.g. support server)\n"
+"`{0}openingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Verzoek opening voor een quiz\n"
+"`{0}endingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Verzoek beëindigien van een quiz"
+

@@ -201,14 +201,13 @@ class Songs(commands.Cog):
     async def stop(self, ctx):
         """Stop running quiz or playback"""
         player = self.shiro.lavalink.players.get(ctx.guild.id)
-        played = len(self.history[ctx.guild.id]) - len(player.queue)
         guild_history_before = dict(self.history[ctx.guild.id])
-        player.queue.clear()
 
-        for i in range(0, played + 1):
+        for track in player.queue:
             keys = list(self.history[ctx.guild.id].keys())
             del self.history[ctx.guild.id][keys[-1]]
 
+        player.queue.clear()
         embed = discord.Embed(color=7830745, title=_("**\🎵 Stop quiz**"))
         if len(guild_history_before) == len(self.history[ctx.guild.id]):
             embed.description = _("Quiz already ends after this round. Playback will be stopped then.")

@@ -258,7 +258,7 @@ class Shiro(commands.Bot):
             embed.description = _("On this server commands can only be executed in channel {0}.").format(
                 error.channel.mention)
         elif isinstance(error, commands.NoPrivateMessage) or isinstance(error, exceptions.NotUser):
-            pass
+            return
         elif isinstance(error, commands.BotMissingPermissions):
             embed.description = _("The bot is missing permissions to execute commands, please grant: `{0}`").format(
                 ", ".join(error.missing_perms))

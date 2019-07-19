@@ -190,7 +190,7 @@ class Songs(commands.Cog):
 
     @commands.command(aliases=["endings"])
     @commands.check(checks.voice_available)
-    @commands.command(checks.has_voted)
+    @commands.check(checks.has_voted)
     async def endingquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Openings are too easy for you? This is next level!"""
         await self.run_quiz(ctx, "Ending", rounds)

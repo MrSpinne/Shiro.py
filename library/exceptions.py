@@ -6,6 +6,11 @@ class NoVoice(commands.CheckFailure):
     pass
 
 
+class NoPlayer(commands.CheckFailure):
+    """Raised when no player is existing"""
+    pass
+
+
 class NotGuildAdmin(commands.CheckFailure):
     """Raised when user is not the owner of the guild"""
     pass
@@ -25,35 +30,48 @@ class NotInRange(commands.BadArgument):
         self.max_int = max_int
 
 
-class NotInLength(commands.BadArgument):
-	"""Raised when string is not in length"""
-	def __init__(self, argument, min_len, max_len):
-		self.argument = argument
-		self.min_len = min_len
-		self.max_len = max_len
+class NotPrefix(commands.BadArgument):
+    """Raised when string is not in length"""
+    def __init__(self, argument, min_len, max_len):
+        self.argument = argument
 
 
 class NotBool(commands.BadArgument):
-	"""Raised when a string is not the specified bool"""
-	def __init__(self, argument, bool):
-		self.argument = argument
-		self.bool = bool
+    """Raised when a string is not the specified bool"""
+    def __init__(self, argument, bool):
+        self.argument = argument
+        self.bool = bool
 
 
 class NotNothing(commands.BadArgument):
-	"""Raised when a string is not meant to be None"""
-	def __init__(self, argument):
-		self.argument = argument
+    """Raised when a string is not meant to be None"""
+    def __init__(self, argument):
+        self.argument = argument
 
 
 class NotLanguage(commands.BadArgument):
-	"""Raised when a string is not an available language"""
-	def __init__(self, argument, available_languages):
-		self.argument = argument
-		self.available_languages = available_languages
+    """Raised when a string is not an available language"""
+    def __init__(self, argument, available_languages):
+        self.argument = argument
+        self.available_languages = available_languages
 
 
 class NotYoutubeUrl(commands.BadArgument):
-	"""Raised when a string is not a valid youtube url"""
-	def __init__(self, argument):
-		self.argument = argument
+    """Raised when a string is not a valid youtube url"""
+    def __init__(self, argument):
+        self.argument = argument
+
+
+class NotUser(commands.CheckFailure):
+    """Raised when user is a bot"""
+    pass
+
+
+class NotVoted(commands.CheckFailure):
+    """Raised when user hasn't voted on dbl"""
+    pass
+
+
+class NotRequester(commands.CheckFailure):
+    """Raised when user isn't requester of the song or isn't admin"""
+    pass

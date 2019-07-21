@@ -97,26 +97,38 @@ class Shiro(commands.Bot):
 
     def register_guild(self, guild_id):
         """Register guild to database if it is not already registered"""
-        sql = psycopg2.sql.SQL("INSERT INTO public.guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
-        self.db_cursor.execute(sql, [guild_id])
-        self.db_connector.commit()
+        try:
+            sql = psycopg2.sql.SQL("INSERT INTO public.guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
+            self.db_cursor.execute(sql, [guild_id])
+        except Exception as e:
+            self.db_connector.rollback()
+        else:
+            self.db_connector.commit()
 
     def unregister_guild(self, guild_id):
         """Unregister guild from database with all settings"""
-        sql = psycopg2.sql.SQL("DELETE FROM public.guilds WHERE id = %s")
-        self.db_cursor.execute(sql, [guild_id])
-        self.db_connector.commit()
+        try:
+            sql = psycopg2.sql.SQL("DELETE FROM public.guilds WHERE id = %s")
+            self.db_cursor.execute(sql, [guild_id])
+        except Exception as e:
+            self.db_connector.rollback()
+        else:
+            self.db_connector.commit()
 
     def update_guilds(self):
         """Add or remove guilds from database to prevent bugs"""
         for guild in self.guilds:
             self.register_guild(guild.id)
 
-        sql = psycopg2.sql.SQL("SELECT id FROM public.guilds")
-        self.db_cursor.execute(sql)
-        for guild_id in self.db_cursor.fetchall():
-            if self.get_guild(guild_id["id"]) not in self.guilds:
-                self.unregister_guild(guild_id["id"])
+        try:
+            sql = psycopg2.sql.SQL("SELECT id FROM public.guilds")
+            self.db_cursor.execute(sql)
+        except Exception as e:
+            self.db_connector.rollback()
+        else:
+            for guild_id in self.db_cursor.fetchall():
+                if self.get_guild(guild_id["id"]) not in self.guilds:
+                    self.unregister_guild(guild_id["id"])
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
@@ -134,16 +146,24 @@ class Shiro(commands.Bot):
 
     def get_guild_setting(self, guild_id, setting):
         """Get guild setting from database"""
-        sql = psycopg2.sql.SQL("SELECT {} FROM public.guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
-        self.db_cursor.execute(sql, [guild_id])
-        return self.db_cursor.fetchone()[0]
+        try:
+            sql = psycopg2.sql.SQL("SELECT {} FROM public.guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+            self.db_cursor.execute(sql, [guild_id])
+        except Exception as e:
+            self.db_connector.rollback()
+        else:
+            return self.db_cursor.fetchone()[0]
 
     def set_guild_setting(self, guild_id, setting, value):
         """Set guild setting in database to specified value"""
-        sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(
-            psycopg2.sql.Identifier(setting))
-        self.db_cursor.execute(sql, [value, guild_id])
-        self.db_connector.commit()
+        try:
+            sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(
+                psycopg2.sql.Identifier(setting))
+            self.db_cursor.execute(sql, [value, guild_id])
+        except Exception as e:
+            self.db_connector.rollback() 
+        else:
+            self.db_connector.commit()
 
     def get_random_songs(self, category, amount):
         """Get random songs from database"""

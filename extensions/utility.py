@@ -28,9 +28,9 @@ class Utility(commands.Cog):
         ping = int((time.monotonic() - ping) * 1000)
 
         embed = discord.Embed(color=7830745, title=_("**\⚠️ Status**"))
-        embed.description = _("Users: {0}\nServers: {1}\nVoice clients: {2}\n"
+        embed.description = _("Users: {0}\nServers: {1}\nPlayers: {2}\n"
                               "CPU usage: {3}%\nRAM usage: {4}%\nPing: {5}ms").format(
-            len(self.shiro.users), len(self.shiro.guilds), len(self.shiro.voice_clients),
+            len(self.shiro.users), len(self.shiro.guilds), len(self.shiro.lavalink.players),
             psutil.cpu_percent(), psutil.virtual_memory().percent, ping)
         await ctx.send(embed=embed)
 

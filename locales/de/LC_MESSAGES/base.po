@@ -306,6 +306,6 @@ msgid "**\\📄 {0} request**"
 msgstr "**\\📄 {0}-Anfrage**"
 
 #: extensions/general.py:71
-msgid "You requested [{1} ‧ {2}]({3}) to be added into the {4} quiz. Thank you for your support, our bot staff will review it."
-msgstr "Du hast [{1} ‧ {2}]({3}) für das {4}-Quiz eingereicht. Vielen Dank für deinen Support, unser Botteam wird den eingereichten Song bearbeiten."
+msgid "You requested [{0} ‧ {1}]({2}) to be added into the {3} quiz. Thank you for your support, our bot staff will review it."
+msgstr "Du hast [{0} ‧ {1}]({2}) eingereicht, um ins {3}-quiz hinzugefügt zu werden. Vielen Dank für deine Unterstützung, unser Botteam wird es sich anschauen."
 

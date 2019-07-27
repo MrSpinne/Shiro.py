@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-07-27 23:48+0200\n"
+"POT-Creation-Date: 2019-07-28 00:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,7 +73,7 @@ msgid "**\\📄 {0} request**"
 msgstr ""
 
 #: extensions/general.py:71
-msgid "You requested [{1} ‧ {2}]({3}) to be added into the {4} quiz. Thank you for your support, our bot staff will review it."
+msgid "You requested [{0} ‧ {1}]({2}) to be added into the {3} quiz. Thank you for your support, our bot staff will review it."
 msgstr ""
 
 #: extensions/settings.py:17

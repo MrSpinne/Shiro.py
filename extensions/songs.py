@@ -237,8 +237,11 @@ class Songs(commands.Cog):
     async def on_reaction_add(self, reaction, user):
         """Add user entry if he is in the voice channel"""
         player = self.shiro.lavalink.players.get(user.guild.id)
+        if not player:
+            return
+
         entries = player.fetch("entries")
-        if reaction.message.guild is not None and not user.bot and player:
+        if reaction.message.guild is not None and not user.bot:
             if reaction.message.id in entries:
                 if user.id not in entries[reaction.message.id]:
                     entries[reaction.message.id][user.id] = reaction.emoji

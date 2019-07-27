@@ -11,27 +11,19 @@ msgstr ""
 msgid "**\\📄 General**"
 msgstr "**\\📄 Generell**"
 
-#: extensions/general.py:21
+#: extensions/general.py:22
 msgid "Here're all commands for **{0}**:"
 msgstr "Hier sind alle Commands für **{0}**:"
 
-#: extensions/general.py:23
+#: extensions/general.py:24
 msgid "**\\🎵 Songs**"
 msgstr "**\\🎵 Songs**"
 
-#: extensions/general.py:24
-msgid "`{0}openingquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
-"`{0}endingquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
-"`{0}stop` ‧ Stop running quiz or playback"
-msgstr "`{0}openingquiz [1-25]` ‧ Errate Openings mit angegebener Rundenlänge\n"
-"`{0}endingquiz [1-25]` ‧ Openings sind zu easy? Erhöhe die Schwierigkeit!\n"
-"`{0}stop` ‧ Stoppe das Quiz oder die Wiedergabe"
-
-#: extensions/general.py:33
+#: extensions/general.py:35
 msgid "**\\⚙️ Settings**"
 msgstr "**\\⚙️ Einstellungen**"
 
-#: extensions/general.py:34
+#: extensions/general.py:36
 msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
 "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
@@ -43,33 +35,17 @@ msgstr "`{0}prefix <1-10 symbols>` ‧ Ändere Serverprefix\n"
 "`{0}language <{1}>` ‧ Ändere Botsprache\n"
 "`{0}config` ‧ Zeige aktuelle Konfiguration"
 
-#: extensions/general.py:45
+#: extensions/general.py:47
 msgid "**\\📄 About Shiro**"
 msgstr "**\\📄 Über Shiro**"
 
-#: extensions/general.py:47
+#: extensions/general.py:49
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n"
 "\n"
 "[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
 msgstr "Shiro wurde von **{0}** in Python programmiert. Wenn du irgendwelche Fragen hast, kannst du dich gerne melden.\n"
 "\n"
 "[Support & Feedback]({1}) ‧ [Hilf zu Übersetzen]({1}) ‧ [Vote]({2}) ‧ [Alle songs]({3})"
-
-#: extensions/general.py:57
-msgid "**\\📄 Opening request**"
-msgstr "**\\📄 Openinganfrage**"
-
-#: extensions/general.py:58
-msgid "You requested the opening `{0}` from anime `{1}` to be added into the song quiz. Thank you for your support, our bot staff will review it."
-msgstr "Du hast das Opening `{0}` vom Anime `{1}` angefragt, um ins Songquiz hinzugefügt zu werden. Vielen Dank für deine Hilfe, unsere Botteam wird den Song prüfen."
-
-#: extensions/general.py:65
-msgid "**\\📄 Ending request**"
-msgstr "**\\📄 Endinganfrage**"
-
-#: extensions/general.py:66
-msgid "You requested the ending `{0}` from anime `{1}` to be added into the song quiz. Thank you for your support, our bot staff will review it."
-msgstr "Du hast das Ending `{0}` vom Anime `{1}` angefragt, um ins Songquiz hinzugefügt zu werden. Vielen Dank für deine Hilfe, unsere Botteam wird den Song prüfen."
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
@@ -137,43 +113,43 @@ msgstr "Prefix ‧ `{0}`\n"
 msgid "`disabled`"
 msgstr "`deaktiviert`"
 
-#: extensions/songs.py:111 extensions/songs.py:137
+#: extensions/songs.py:102 extensions/songs.py:131
 msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"
 msgstr "**\\🎵 {0}quiz ‧ Runde {1}/{2}**"
 
-#: extensions/songs.py:131
+#: extensions/songs.py:123
 msgid "Nobody"
 msgstr "Niemand"
 
-#: extensions/songs.py:139
+#: extensions/songs.py:133
 msgid "{0} has won the round!\n"
 "Song: [{1} ‧ {2}]({3})"
 msgstr "{0} hat die Runde gewonnen!\n"
 "Song: [{1} ‧ {2}]({3})"
 
-#: extensions/songs.py:153
+#: extensions/songs.py:149
 msgid "**\\🎵 {0} quiz ‧ Starting**"
 msgstr "**\\🎵 {0}quiz ‧ Startet**"
 
-#: extensions/songs.py:154
+#: extensions/songs.py:150
 msgid "Get ready, the quiz will start in 3 seconds!\n"
 "{0}"
 msgstr "Macht euch bereit, dass Songquiz startet in 3 Sekunden!\n"
 "{0}"
 
-#: extensions/songs.py:176
+#: extensions/songs.py:167
 msgid "**\\🎵 {0} quiz ‧ End**"
 msgstr "**\\🎵 {0}quiz ‧ Ende**"
 
-#: extensions/songs.py:179
+#: extensions/songs.py:170
 msgid "Nobody won the song quiz! There were {0} round(s)."
 msgstr "Niemand hat das Songquiz gewonnen! Es gab {0} Runde(n)."
 
-#: extensions/songs.py:181
+#: extensions/songs.py:172
 msgid "{0} has guessed {1}/{2} songs correctly and won!"
 msgstr "{0} hat {1}/{2} Songs richtig erraten und somit gewonnen!"
 
-#: extensions/songs.py:184
+#: extensions/songs.py:175
 msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."
 msgstr "{0} haben ein Unentschieden mit {1}/{2} richtig erratenen Songs erzielt."
 
@@ -209,107 +185,127 @@ msgstr "Bot wird neugestartet."
 msgid "**\\⚠️ Status**"
 msgstr "**\\⚠️ Status**"
 
+#: extensions/utility.py:41
+msgid "**\\⚠️ Evaluation**"
+msgstr "**\\⚠️ Evaluation**"
+
+#: shiro.py:255
+msgid "\\❌ **Error on command**"
+msgstr "\\❌ **Fehler bei Command**"
+
+#: shiro.py:258
+msgid "The command `{0}` is missing the `{1}`."
+msgstr "Dem Command `{0}` fehlt `{1}`."
+
+#: shiro.py:261
+msgid "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
+msgstr "Die Zahl `{0}` ist nicht erlaubt, da sie im Bereich {1}-{2} liegen muss."
+
+#: shiro.py:264
+msgid "The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only consist out of numbers and letters."
+msgstr "Der Präfix `{0}` ist nicht erlaubt, er muss 1-10 Zeichen lang sein und kann nur aus Buchstaben und Zahlen bestehen."
+
+#: shiro.py:267
+msgid "The value `{0}` isn't allowed, it has to be on or off."
+msgstr "Der Wert `{0}` ist nicht erlaubt. Er kann nur on oder off sein."
+
+#: shiro.py:269
+msgid "The language `{0}` isn't a available language. Available languages: {1}"
+msgstr "Die Sprache `{0}` ist nicht verfügbar. Verfügbare Sprachen: {1}"
+
+#: shiro.py:272
+msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
+msgstr "Die URL `{0}` ist keine gültige YouTube-URL oder das Video wird gegeoblockt."
+
+#: shiro.py:275
+msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
+msgstr "Das Argument `{0}` im Command `{1}` muss eines von diesen sein: {2}"
+
+#: shiro.py:278
+msgid "A wrong argument were passed into the command `{0}`."
+msgstr "Ein falsches Argument wurde beim Command `{0}` angegeben."
+
+#: shiro.py:280
+msgid "The command `{0}` wasn't found. To get a list of command use `{1}`."
+msgstr "Der Command `{0}` wurde nicht gefunden. Um eine Liste von Commands zu erhalten, nutze `{1}`."
+
+#: shiro.py:283
+msgid "The command `{0}` can only be executed by admins."
+msgstr "Der Command `{0}` kann nur von Admins ausgeführt werden."
+
+#: shiro.py:286
+msgid "To use the command `{0}` you have to be in an voice channel (not afk). Also, the bot can't serve multiple channels."
+msgstr "Um den Command `{0}` zu nutzen musst du in einem Voicechannel sein (nicht AFK). Außerdem kann der Bot nicht mehrere Channel bedienen."
+
+#: shiro.py:289
+msgid "This command is only available for voters. Please [vote for free]({0}) to support this bot!"
+msgstr "Dieser Command kann nur von Votern genutzt werden. Bitte [vote kostenlos]({0}) um den Bot zu unterstützen."
+
+#: shiro.py:292
+msgid "There's no quiz to stop."
+msgstr "Es läuft kein Quiz was gestoppt werden könnte."
+
+#: shiro.py:294
+msgid "Only the user who started the quiz or an admin can stop the playback."
+msgstr "Nur der Nutzer welcher das Quiz gestartet hat oder ein Admin kann die Wiedergabe stoppen."
+
+#: shiro.py:296
+msgid "On this server commands can only be executed in channel {0}."
+msgstr "Auf diesem Server können Commands nur im Channel {0} ausgeführt werden."
+
+#: shiro.py:299
+msgid "The bot is missing permissions to execute commands, please grant: `{0}`"
+msgstr "Dem Bot fehlen die Berechtigungen, um Commands auszuführen. Fehlende Berechtigungen: `{0}`"
+
+#: shiro.py:302
+msgid "You're lacking permission to execute command `{0}`."
+msgstr "Dir fehlen die Berechtigungen, um den Befehl `{0}` auszuführen."
+
+#: shiro.py:304
+msgid "An unknown error occured on command `{0}`. We're going to fix that soon!"
+msgstr "Ein unbekannter Fehler ist beim Command `{0}` aufgetreten. Wir werden das schnellstmöglich fixen!"
+
 #: extensions/utility.py:31
 msgid "Users: {0}\n"
 "Servers: {1}\n"
-"Voice clients: {2}\n"
+"Audio players: {2}\n"
 "CPU usage: {3}%\n"
 "RAM usage: {4}%\n"
 "Ping: {5}ms"
 msgstr "User: {0}\n"
 "Server: {1}\n"
-"Voice Clients: {2}\n"
+"Audio-Player: {2}\n"
 "CPU-Nutzung: {3}%\n"
 "RAM-Nutzung: {4}%\n"
 "Ping: {5}ms"
 
-#: extensions/utility.py:41
-msgid "**\\⚠️ Evaluation**"
-msgstr "**\\⚠️ Evaluation**"
-
-#: shiro.py:217
-msgid "\\❌ **Error on command**"
-msgstr "\\❌ **Fehler bei Command**"
-
-#: shiro.py:220
-msgid "The command `{0}` is missing the `{1}`."
-msgstr "Dem Command `{0}` fehlt `{1}`."
-
-#: shiro.py:223
-msgid "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
-msgstr "Die Zahl `{0}` ist nicht erlaubt, da sie im Bereich {1}-{2} liegen muss."
-
-#: shiro.py:226
-msgid "The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only consist out of numbers and letters."
-msgstr "Der Präfix `{0}` ist nicht erlaubt, er muss 1-10 Zeichen lang sein und kann nur aus Buchstaben und Zahlen bestehen."
-
-#: shiro.py:229
-msgid "The value `{0}` isn't allowed, it has to be on or off."
-msgstr "Der Wert `{0}` ist nicht erlaubt. Er kann nur on oder off sein."
-
-#: shiro.py:231
-msgid "The language `{0}` isn't a available language. Available languages: {1}"
-msgstr "Die Sprache `{0}` ist nicht verfügbar. Verfügbare Sprachen: {1}"
-
-#: shiro.py:234
-msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
-msgstr "Die URL `{0}` ist keine gültige YouTube-URL oder das Video wird gegeoblockt."
-
-#: shiro.py:237
-msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
-msgstr "Das Argument `{0}` im Command `{1}` muss eines von diesen sein: {2}"
-
-#: shiro.py:240
-msgid "A wrong argument were passed into the command `{0}`."
-msgstr "Ein falsches Argument wurde beim Command `{0}` angegeben."
-
-#: shiro.py:242
-msgid "The command `{0}` wasn't found. To get a list of command use `{1}`."
-msgstr "Der Command `{0}` wurde nicht gefunden. Um eine Liste von Commands zu erhalten, nutze `{1}`."
-
-#: shiro.py:245
-msgid "The command `{0}` can only be executed by admins."
-msgstr "Der Command `{0}` kann nur von Admins ausgeführt werden."
-
-#: shiro.py:248
-msgid "To use the command `{0}` you have to be in an voice channel (not afk). Also, the bot can't serve multiple channels."
-msgstr "Um den Command `{0}` zu nutzen musst du in einem Voicechannel sein (nicht AFK). Außerdem kann der Bot nicht mehrere Channel bedienen."
-
-#: shiro.py:251
-msgid "This command is only available for voters. Please [vote for free]({0}) to support this bot!"
-msgstr "Dieser Command kann nur von Votern genutzt werden. Bitte [vote kostenlos]({0}) um den Bot zu unterstützen."
-
-#: shiro.py:254
-msgid "There's no quiz to stop."
-msgstr "Es läuft kein Quiz was gestoppt werden könnte."
-
-#: shiro.py:256
-msgid "Only the user who started the quiz or an admin can stop the playback."
-msgstr "Nur der Nutzer welcher das Quiz gestartet hat oder ein Admin kann die Wiedergabe stoppen."
-
-#: shiro.py:258
-msgid "On this server commands can only be executed in channel {0}."
-msgstr "Auf diesem Server können Commands nur im Channel {0} ausgeführt werden."
-
-#: shiro.py:263
-msgid "The bot is missing permissions to execute commands, please grant: `{0}`"
-msgstr "Dem Bot fehlen die Berechtigungen, um Commands auszuführen. Fehlende Berechtigungen: `{0}`"
-
-#: shiro.py:266
-msgid "You're lacking permission to execute command `{0}`."
-msgstr "Dir fehlen die Berechtigungen, um den Befehl `{0}` auszuführen."
-
-#: shiro.py:268
-msgid "An unknown error occured on command `{0}`. We're going to fix that soon!"
-msgstr "Ein unbekannter Fehler ist beim Command `{0}` aufgetreten. Wir werden das schnellstmöglich fixen!"
-
 #: extensions/general.py:16
 msgid "`{0}help` ‧ Display all commands\n"
 "`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
-"`{0}openingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request opening for quiz\n"
-"`{0}endingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request ending for quiz"
-msgstr "`{0}help` ‧ Zeige alle Commands\n"
+"`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request opening for quiz\n"
+"`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request ending for quiz\n"
+"`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request OST for quiz"
+msgstr "`{0}help` ‧ Zeige alle Commmands\n"
 "`{0}info` ‧ Zeige Botautor und Links (z.B. Supportserver)\n"
-"`{0}openingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Reiche Opening für Songquiz ein\n"
-"`{0}endingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Reiche Ending für Songquiz ein"
+"`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Reiche Opening für Quiz ein\n"
+"`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Reiche Ending für Quiz ein\n"
+"`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Reiche OST für Quiz ein"
+
+#: extensions/general.py:25
+msgid "`{0}opquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
+"`{0}edquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
+"`{0}ostquiz [1-25]` ‧ Guess OST's from Nintendo games!\n"
+"`{0}stop` ‧ Stop running quiz or playback"
+msgstr "`{0}opquiz [1-25]` ‧ Errate Openings mit angegebener Rundenlänge\n"
+"`{0}edquiz [1-25]` ‧ Openings sind zu easy? Erhöhe die Schwierigkeit!\n"
+"`{0}ostquiz [1-25]` ‧ Schwelge in Nostalgie mit OST's\n"
+"`{0}stop` ‧ Stoppe das Quiz oder die Wiedergabe"
+
+#: extensions/general.py:70
+msgid "**\\📄 {0} request**"
+msgstr "**\\📄 {0}-Anfrage**"
+
+#: extensions/general.py:71
+msgid "You requested [{1} ‧ {2}]({3}) to be added into the {4} quiz. Thank you for your support, our bot staff will review it."
+msgstr "Du hast [{1} ‧ {2}]({3}) für das {4}-Quiz eingereicht. Vielen Dank für deinen Support, unser Botteam wird den eingereichten Song bearbeiten."
 

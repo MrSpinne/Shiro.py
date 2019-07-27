@@ -15,14 +15,16 @@ class General(commands.Cog):
         embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
         embed.description = _("`{0}help` ‧ Display all commands\n"
                               "`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
-                              "`{0}openingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request opening for quiz\n"
-                              "`{0}endingrequest \"<song>\" \"<anime>\" \"<youtube url>\"` ‧ Request ending for quiz"
+                              "`{0}opgrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request opening for quiz\n"
+                              "`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request ending for quiz\n"
+                              "`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request OST for quiz"
                               ).format(ctx.prefix)
         await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
 
         embed = discord.Embed(color=7830745, title=_("**\🎵 Songs**"))
-        embed.description = _("`{0}openingquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
-                              "`{0}endingquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
+        embed.description = _("`{0}opquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
+                              "`{0}edquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
+                              "`{0}ostquiz [1-25]` ‧ Guess OST's from Nintendo games!"
                               "`{0}stop` ‧ Stop running quiz or playback").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
@@ -38,7 +40,7 @@ class General(commands.Cog):
                               "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
         await ctx.author.send(embed=embed)
 
-    @commands.command(aliases=["credits", "about"])
+    @commands.command(aliases=["information", "about", "credits", "spinne", "shiro"])
     async def info(self, ctx):
         """Show credits of the bot"""
         owner = f"{self.shiro.app_info.owner.name}#{self.shiro.app_info.owner.discriminator}"
@@ -50,20 +52,28 @@ class General(commands.Cog):
             owner, "https://discord.gg/5z4z8kh", "https://discordbots.org/bot/593116701281746955/vote", self.shiro.songs_list_url)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["oprequest", "requestopening"])
-    async def openingrequest(self, ctx, title, anime, youtube_url: converters.YoutubeUrl):
+    @commands.command(aliases=["openingrequest", "openingreq", "opreq"])
+    async def oprequest(self, ctx, title, anime, yt_url: converters.YoutubeUrl):
         """Request a song for the songquiz"""
-        await self.do_request(ctx, title, anime, youtube_url, "Opening")
+        await self.do_request(ctx, title, anime, yt_url, "Opening")
         embed = discord.Embed(color=7830745, title=_("**\📄 Opening request**"))
         embed.description = _("You requested the opening `{0}` from anime `{1}` to be added into the song quiz. "
                               "Thank you for your support, our bot staff will review it.").format(title, anime)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["endrequest", "requestending"])
-    async def endingrequest(self, ctx, title, anime, youtube_url: converters.YoutubeUrl):
-        await self.do_request(ctx, title, anime, youtube_url, "Ending")
+    @commands.command(aliases=["endingrequest", "endingreq", "edreq"])
+    async def edrequest(self, ctx, title, anime, yt_url: converters.YoutubeUrl):
+        await self.do_request(ctx, title, anime, yt_url, "Ending")
         embed = discord.Embed(color=7830745, title=_("**\📄 Ending request**"))
         embed.description = _("You requested the ending `{0}` from anime `{1}` to be added into the song quiz. "
+                              "Thank you for your support, our bot staff will review it.").format(title, anime)
+        await ctx.send(embed=embed)
+
+    @commands.command(aliases=["ostreq"])
+    async def ostrequest(self, ctx, title, anime, yt_url: converters.YoutubeUrl):
+        await self.do_request(ctx, title, anime, yt_url, "OST")
+        embed = discord.Embed(color=7830745, title=_("**\📄 OST request**"))
+        embed.description = _("You requested the OST `{0}` from game `{1}` to be added into the song quiz. "
                               "Thank you for your support, our bot staff will review it.").format(title, anime)
         await ctx.send(embed=embed)
 
@@ -112,7 +122,7 @@ class General(commands.Cog):
             fields = embeds[0].fields
             title = fields[0].value
             reference = fields[1].value
-            category = fields[2].value.lower()
+            category = fields[2].value
             url = fields[3].value
             self.shiro.add_song(title, reference, url, category)
             await message.add_reaction("✅")

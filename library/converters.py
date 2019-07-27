@@ -2,7 +2,7 @@ from discord.ext import commands
 from library import exceptions
 
 import pycountry
-import requests
+import re
 
 
 class RangeInt(commands.Converter):
@@ -84,6 +84,8 @@ class YoutubeUrl(commands.Converter):
     async def convert(self, ctx, argument):
         results = await ctx.bot.lavalink.get_tracks(argument)
         if results and results["tracks"]:
-            return argument
+            video_id = re.search("((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)", argument)[0]
+            video_url = f"https://www.youtube.com/watch?v={video_id}"
+            return video_url
 
         raise exceptions.NotYoutubeUrl(argument)

@@ -13,6 +13,7 @@ import builtins
 import sentry_sdk.integrations.aiohttp
 import logging
 import dbl
+import ddblapi
 import pbwrap
 import os
 import lavalink
@@ -23,7 +24,7 @@ class Shiro(commands.Bot):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None)
         builtins.__dict__["_"] = self.translate
         self.credentials, self.db_connector, self.db_cursor, self.app_info = None, None, None, None
-        self.sentry, self.songs_list_url, self.lavalink, self.dbl = sentry_sdk, None, None, None
+        self.sentry, self.songs_list_url, self.lavalink, self.dbl, self.ddbl = sentry_sdk, None, None, None, None
         self.startup()
 
     def startup(self):
@@ -42,6 +43,7 @@ class Shiro(commands.Bot):
         self.update_guilds()
         self.connect_lavalink()
         self.dbl = dbl.Client(self, self.credentials["discordbots"]["api_key"])
+        self.ddbl = ddblapi.DivineAPI(self.user.id, self.credentials["divinediscordbots"]["api_key"])
         self.load_all_extensions()
         self.update_status.start()
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
@@ -132,8 +134,6 @@ class Shiro(commands.Bot):
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
-        self.add_check(checks.guild_only)
-        self.add_check(checks.is_user)
         self.add_check(checks.channel_only)
         self.add_check(checks.bot_has_permissions)
         self.before_invoke(self.delete_command)
@@ -149,7 +149,7 @@ class Shiro(commands.Bot):
         try:
             sql = psycopg2.sql.SQL("SELECT {} FROM public.guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
             self.db_cursor.execute(sql, [guild_id])
-        except Exception as e:
+        except:
             self.db_connector.rollback()
         else:
             return self.db_cursor.fetchone()[0]
@@ -157,36 +157,51 @@ class Shiro(commands.Bot):
     def set_guild_setting(self, guild_id, setting, value):
         """Set guild setting in database to specified value"""
         try:
-            sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(
-                psycopg2.sql.Identifier(setting))
+            sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
             self.db_cursor.execute(sql, [value, guild_id])
-        except Exception as e:
+        except:
             self.db_connector.rollback() 
         else:
             self.db_connector.commit()
 
     def get_random_songs(self, category, amount):
         """Get random songs from database"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
-        self.db_cursor.execute(sql, [category, amount])
-        return self.db_cursor.fetchall()
+        try:
+            sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
+            self.db_cursor.execute(sql, [category, amount])
+        except:
+            self.db_connector.rollback()
+        else:
+            return self.db_cursor.fetchall()
 
     def get_choice_songs(self, category, exclusion):
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
-        self.db_cursor.execute(sql, [category, exclusion])
-        return self.db_cursor.fetchall()
+        try:
+            sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
+            self.db_cursor.execute(sql, [category, exclusion])
+        except:
+            self.db_connector.rollback()
+        else:
+            return self.db_cursor.fetchall()
 
     def get_all_songs(self):
         """Get all songs from database in alphabetic order"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY reference")
-        self.db_cursor.execute(sql)
-        return self.db_cursor.fetchall()
+        try:
+            sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY reference")
+            self.db_cursor.execute(sql)
+        except:
+            self.db_connector.rollback()
+        else:
+            return self.db_cursor.fetchall()
 
     def add_song(self, title, reference, url, category):
         """Add a song to the database"""
-        sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
-        self.db_cursor.execute(sql, [title, reference, url, category])
-        self.db_connector.commit()
+        try:
+            sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
+            self.db_cursor.execute(sql, [title, reference, url, category])
+        except:
+            self.db_connector.rollback()
+        else:
+            self.db_connector.commit()
 
     def get_languages(self):
         """Get all languages found in locales"""
@@ -204,7 +219,10 @@ class Shiro(commands.Bot):
 
     async def on_message(self, message):
         """Send help if bot is mentioned"""
-        if self.user in message.mentions and message.guild is not None:
+        if message.guild is None or message.author.bot:
+            return
+
+        if self.user in message.mentions:
             ctx = await self.get_context(message)
             ctx.prefix = self.get_guild_setting(message.guild.id, "prefix")
             ctx.command = self.get_command("help")
@@ -277,8 +295,6 @@ class Shiro(commands.Bot):
         elif isinstance(error, exceptions.SpecificChannelOnly):
             embed.description = _("On this server commands can only be executed in channel {0}.").format(
                 error.channel.mention)
-        elif isinstance(error, commands.NoPrivateMessage) or isinstance(error, exceptions.NotUser):
-            return
         elif isinstance(error, commands.BotMissingPermissions):
             embed.description = _("The bot is missing permissions to execute commands, please grant: `{0}`").format(
                 ", ".join(error.missing_perms))
@@ -303,6 +319,7 @@ class Shiro(commands.Bot):
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         await self.dbl.post_guild_count()
+        await self.ddbl.post_stats(len(self.guilds))
 
     @tasks.loop(hours=3)
     async def update_songs_list(self):

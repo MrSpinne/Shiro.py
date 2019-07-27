@@ -51,14 +51,6 @@ def is_guild_admin(ctx):
     return True
 
 
-def guild_only(ctx):
-    """Check if command sent in guild"""
-    if ctx.guild is None:
-        raise commands.NoPrivateMessage
-
-    return True
-
-
 def channel_only(ctx):
     """If enabled only allow command response in specified channel"""
     allowed_channel = ctx.bot.get_channel(ctx.bot.get_guild_setting(ctx.guild.id, "channel_only"))
@@ -79,14 +71,6 @@ def bot_has_permissions(ctx):
     missing = [permission for permission in permissions if getattr(channel_permissions, permission, None) is False]
     if missing:
         raise commands.BotMissingPermissions(missing)
-
-    return True
-
-
-def is_user(ctx):
-    """Check if user isn't a bot"""
-    if ctx.author.bot:
-        raise exceptions.NotUser
 
     return True
 

@@ -5,6 +5,7 @@ sentry-sdk
 pycountry
 typing
 dblpy
+pyddblapi
 psutil
 pbwrap
 lavalink

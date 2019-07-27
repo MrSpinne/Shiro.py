@@ -319,7 +319,8 @@ class Shiro(commands.Bot):
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         await self.dbl.post_guild_count()
-        await self.ddbl.post_stats(len(self.guilds))
+        test = await self.ddbl.post_stats(len(self.guilds))
+        print(test)
 
     @tasks.loop(hours=3)
     async def update_songs_list(self):

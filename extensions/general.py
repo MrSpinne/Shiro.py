@@ -68,7 +68,7 @@ class General(commands.Cog):
     async def do_request(self, ctx, title, reference, url, category):
         """Request a song for specified category"""
         embed = discord.Embed(color=7830745, title=_("**\📄 {0} request**").format(category))
-        embed.description = _("You requested [{1} ‧ {2}]({3}) to be added into the {4} quiz. "
+        embed.description = _("You requested [{0} ‧ {1}]({2}) to be added into the {3} quiz. "
                               "Thank you for your support, our bot staff will review it.").format(title, reference, url, category)
         await ctx.send(embed=embed)
 

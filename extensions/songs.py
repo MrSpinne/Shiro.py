@@ -186,13 +186,13 @@ class Songs(commands.Cog):
 
     @commands.command(aliases=["endingquiz", "endings"])
     @commands.check(checks.voice_available)
-    @commands.check(checks.has_voted)
     async def edquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Openings are too easy for you? This is next level!"""
         await self.run_quiz(ctx, "Ending", rounds)
 
     @commands.command(aliases=["osts"])
     @commands.check(checks.voice_available)
+    @commands.check(checks.has_voted)
     async def ostquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Guess OST's from Nintendo games!"""
         await self.run_quiz(ctx, "OST", rounds)

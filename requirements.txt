@@ -11,3 +11,4 @@ pbwrap
 lavalink
 aiodns
 cchardet
+PyMoe

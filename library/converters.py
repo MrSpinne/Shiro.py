@@ -89,3 +89,8 @@ class YoutubeUrl(commands.Converter):
             return video_url
 
         raise exceptions.NotYoutubeUrl(argument)
+
+
+class Anime(commands.ColourConverter):
+    """Convert to anime"""
+    async def convert(self, ctx, argument):

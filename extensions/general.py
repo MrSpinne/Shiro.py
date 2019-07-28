@@ -28,7 +28,7 @@ class General(commands.Cog):
                               "`{0}stop` ‧ Stop running quiz or playback").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
-        if ctx.author is not ctx.guild.owner:
+        if not checks.is_guild_admin(ctx):
             return
 
         languages = "/".join(self.shiro.get_languages())
@@ -39,6 +39,9 @@ class General(commands.Cog):
                               "`{0}language <{1}>` ‧ Change bot language\n"
                               "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
         await ctx.author.send(embed=embed)
+
+        if not checks.is_team_member(ctx):
+            return
 
     @commands.command(aliases=["information", "about", "credits", "spinne", "shiro"])
     async def info(self, ctx):

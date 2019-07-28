@@ -35,18 +35,22 @@ def player_available(ctx):
     return True
 
 
-def is_bot_owner(ctx):
-    """Check if user is the bot owner"""
-    if ctx.author != ctx.bot.app_info.owner:
-        raise commands.NotOwner
-
-    return True
-
-
 def is_guild_admin(ctx):
     """Check if user is the guild owner"""
     if not getattr(ctx.author.guild_permissions, "administrator", None):
         raise exceptions.NotGuildAdmin
+
+    return True
+
+
+def is_team_member(ctx):
+    """Check if user is team member of bot"""
+    if ctx.guild.id != 600761022089003021:
+        raise commands.CommandNotFound
+
+    role_ids = [role.id for role in ctx.author.roles]
+    if ctx.author != ctx.bot.app_info.owner and (601376061418373141 not in role_ids or 601503055816687628 not in role_ids):
+        raise exceptions.NotTeamMember
 
     return True
 
@@ -65,8 +69,8 @@ def bot_has_permissions(ctx):
     guild = ctx.guild
     me = guild.me if guild is not None else ctx.bot.user
     channel_permissions = ctx.channel.permissions_for(me)
-    permissions = ["add_reactions", "read_messages", "send_messages", "manage_messages", "embed_links", "attach_files",
-                   "read_message_history"]
+    permissions = ["add_reactions", "read_messages", "send_messages",
+                   "manage_messages", "embed_links", "read_message_history"]
 
     missing = [permission for permission in permissions if getattr(channel_permissions, permission, None) is False]
     if missing:

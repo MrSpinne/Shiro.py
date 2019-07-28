@@ -62,11 +62,6 @@ class NotYoutubeUrl(commands.BadArgument):
         self.argument = argument
 
 
-class NotUser(commands.CheckFailure):
-    """Raised when user is a bot"""
-    pass
-
-
 class NotVoted(commands.CheckFailure):
     """Raised when user hasn't voted on dbl"""
     pass
@@ -74,4 +69,9 @@ class NotVoted(commands.CheckFailure):
 
 class NotRequester(commands.CheckFailure):
     """Raised when user isn't requester of the song or isn't admin"""
+    pass
+
+
+class NotTeamMember(commands.CheckFailure):
+    """Raised when user isn't a team member"""
     pass

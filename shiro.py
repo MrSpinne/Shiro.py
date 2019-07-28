@@ -26,6 +26,7 @@ class Shiro(commands.Bot):
         self.credentials, self.db_connector, self.db_cursor, self.app_info = None, None, None, None
         self.sentry, self.songs_list_url, self.lavalink, self.dbl, self.ddbl = sentry_sdk, None, None, None, None
         self.startup()
+        self.can_run()
 
     def startup(self):
         """Prepare start"""
@@ -46,6 +47,8 @@ class Shiro(commands.Bot):
         self.ddbl = ddblapi.DivineAPI(self.user.id, self.credentials["divinediscordbots"]["api_key"])
         self.load_all_extensions()
         self.update_status.start()
+        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
+        await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
     def translate(self, string):
@@ -102,7 +105,7 @@ class Shiro(commands.Bot):
         try:
             sql = psycopg2.sql.SQL("INSERT INTO public.guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
             self.db_cursor.execute(sql, [guild_id])
-        except Exception as e:
+        except:
             self.db_connector.rollback()
         else:
             self.db_connector.commit()
@@ -112,7 +115,7 @@ class Shiro(commands.Bot):
         try:
             sql = psycopg2.sql.SQL("DELETE FROM public.guilds WHERE id = %s")
             self.db_cursor.execute(sql, [guild_id])
-        except Exception as e:
+        except:
             self.db_connector.rollback()
         else:
             self.db_connector.commit()
@@ -125,7 +128,7 @@ class Shiro(commands.Bot):
         try:
             sql = psycopg2.sql.SQL("SELECT id FROM public.guilds")
             self.db_cursor.execute(sql)
-        except Exception as e:
+        except:
             self.db_connector.rollback()
         else:
             for guild_id in self.db_cursor.fetchall():
@@ -276,12 +279,13 @@ class Shiro(commands.Bot):
                 error.param.name, ctx.message.content, converter_names)
         elif isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
             embed.description = _("A wrong argument were passed into the command `{0}`.").format(ctx.message.content)
-        elif isinstance(error, commands.CommandNotFound) or isinstance(error, commands.NotOwner):
+        elif isinstance(error, commands.CommandNotFound):
             embed.description = _("The command `{0}` wasn't found. To get a list of command use `{1}`.").format(
                 ctx.message.content, f"{ctx.prefix}help")
+        elif isinstance(error, exceptions.NotTeamMember):
+            embed.description = _("The command `{0}` can only be executed by team members.").format(ctx.message.content)
         elif isinstance(error, exceptions.NotGuildAdmin):
-            embed.description = _("The command `{0}` can only be executed by admins.").format(
-                ctx.message.content)
+            embed.description = _("The command `{0}` can only be executed by admins.").format(ctx.message.content)
         elif isinstance(error, exceptions.NoVoice):
             embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
                                   "Also, the bot can't serve multiple channels.").format(ctx.message.content)
@@ -300,8 +304,14 @@ class Shiro(commands.Bot):
                 ", ".join(error.missing_perms))
         elif isinstance(error, commands.CheckFailure):
             embed.description = _("You're lacking permission to execute command `{0}`.").format(ctx.message.content)
+        elif isinstance(error, commands.ExpectedClosingQuoteError):
+            embed.description = _("You messed up quotation on `{0}`. If you use `\"`, you have to close it. If you "
+                                  "want to use it as an input, escape it with `\\`").format(ctx.message.content)
+        elif isinstance(error, commands.InvalidEndOfQuotedStringError):
+            embed.description = _("You messed up quotation on `{0}`. You have to separate the quoted arguments "
+                                  "with spaces.").format(ctx.message.content)
         else:
-            embed.description = _("An unknown error occured on command `{0}`. We're going to fix that soon!").format(
+            embed.description = _("An unknown error occurred on command `{0}`. We're going to fix that soon!").format(
                 ctx.message.content)
             logging.error(error)
             self.sentry.capture_exception(error)
@@ -315,12 +325,9 @@ class Shiro(commands.Bot):
 
     @tasks.loop(minutes=30)
     async def update_status(self):
-        """Update status every 5 minutes"""
-        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
-        await self.change_presence(activity=activity)
+        """Update status every 30 minutes"""
         await self.dbl.post_guild_count()
-        test = await self.ddbl.post_stats(len(self.guilds))
-        print(test)
+        await self.ddbl.post_stats(len(self.guilds))
 
     @tasks.loop(hours=3)
     async def update_songs_list(self):

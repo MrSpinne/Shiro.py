@@ -28,16 +28,16 @@ class Songs(commands.Cog):
 
     async def on_lavalink_event(self, event):
         """Track events raised by lavalink"""
-    if isinstance(event, lavalink.events.QueueEndEvent) or isinstance(event, lavalink.events.TrackStuckEvent) or \
-            isinstance(event, lavalink.events.TrackExceptionEvent):
-        await self.connect_to(event.player.guild_id, None)
-        self.shiro.lavalink.players.remove(int(event.player.guild_id))
+        if isinstance(event, lavalink.events.QueueEndEvent) or isinstance(event, lavalink.events.TrackStuckEvent) or \
+                isinstance(event, lavalink.events.TrackExceptionEvent):
+            await self.connect_to(event.player.guild_id, None)
+            self.shiro.lavalink.players.remove(int(event.player.guild_id))
 
-    elif isinstance(event, lavalink.events.TrackStartEvent):
-        count = event.player.fetch("count")
-        event.player.store("count", count + 1)
-        if event.player.fetch("end"):
-            self.stop_playback(event.player.fetch("ctx"))
+        elif isinstance(event, lavalink.events.TrackStartEvent):
+            count = event.player.fetch("count")
+            event.player.store("count", count + 1)
+            if event.player.fetch("end"):
+                self.stop_playback(event.player.fetch("ctx"))
 
     async def connect_to(self, guild_id, channel_id):
         """Connects to voice channel, if None disconnects"""

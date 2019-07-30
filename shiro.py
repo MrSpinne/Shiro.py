@@ -343,13 +343,16 @@ class Shiro(commands.Bot):
     async def update_songs_list(self):
         """Dump all songs in database to google sheet"""
         songs = self.get_all_songs()
-        sheet = self.gspread.open("Shiro's Songs").sheet1
-        sheet.resize(1)
-        sheet.resize(len(songs) + 1)
+        sheet = self.gspread.open("Shiro's Songs")
+        formatted = []
 
         for song in songs:
-            sheet.append_row([song["id"], song["title"], song["reference"], song["url"], song["category"],
+            formatted.append([song["id"], song["title"], song["reference"], song["url"], song["category"],
                               song["updated"].strftime("%d. %B %Y - %H:%M:%S")])
+
+        sheet.sheet1.resize(1)
+        sheet.sheet1.resize(len(formatted) + 1)
+        sheet.values_update("List!A2", params={"valueInputOption": "RAW"}, body={"values": formatted})
 
 
 shiro = Shiro()

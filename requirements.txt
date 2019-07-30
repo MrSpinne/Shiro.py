@@ -5,9 +5,12 @@ sentry-sdk
 pycountry
 typing
 dblpy
-pyddblapi
 psutil
-pbwrap
 lavalink
 aiodns
 cchardet
+PyMoe
+aiohttp
+gspread
+oauth2client
+PyOpenSSL

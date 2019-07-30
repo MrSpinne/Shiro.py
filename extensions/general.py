@@ -28,7 +28,9 @@ class General(commands.Cog):
                               "`{0}stop` ‧ Stop running quiz or playback").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
-        if not checks.is_guild_admin(ctx):
+        try:
+            checks.is_guild_admin(ctx)
+        except:
             return
 
         languages = "/".join(self.shiro.get_languages())
@@ -40,7 +42,9 @@ class General(commands.Cog):
                               "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
         await ctx.author.send(embed=embed)
 
-        if not checks.is_team_member(ctx):
+        try:
+            checks.is_team_member(ctx)
+        except:
             return
 
         embed = discord.Embed(color=7830745, title=_("**\\🔧 Utility**"))

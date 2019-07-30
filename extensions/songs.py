@@ -28,8 +28,8 @@ class Songs(commands.Cog):
 
     async def on_lavalink_event(self, event):
         """Track events raised by lavalink"""
-    if isinstance(event, lavalink.events.QueueEndEvent) or isinstance(event, lavalink.events.TrackStuckEvent) \
-            or isinstance(event, lavalink.events.TrackExceptionEvent):
+    if isinstance(event, lavalink.events.QueueEndEvent) or isinstance(event, lavalink.events.TrackStuckEvent) or \
+            isinstance(event, lavalink.events.TrackExceptionEvent):
         await self.connect_to(event.player.guild_id, None)
         self.shiro.lavalink.players.remove(int(event.player.guild_id))
 

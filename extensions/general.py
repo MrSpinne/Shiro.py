@@ -12,7 +12,7 @@ class General(commands.Cog):
     @commands.command(aliases=["?", "cmd", "cmds", "command", "commands"])
     async def help(self, ctx):
         """Display all commands"""
-        embed = discord.Embed(color=7830745, title=_("**\📄 General**"))
+        embed = discord.Embed(color=7830745, title=_("**\\📄 General**"))
         embed.description = _("`{0}help` ‧ Display all commands\n"
                               "`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
                               "`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request opening for quiz\n"
@@ -21,10 +21,10 @@ class General(commands.Cog):
                               ).format(ctx.prefix)
         await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
 
-        embed = discord.Embed(color=7830745, title=_("**\🎵 Songs**"))
+        embed = discord.Embed(color=7830745, title=_("**\\🎵 Songs**"))
         embed.description = _("`{0}opquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
                               "`{0}edquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
-                              "`{0}ostquiz [1-25]` ‧ Guess OST's from Nintendo games!\n"
+                              "`{0}ostquiz [1-25]` ‧ Guess OST's from animes! Only for pros.\n"
                               "`{0}stop` ‧ Stop running quiz or playback").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
@@ -32,7 +32,7 @@ class General(commands.Cog):
             return
 
         languages = "/".join(self.shiro.get_languages())
-        embed = discord.Embed(color=7830745, title=_("**\⚙️ Settings**"))
+        embed = discord.Embed(color=7830745, title=_("**\\⚙️ Settings**"))
         embed.description = _("`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
                               "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
                               "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
@@ -43,39 +43,49 @@ class General(commands.Cog):
         if not checks.is_team_member(ctx):
             return
 
+        embed = discord.Embed(color=7830745, title=_("**\\🔧 Utility**"))
+        embed.description = _("`{0}search <query>` ‧ Search for songs in database\n").format(ctx.prefix)
+        await ctx.author.send(embed=embed)
+
     @commands.command(aliases=["information", "about", "credits", "spinne", "shiro"])
     async def info(self, ctx):
         """Show credits of the bot"""
         owner = f"{self.shiro.app_info.owner.name}#{self.shiro.app_info.owner.discriminator}"
-        embed = discord.Embed(color=7830745, title=_("**\📄 About Shiro**"))
+        embed = discord.Embed(color=7830745, title=_("**\\📄 About Shiro**"))
         embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
         embed.description = _("Shiro were made by **{0}** in Python. If you have any questions, feel free "
                               "to contact.\n\n[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ "
                               "[Vote]({2}) ‧ [All songs]({3})").format(
-            owner, "https://discord.gg/5z4z8kh", "https://discordbots.org/bot/593116701281746955/vote", self.shiro.songs_list_url)
+            owner, "https://discord.gg/5z4z8kh", "https://discordbots.org/bot/593116701281746955/vote",
+            "https://docs.google.com/spreadsheets/d/1S8u-V3LBMSzf8g78ZEE1I7_YT8SSFa8ROpXysoqvSFg")
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["openingrequest", "openingreq", "opreq"])
-    async def oprequest(self, ctx, title, anime, yt_url: converters.YoutubeUrl):
-        """Request a song for the songquiz"""
+    @commands.cooldown(1, 30, commands.BucketType.user)
+    async def oprequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+        """Request a song for the song quiz"""
         await self.do_request(ctx, title, anime, yt_url, "Opening")
 
     @commands.command(aliases=["endingrequest", "endingreq", "edreq"])
-    async def edrequest(self, ctx, title, anime, yt_url: converters.YoutubeUrl):
+    @commands.cooldown(1, 30, commands.BucketType.user)
+    async def edrequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+        """Request a song for the ending quiz"""
         await self.do_request(ctx, title, anime, yt_url, "Ending")
 
     @commands.command(aliases=["ostreq"])
-    async def ostrequest(self, ctx, title, anime, yt_url: converters.YoutubeUrl):
+    @commands.cooldown(1, 30, commands.BucketType.user)
+    async def ostrequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+        """Request a song for the ost quiz"""
         await self.do_request(ctx, title, anime, yt_url, "OST")
 
     async def do_request(self, ctx, title, reference, url, category):
         """Request a song for specified category"""
-        embed = discord.Embed(color=7830745, title=_("**\📄 {0} request**").format(category))
+        embed = discord.Embed(color=7830745, title=_("**\\📄 {0} request**").format(category))
         embed.description = _("You requested [{0} ‧ {1}]({2}) to be added into the {3} quiz. "
                               "Thank you for your support, our bot staff will review it.").format(title, reference, url, category)
         await ctx.send(embed=embed)
 
-        embed = discord.Embed(color=7830745, title="**\⚠️ New song request**")
+        embed = discord.Embed(color=7830745, title="**\\⚠️ New song request**")
         embed.description = f"User **{ctx.author.name}#{ctx.author.discriminator}** requested a song."
         embed.add_field(name="Title", value=title)
         embed.add_field(name="Reference", value=reference)
@@ -111,7 +121,7 @@ class General(commands.Cog):
         embeds = message.embeds
         if embeds is None:
             return
-        if embeds[0].title != "**\⚠️ New song request**":
+        if embeds[0].title != "**\\⚠️ New song request**":
             return
 
         if payload.emoji.name == "👍🏻":

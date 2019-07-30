@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from library import exceptions, checks
+from library import exceptions, checks, statposter
 
 import json
 import psycopg2.extras
@@ -13,20 +13,21 @@ import builtins
 import sentry_sdk.integrations.aiohttp
 import logging
 import dbl
-import ddblapi
-import pbwrap
 import os
 import lavalink
+import Pymoe
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 class Shiro(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None)
+        super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
-        self.credentials, self.db_connector, self.db_cursor, self.app_info = None, None, None, None
-        self.sentry, self.songs_list_url, self.lavalink, self.dbl, self.ddbl = sentry_sdk, None, None, None, None
+        self.credentials, self.db_connector, self.db_cursor, self.app_info, self.gspread = None, None, None, None, None
+        self.sentry, self.lavalink, self.dbl, self.statposter = sentry_sdk, None, None, None
+        self.anilist = Pymoe.Anilist()
         self.startup()
-        self.can_run()
 
     def startup(self):
         """Prepare start"""
@@ -35,6 +36,7 @@ class Shiro(commands.Bot):
         self.sentry.init(dsn=self.credentials["sentry"]["dsn"],
                          integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
         self.connect_database()
+        self.connect_gspread()
         self.add_command_handlers()
         self.update_songs_list.start()
 
@@ -43,12 +45,10 @@ class Shiro(commands.Bot):
         self.app_info = await self.application_info()
         self.update_guilds()
         self.connect_lavalink()
-        self.dbl = dbl.Client(self, self.credentials["discordbots"]["api_key"])
-        self.ddbl = ddblapi.DivineAPI(self.user.id, self.credentials["divinediscordbots"]["api_key"])
+        self.dbl = dbl.Client(self, self.credentials["bot_list_tokens"]["discordbots"])
+        self.statposter = statposter.StatPoster(self)
         self.load_all_extensions()
         self.update_status.start()
-        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
-        await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
     def translate(self, string):
@@ -95,45 +95,34 @@ class Shiro(commands.Bot):
             self.db_cursor.close()
             self.db_connector.close()
 
+    def database_commit(self, sql, variables=None):
+        """Commit data to database"""
+        try:
+            self.db_cursor.execute(sql, variables)
+        except:
+            self.db_connector.rollback()
+        else:
+            self.db_connector.commit()
+
+    def database_fetch(self, sql, variables=None):
+        """Fetch data from database"""
+        try:
+            self.db_cursor.execute(sql, variables)
+        except:
+            self.db_connector.rollback()
+        else:
+            return self.db_cursor.fetchall()
+
+    def connect_gspread(self):
+        """Connect to google api to use sheets"""
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.credentials["gspread"], scope)
+        self.gspread = gspread.authorize(credentials)
+
     def connect_lavalink(self):
         """Connect to lavalink server"""
         self.lavalink = lavalink.Client(self.user.id)
         self.lavalink.add_node(**self.credentials["lavalink"])
-
-    def register_guild(self, guild_id):
-        """Register guild to database if it is not already registered"""
-        try:
-            sql = psycopg2.sql.SQL("INSERT INTO public.guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
-            self.db_cursor.execute(sql, [guild_id])
-        except:
-            self.db_connector.rollback()
-        else:
-            self.db_connector.commit()
-
-    def unregister_guild(self, guild_id):
-        """Unregister guild from database with all settings"""
-        try:
-            sql = psycopg2.sql.SQL("DELETE FROM public.guilds WHERE id = %s")
-            self.db_cursor.execute(sql, [guild_id])
-        except:
-            self.db_connector.rollback()
-        else:
-            self.db_connector.commit()
-
-    def update_guilds(self):
-        """Add or remove guilds from database to prevent bugs"""
-        for guild in self.guilds:
-            self.register_guild(guild.id)
-
-        try:
-            sql = psycopg2.sql.SQL("SELECT id FROM public.guilds")
-            self.db_cursor.execute(sql)
-        except:
-            self.db_connector.rollback()
-        else:
-            for guild_id in self.db_cursor.fetchall():
-                if self.get_guild(guild_id["id"]) not in self.guilds:
-                    self.unregister_guild(guild_id["id"])
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
@@ -147,64 +136,67 @@ class Shiro(commands.Bot):
         for extension in extensions:
             self.load_extension(f"extensions.{extension}")
 
+    def register_guild(self, guild_id):
+        """Register guild to database if it is not already registered"""
+        sql = psycopg2.sql.SQL("INSERT INTO public.guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
+        self.database_commit(sql, [guild_id])
+
+    def unregister_guild(self, guild_id):
+        """Unregister guild from database with all settings"""
+        sql = psycopg2.sql.SQL("DELETE FROM public.guilds WHERE id = %s")
+        self.database_commit(sql, [guild_id])
+
+    def update_guilds(self):
+        """Add or remove guilds from database to prevent bugs"""
+        for guild in self.guilds:
+            self.register_guild(guild.id)
+
+        sql = psycopg2.sql.SQL("SELECT id FROM public.guilds")
+        guild_ids = self.database_fetch(sql)
+        for guild_id in guild_ids:
+            if self.get_guild(guild_id["id"]) not in self.guilds:
+                self.unregister_guild(guild_id["id"])
+
     def get_guild_setting(self, guild_id, setting):
         """Get guild setting from database"""
-        try:
-            sql = psycopg2.sql.SQL("SELECT {} FROM public.guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
-            self.db_cursor.execute(sql, [guild_id])
-        except:
-            self.db_connector.rollback()
-        else:
-            return self.db_cursor.fetchone()[0]
+        sql = psycopg2.sql.SQL("SELECT {} FROM public.guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        return self.database_fetch(sql, [guild_id])[0][setting]
 
     def set_guild_setting(self, guild_id, setting, value):
         """Set guild setting in database to specified value"""
-        try:
-            sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
-            self.db_cursor.execute(sql, [value, guild_id])
-        except:
-            self.db_connector.rollback() 
-        else:
-            self.db_connector.commit()
+        sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        self.database_commit(sql, [value, guild_id])
 
     def get_random_songs(self, category, amount):
         """Get random songs from database"""
-        try:
-            sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
-            self.db_cursor.execute(sql, [category, amount])
-        except:
-            self.db_connector.rollback()
-        else:
-            return self.db_cursor.fetchall()
+        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
+        return self.database_fetch(sql, [category, amount])
 
     def get_choice_songs(self, category, exclusion):
-        try:
-            sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
-            self.db_cursor.execute(sql, [category, exclusion])
-        except:
-            self.db_connector.rollback()
-        else:
-            return self.db_cursor.fetchall()
-
-    def get_all_songs(self):
-        """Get all songs from database in alphabetic order"""
-        try:
-            sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY reference")
-            self.db_cursor.execute(sql)
-        except:
-            self.db_connector.rollback()
-        else:
-            return self.db_cursor.fetchall()
+        """Get songs to fill quiz with"""
+        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
+        return self.database_fetch(sql, [category, exclusion])
 
     def add_song(self, title, reference, url, category):
         """Add a song to the database"""
-        try:
-            sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
-            self.db_cursor.execute(sql, [title, reference, url, category])
-        except:
-            self.db_connector.rollback()
-        else:
-            self.db_connector.commit()
+        sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
+        self.database_commit(sql, [title, reference, url, category])
+
+    def get_song(self, id):
+        """Get a song from database by id if exists"""
+        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE id = %s")
+        song = self.database_fetch(sql, [id])
+        return None if len(song) == 0 else song[0]
+
+    def get_all_songs(self):
+        """Get all songs from database in alphabetic order"""
+        sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY category, reference, title")
+        return self.database_fetch(sql)
+
+    def edit_song(self, id, setting, value):
+        """Edit a song entry in database"""
+        sql = psycopg2.sql.SQL("UPDATE public.songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        self.database_commit(sql, [value, id])
 
     def get_languages(self):
         """Get all languages found in locales"""
@@ -256,6 +248,8 @@ class Shiro(commands.Bot):
     async def on_command_error(self, ctx, error):
         """Catch errors on command execution"""
         embed = discord.Embed(color=10892179, title=_("\❌ **Error on command**"))
+        if ctx.command:
+            ctx.command.reset_cooldown(ctx)
 
         if isinstance(error, commands.MissingRequiredArgument):
             embed.description = _("The command `{0}` is missing the `{1}`.").format(
@@ -263,6 +257,9 @@ class Shiro(commands.Bot):
         elif isinstance(error, exceptions.NotInRange):
             embed.description = _("The number `{0}` isn't allowed, it has to be in range {1}-{2}.").format(
                 error.argument, error.min_int, error.max_int)
+        elif isinstance(error, exceptions.NotLengthStr):
+            embed.description = _("The argument `{0}` is too long. Maximum allowed characters are {1}.").format(
+                error.argument, error.max_len)
         elif isinstance(error, exceptions.NotPrefix):
             embed.description = _("The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only "
                                   "consist out of numbers and letters.").format(error.argument)
@@ -271,8 +268,10 @@ class Shiro(commands.Bot):
         elif isinstance(error, exceptions.NotLanguage):
             embed.description = _("The language `{0}` isn't a available language. Available languages: {1}").format(
                 error.argument, ", ".join(error.available_languages))
-        elif isinstance(error, exceptions.NotYoutubeUrl):
+        elif isinstance(error, exceptions.NotYoutubeURL):
             embed.description = _("The url `{0}` isn't a valid YouTube url or it's geo restricted.").format(error.argument)
+        elif isinstance(error, exceptions.NotSongID):
+            embed.description = _("The id `{0}` isn't valid!").format(error.argument)
         elif isinstance(error, commands.BadUnionArgument):
             converter_names = ", ".join([converter.__name__.lower() for converter in error.converters])
             embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}").format(
@@ -306,10 +305,12 @@ class Shiro(commands.Bot):
             embed.description = _("You're lacking permission to execute command `{0}`.").format(ctx.message.content)
         elif isinstance(error, commands.ExpectedClosingQuoteError):
             embed.description = _("You messed up quotation on `{0}`. If you use `\"`, you have to close it. If you "
-                                  "want to use it as an input, escape it with `\\`").format(ctx.message.content)
+                                  "want to use it as an input, escape it with `\\`.").format(ctx.message.content)
         elif isinstance(error, commands.InvalidEndOfQuotedStringError):
             embed.description = _("You messed up quotation on `{0}`. You have to separate the quoted arguments "
                                   "with spaces.").format(ctx.message.content)
+        elif isinstance(error, commands.CommandOnCooldown):
+            embed.description = _("Command on cooldown! Try again in {0} seconds.").format(int(error.retry_after))
         else:
             embed.description = _("An unknown error occurred on command `{0}`. We're going to fix that soon!").format(
                 ctx.message.content)
@@ -323,23 +324,32 @@ class Shiro(commands.Bot):
                 (isinstance(error, commands.BotMissingPermissions) and "embed_links" not in error.missing_perms):
             await ctx.send(embed=embed)
 
-    @tasks.loop(minutes=30)
+    @tasks.loop(minutes=15)
     async def update_status(self):
         """Update status every 30 minutes"""
-        await self.dbl.post_guild_count()
-        await self.ddbl.post_stats(len(self.guilds))
+        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
+        await self.change_presence(activity=activity)
+        try:
+            await self.statposter.post_all(self.credentials["bot_list_tokens"])
+        except Exception as e:
+            self.sentry.capture_exception(e)
 
-    @tasks.loop(hours=3)
+        try:
+            await self.dbl.post_guild_count()
+        except Exception as e:
+            self.sentry.capture_exception(e)
+
+    @tasks.loop(hours=1)
     async def update_songs_list(self):
-        """Post all songs in database to pastebin and set url"""
+        """Dump all songs in database to google sheet"""
         songs = self.get_all_songs()
-        formatted_songs = ""
+        sheet = self.gspread.open("Shiro's Songs").sheet1
+        sheet.resize(1)
+        sheet.resize(len(songs) + 1)
 
         for song in songs:
-            formatted_songs += f"{song['title']} ∎ {song['reference']} ∎ {song['category']} ∎ {song['url']}\n"
-
-        url = pbwrap.Pastebin(self.credentials["pastebin"]["api_key"]).create_paste(formatted_songs, 1, "Shiro Songlist", "1D")
-        self.songs_list_url = url
+            sheet.append_row([song["id"], song["title"], song["reference"], song["url"], song["category"],
+                              song["updated"].strftime("%d. %B %Y - %H:%M:%S")])
 
 
 shiro = Shiro()

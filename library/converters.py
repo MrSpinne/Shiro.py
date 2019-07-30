@@ -22,6 +22,18 @@ class RangeInt(commands.Converter):
         raise exceptions.NotInRange(argument, self.min_num, self.max_num)
 
 
+class LengthStr(commands.Converter):
+    """Convert if str is not too long"""
+    def __init__(self, max_len):
+        self.max_len = max_len
+
+    async def convert(self, ctx, argument):
+        if len(argument) <= self.max_len:
+            return argument
+
+        raise exceptions.NotLengthStr(argument, self.max_len)
+
+
 class Prefix(commands.Converter):
     """Converts to str if values length is in range"""
     async def convert(self, ctx, argument):
@@ -79,7 +91,7 @@ class Language(commands.Converter):
         raise exceptions.NotLanguage(argument, available_languages)
 
 
-class YoutubeUrl(commands.Converter):
+class YoutubeURL(commands.Converter):
     """Convert to youtube url if video is available"""
     async def convert(self, ctx, argument):
         results = await ctx.bot.lavalink.get_tracks(argument)
@@ -88,9 +100,26 @@ class YoutubeUrl(commands.Converter):
             video_url = f"https://www.youtube.com/watch?v={video_id}"
             return video_url
 
-        raise exceptions.NotYoutubeUrl(argument)
+        raise exceptions.NotYoutubeURL(argument)
 
 
-class Anime(commands.ColourConverter):
+class Anime(commands.Converter):
     """Convert to anime"""
     async def convert(self, ctx, argument):
+        search = ctx.bot.anilist.search.anime(argument, perpage=1)
+        titles = search["data"]["Page"]["media"][0]["title"]
+        anime = titles["english"] if titles["english"] is not None else titles["romaji"]
+        return anime
+
+
+class SongID(commands.Converter):
+    """Convert to song id if exits"""
+    async def convert(self, ctx, argument):
+        try:
+            argument = int(argument)
+            if len(ctx.bot.get_song(argument)) > 0:
+                return argument
+        except:
+            pass
+
+        raise exceptions.NotSongID(argument)

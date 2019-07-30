@@ -30,9 +30,16 @@ class NotInRange(commands.BadArgument):
         self.max_int = max_int
 
 
+class NotLengthStr(commands.BadArgument):
+    """Raised when string is longer than expected"""
+    def __init__(self, argument, max_len):
+        self.argument = argument
+        self.max_len = max_len
+
+
 class NotPrefix(commands.BadArgument):
     """Raised when string is not in length"""
-    def __init__(self, argument, min_len, max_len):
+    def __init__(self, argument):
         self.argument = argument
 
 
@@ -56,9 +63,14 @@ class NotLanguage(commands.BadArgument):
         self.available_languages = available_languages
 
 
-class NotYoutubeUrl(commands.BadArgument):
+class NotYoutubeURL(commands.BadArgument):
     """Raised when a string is not a valid youtube url"""
     def __init__(self, argument):
+        self.argument = argument
+
+
+class NotSongID(commands.CheckFailure):
+    def __int__(self, argument):
         self.argument = argument
 
 

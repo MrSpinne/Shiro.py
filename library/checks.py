@@ -29,9 +29,6 @@ def player_available(ctx):
     if not player:
         raise exceptions.NoPlayer
 
-    if not player.is_playing:
-        raise exceptions.NoPlayer
-
     return True
 
 

@@ -3,6 +3,7 @@ from discord.ext import commands
 from library import checks, converters
 
 import asyncio
+import time
 
 
 class General(commands.Cog):
@@ -15,6 +16,7 @@ class General(commands.Cog):
         embed = discord.Embed(color=7830745, title=_("**\\📄 General**"))
         embed.description = _("`{0}help` ‧ Display all commands\n"
                               "`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
+                              "`{0}stats` ‧ List up some stats of Shiro\n"
                               "`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request opening for quiz\n"
                               "`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request ending for quiz\n"
                               "`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request OST for quiz"
@@ -28,7 +30,9 @@ class General(commands.Cog):
                               "`{0}stop` ‧ Stop running quiz or playback").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
-        if not checks.is_guild_admin(ctx):
+        try:
+            checks.is_guild_admin(ctx)
+        except:
             return
 
         languages = "/".join(self.shiro.get_languages())
@@ -40,11 +44,17 @@ class General(commands.Cog):
                               "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
         await ctx.author.send(embed=embed)
 
-        if not checks.is_team_member(ctx):
+        try:
+            checks.is_team(ctx)
+        except:
             return
 
         embed = discord.Embed(color=7830745, title=_("**\\🔧 Utility**"))
-        embed.description = _("`{0}search <query>` ‧ Search for songs in database\n").format(ctx.prefix)
+        embed.description = _("`{0}search <query>` ‧ Search for songs in database\n"
+                              "`{0}edittitle <song id> <title>` ‧ Edit title of song\n"
+                              "`{0}editreference <song id> <reference>` ‧ Edit reference of song\n"
+                              "`{0}editurl <song id> <url>` ‧ Edit url of song\n"
+                              "`{0}editcategory <song id> <category` ‧ Edit category of song").format(ctx.prefix)
         await ctx.author.send(embed=embed)
 
     @commands.command(aliases=["information", "about", "credits", "spinne", "shiro"])
@@ -60,29 +70,43 @@ class General(commands.Cog):
             "https://docs.google.com/spreadsheets/d/1S8u-V3LBMSzf8g78ZEE1I7_YT8SSFa8ROpXysoqvSFg")
         await ctx.send(embed=embed)
 
+    @commands.command(aliases=["status", "stat"])
+    async def stats(self, ctx):
+        """List up some stats of Shiro"""
+        ping = time.monotonic()
+        await self.shiro.application_info()
+        ping = int((time.monotonic() - ping) * 1000)
+
+        embed = discord.Embed(color=7830745, title=_("**\\📄 Statistics**"))
+        embed.description = _("Guilds ‧ {0}\nUsers ‧ {1}\nAudio players ‧ {2}\nVotes (on dbl) ‧ {3}\nPing ‧ {4}ms\nSongs ‧ {5}").format(
+            len(self.shiro.guilds), len(self.shiro.users), len(self.shiro.lavalink.players),
+            len(await self.shiro.dbl.get_bot_upvotes()), ping, len(self.shiro.get_all_songs()))
+
+        await ctx.send(embed=embed)
+
     @commands.command(aliases=["openingrequest", "openingreq", "opreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def oprequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def oprequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
         """Request a song for the song quiz"""
-        await self.do_request(ctx, title, anime, yt_url, "Opening")
+        await self.do_request(ctx, song, anime, yt_url, "Opening")
 
     @commands.command(aliases=["endingrequest", "endingreq", "edreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def edrequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def edrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
         """Request a song for the ending quiz"""
-        await self.do_request(ctx, title, anime, yt_url, "Ending")
+        await self.do_request(ctx, song, anime, yt_url, "Ending")
 
     @commands.command(aliases=["ostreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def ostrequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def ostrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
         """Request a song for the ost quiz"""
-        await self.do_request(ctx, title, anime, yt_url, "OST")
+        await self.do_request(ctx, song, anime, yt_url, "OST")
 
     async def do_request(self, ctx, title, reference, url, category):
         """Request a song for specified category"""
         embed = discord.Embed(color=7830745, title=_("**\\📄 {0} request**").format(category))
         embed.description = _("You requested [{0} ‧ {1}]({2}) to be added into the {3} quiz. "
-                              "Thank you for your support, our bot staff will review it.").format(title, reference, url, category)
+                              "Thank you for your support, our bot staff will review it.").format(title, reference, url, category.lower())
         await ctx.send(embed=embed)
 
         embed = discord.Embed(color=7830745, title="**\\⚠️ New song request**")

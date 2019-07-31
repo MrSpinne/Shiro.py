@@ -74,6 +74,12 @@ class NotSongID(commands.CheckFailure):
         self.argument = argument
 
 
+class NotCategory(commands.BadArgument):
+    """Raised when category isn't valid"""
+    def __init__(self, argument):
+        self.argument = argument
+
+
 class NotVoted(commands.CheckFailure):
     """Raised when user hasn't voted on dbl"""
     pass
@@ -84,6 +90,6 @@ class NotRequester(commands.CheckFailure):
     pass
 
 
-class NotTeamMember(commands.CheckFailure):
+class NotTeam(commands.CheckFailure):
     """Raised when user isn't a team member"""
     pass

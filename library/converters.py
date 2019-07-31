@@ -123,3 +123,20 @@ class SongID(commands.Converter):
             pass
 
         raise exceptions.NotSongID(argument)
+
+
+class Category(commands.Converter):
+    """Convert to category if possible"""
+    async def convert(self, ctx, argument):
+        opening = ["op", "ops", "opening", "openings"]
+        ending = ["ed", "eds", "ending", "endings"]
+        ost = ["ost", "osts", "soundtrack", "soundtracks"]
+
+        if argument.lower() in opening:
+            return "Opening"
+        elif argument.lower() in ending:
+            return "Ending"
+        elif argument.lower() in ost:
+            return "OST"
+
+        raise exceptions.NotCategory(argument)

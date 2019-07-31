@@ -36,7 +36,7 @@ class Shiro(commands.Bot):
         self.sentry.init(dsn=self.credentials["sentry"]["dsn"],
                          integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
         self.connect_database()
-        self.connect_gspread()
+        # self.connect_gspread()
         self.add_command_handlers()
         self.update_songs_list.start()
 
@@ -217,7 +217,7 @@ class Shiro(commands.Bot):
         if message.guild is None or message.author.bot:
             return
 
-        if self.user in message.mentions:
+        if message.content.startswith(message.guild.me.mention):
             ctx = await self.get_context(message)
             ctx.prefix = self.get_guild_setting(message.guild.id, "prefix")
             ctx.command = self.get_command("help")
@@ -247,7 +247,7 @@ class Shiro(commands.Bot):
 
     async def on_command_error(self, ctx, error):
         """Catch errors on command execution"""
-        embed = discord.Embed(color=10892179, title=_("\❌ **Error on command**"))
+        embed = discord.Embed(color=10892179, title=_("\\❌ **Error on command**"))
         if ctx.command:
             ctx.command.reset_cooldown(ctx)
 
@@ -271,7 +271,9 @@ class Shiro(commands.Bot):
         elif isinstance(error, exceptions.NotYoutubeURL):
             embed.description = _("The url `{0}` isn't a valid YouTube url or it's geo restricted.").format(error.argument)
         elif isinstance(error, exceptions.NotSongID):
-            embed.description = _("The id `{0}` isn't valid!").format(error.argument)
+            embed.description = _("The song id `{0}` isn't valid!").format(error.argument)
+        elif isinstance(error, exceptions.NotCategory):
+            embed.description = _("`{0}` isn't a valid song category.")
         elif isinstance(error, commands.BadUnionArgument):
             converter_names = ", ".join([converter.__name__.lower() for converter in error.converters])
             embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}").format(
@@ -279,22 +281,25 @@ class Shiro(commands.Bot):
         elif isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
             embed.description = _("A wrong argument were passed into the command `{0}`.").format(ctx.message.content)
         elif isinstance(error, commands.CommandNotFound):
-            embed.description = _("The command `{0}` wasn't found. To get a list of command use `{1}`.").format(
+            embed.description = _("The command `{0}` wasn't found. To get a list of commands use `{1}`.").format(
                 ctx.message.content, f"{ctx.prefix}help")
-        elif isinstance(error, exceptions.NotTeamMember):
-            embed.description = _("The command `{0}` can only be executed by team members.").format(ctx.message.content)
+        elif isinstance(error, exceptions.NotTeam):
+            embed.description = _("The command `{0}` can only be executed by team "
+                                  "members on this server.").format(ctx.message.content)
+        elif isinstance(error, commands.NotOwner):
+            embed.description = _("The command `{0}` can only be executed by {1} on this server.")
         elif isinstance(error, exceptions.NotGuildAdmin):
-            embed.description = _("The command `{0}` can only be executed by admins.").format(ctx.message.content)
-        elif isinstance(error, exceptions.NoVoice):
-            embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
-                                  "Also, the bot can't serve multiple channels.").format(ctx.message.content)
+            embed.description = _("The command `{0}` can only be executed by server admins.").format(ctx.message.content)
         elif isinstance(error, exceptions.NotVoted):
             embed.description = _("This command is only available for voters. Please [vote for free]({0}) "
                                   "to support this bot!").format("https://discordbots.org/bot/593116701281746955/vote")
+        elif isinstance(error, exceptions.NoVoice):
+            embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
+                                  "Also, the bot can't serve multiple channels.").format(ctx.message.content)
         elif isinstance(error, exceptions.NoPlayer):
-            embed.description = _("There's no quiz to stop.")
+            embed.description = _("There's no playback to stop.")
         elif isinstance(error, exceptions.NotRequester):
-            embed.description = _("Only the user who started the quiz or an admin can stop the playback.")
+            embed.description = _("Only the user who started the playback or an admin can stop it.")
         elif isinstance(error, exceptions.SpecificChannelOnly):
             embed.description = _("On this server commands can only be executed in channel {0}.").format(
                 error.channel.mention)
@@ -311,6 +316,9 @@ class Shiro(commands.Bot):
                                   "with spaces.").format(ctx.message.content)
         elif isinstance(error, commands.CommandOnCooldown):
             embed.description = _("Command on cooldown! Try again in {0} seconds.").format(int(error.retry_after))
+        elif isinstance(error, commands.DisabledCommand):
+            embed.description = _("All commands have been disabled because of a bot update. We'll be back in "
+                                  "about 5 minutes. Please be patient.")
         else:
             embed.description = _("An unknown error occurred on command `{0}`. We're going to fix that soon!").format(
                 ctx.message.content)

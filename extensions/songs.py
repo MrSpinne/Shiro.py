@@ -192,19 +192,19 @@ class Songs(commands.Cog):
         await ctx.send(embed=embed)
         await player.skip()
 
-    @commands.command(aliases=["openingquiz", "openings"])
+    @commands.command(aliases=["openingquiz", "openings", "ops", "op", "play", "p"])
     @commands.check(checks.voice_available)
     async def opquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Guess anime openings with specified amount of rounds\n"""
         await self.run_quiz(ctx, "Opening", rounds)
 
-    @commands.command(aliases=["endingquiz", "endings"])
+    @commands.command(aliases=["endingquiz", "endings", "eds", "ed"])
     @commands.check(checks.voice_available)
     async def edquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Openings are too easy for you? This is next level!"""
         await self.run_quiz(ctx, "Ending", rounds)
 
-    @commands.command(aliases=["osts"])
+    @commands.command(aliases=["osts", "ost", "soundtrack", "soundtracks"])
     @commands.check(checks.voice_available)
     @commands.check(checks.has_voted)
     async def ostquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
@@ -222,11 +222,11 @@ class Songs(commands.Cog):
 
         embed = discord.Embed(color=7830745, title=_("**\\🎵 Stop quiz**"))
         if player.fetch("count") == 0:
-            embed.description = _("Quiz will now end after the first round is played.")
+            embed.description = _("Playback will now end after the first song is played.")
         elif len(guild_history_before) == len(player.fetch("history")):
-            embed.description = _("Quiz already ends after this round. Playback will be stopped then.")
+            embed.description = _("Playback already ends after this song. It will be stopped then.")
         else:
-            embed.description = _("Reducing quiz rounds from {0} to {1}. Playback will end after current round.").format(
+            embed.description = _("Reducing songs from {0} to {1}. Playback will end after current round.").format(
                 len(guild_history_before), len(player.fetch("history")))
 
         await ctx.send(embed=embed)

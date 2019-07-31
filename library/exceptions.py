@@ -3,23 +3,32 @@ from discord.ext import commands
 
 class NoVoice(commands.CheckFailure):
     """Raised when user is not in voice channel or bot is already in voice channel"""
-    pass
 
 
 class NoPlayer(commands.CheckFailure):
     """Raised when no player is existing"""
-    pass
 
 
 class NotGuildAdmin(commands.CheckFailure):
     """Raised when user is not the owner of the guild"""
-    pass
 
 
 class SpecificChannelOnly(commands.CheckFailure):
     """Raised when an prohibited channel is used"""
     def __init__(self, channel):
         self.channel = channel
+
+
+class NotVoted(commands.CheckFailure):
+    """Raised when user hasn't voted on dbl"""
+
+
+class NotRequester(commands.CheckFailure):
+    """Raised when user isn't requester of the song or isn't admin"""
+
+
+class NotTeam(commands.CheckFailure):
+    """Raised when user isn't a team member"""
 
 
 class NotInRange(commands.BadArgument):
@@ -68,7 +77,7 @@ class NotYoutubeURL(commands.BadArgument):
         self.argument = argument
 
 
-class NotSongID(commands.CheckFailure):
+class NotSongID(commands.BadArgument):
     def __int__(self, argument):
         self.argument = argument
 
@@ -77,18 +86,3 @@ class NotCategory(commands.BadArgument):
     """Raised when category isn't valid"""
     def __init__(self, argument):
         self.argument = argument
-
-
-class NotVoted(commands.CheckFailure):
-    """Raised when user hasn't voted on dbl"""
-    pass
-
-
-class NotRequester(commands.CheckFailure):
-    """Raised when user isn't requester of the song or isn't admin"""
-    pass
-
-
-class NotTeam(commands.CheckFailure):
-    """Raised when user isn't a team member"""
-    pass

@@ -16,7 +16,7 @@ class RangeInt(commands.Converter):
             argument = int(float(argument))
             if argument in range(self.min_num, self.max_num + 1):
                 return argument
-        except:
+        except ValueError:
             pass
 
         raise exceptions.NotInRange(argument, self.min_num, self.max_num)
@@ -93,7 +93,7 @@ class YoutubeURL(commands.Converter):
     async def convert(self, ctx, argument):
         results = await ctx.bot.lavalink.get_tracks(argument)
         if results and results["tracks"]:
-            video_id = re.search("((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)", argument)[0]
+            video_id = re.search(r"((?<=([vV])/)|(?<=be/)|(?<=([?&])v=)|(?<=embed/))([\w-]+)", argument)[0]
             video_url = f"https://www.youtube.com/watch?v={video_id}"
             return video_url
 
@@ -116,7 +116,7 @@ class SongID(commands.Converter):
             argument = int(argument)
             if ctx.bot.get_song(argument):
                 return argument
-        except:
+        except ValueError:
             pass
 
         raise exceptions.NotSongID(argument)
@@ -131,9 +131,9 @@ class Category(commands.Converter):
 
         if argument.lower() in opening:
             return "Opening"
-        elif argument.lower() in ending:
+        if argument.lower() in ending:
             return "Ending"
-        elif argument.lower() in ost:
+        if argument.lower() in ost:
             return "OST"
 
         raise exceptions.NotCategory(argument)

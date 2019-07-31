@@ -28,8 +28,7 @@ class Songs(commands.Cog):
 
     async def on_lavalink_event(self, event):
         """Track events raised by lavalink"""
-        if isinstance(event, lavalink.events.QueueEndEvent) or isinstance(event, lavalink.events.TrackStuckEvent) or \
-                isinstance(event, lavalink.events.TrackExceptionEvent):
+        if isinstance(event, (lavalink.events.QueueEndEvent, lavalink.events.TrackStuckEvent, lavalink.events.TrackExceptionEvent)):
             await self.connect_to(event.player.guild_id, None)
             self.shiro.lavalink.players.remove(int(event.player.guild_id))
 
@@ -83,7 +82,7 @@ class Songs(commands.Cog):
         """Stops current playback"""
         player = self.shiro.lavalink.players.get(ctx.guild.id)
         if player.current is not None or player.fetch("end"):
-            for unused in player.queue:
+            for track in player.queue:
                 history = player.fetch("history")
                 history.pop(-1)
                 player.store("history", history)
@@ -176,7 +175,7 @@ class Songs(commands.Cog):
             await self.run_round(ctx, category)
 
         counted = collections.Counter(player.fetch("points"))
-        winners = [self.shiro.get_user(id) for id, points in dict(counted).items() if counted.most_common(1)[0][1] == points]
+        winners = [self.shiro.get_user(user_id) for user_id, points in dict(counted).items() if counted.most_common(1)[0][1] == points]
         winner_mentions = [winner.mention for winner in winners]
         embed = discord.Embed(color=7830745, title=_("**\\🎵 {0} quiz ‧ End**").format(category))
 

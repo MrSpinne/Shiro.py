@@ -77,7 +77,14 @@ class NotYoutubeURL(commands.BadArgument):
         self.argument = argument
 
 
+class NotAnime(commands.BadArgument):
+    """Raised when no anime can be found matching argument"""
+    def __init__(self, argument):
+        self.argument = argument
+
+
 class NotSongID(commands.BadArgument):
+    """Raised when song doesn't exist in database"""
     def __int__(self, argument):
         self.argument = argument
 

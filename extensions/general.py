@@ -1,8 +1,10 @@
 import discord
 from discord.ext import commands
-from library import checks, converters
+from library import checks, converters, exceptions
 
 import time
+import difflib
+import re
 
 
 class General(commands.Cog):
@@ -31,7 +33,7 @@ class General(commands.Cog):
 
         try:
             checks.is_guild_admin(ctx)
-        except:
+        except exceptions.NotGuildAdmin:
             return
 
         languages = "/".join(self.shiro.get_languages())
@@ -45,7 +47,7 @@ class General(commands.Cog):
 
         try:
             checks.is_team(ctx)
-        except:
+        except exceptions.NotTeam:
             return
 
         embed = discord.Embed(color=7830745, title=_("**\\🔧 Utility**"))
@@ -85,19 +87,19 @@ class General(commands.Cog):
 
     @commands.command(aliases=["openingrequest", "openingreq", "opreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def oprequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def oprequest(self, ctx, song: converters.LengthStr(35), anime: converters.Anime, yt_url: converters.YoutubeURL):
         """Request a song for the song quiz"""
         await self.do_request(ctx, song, anime, yt_url, "Opening")
 
     @commands.command(aliases=["endingrequest", "endingreq", "edreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def edrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def edrequest(self, ctx, song: converters.LengthStr(35), anime: converters.Anime, yt_url: converters.YoutubeURL):
         """Request a song for the ending quiz"""
         await self.do_request(ctx, song, anime, yt_url, "Ending")
 
     @commands.command(aliases=["ostreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def ostrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def ostrequest(self, ctx, song: converters.LengthStr(35), anime: converters.Anime, yt_url: converters.YoutubeURL):
         """Request a song for the ost quiz"""
         await self.do_request(ctx, song, anime, yt_url, "OST")
 
@@ -108,55 +110,59 @@ class General(commands.Cog):
                               "Thank you for your support, our bot staff will review it.").format(title, reference, url, category.lower())
         await ctx.send(embed=embed)
 
-        embed = discord.Embed(color=7830745, title="**\\⚠️ New song request**")
-        embed.description = f"User **{ctx.author.name}#{ctx.author.discriminator}** requested a song."
-        embed.add_field(name="Title", value=title)
-        embed.add_field(name="Reference", value=reference)
-        embed.add_field(name="Category", value=category)
-        embed.add_field(name="URL", value=url)
+        song_string = f"[{reference} ‧ {title}]({url})"
+        song_strings = [f"[{song['reference']} ‧ {song['title']}]({song['url']})" for song in self.shiro.get_all_songs()]
+        added_songs = difflib.get_close_matches(song_string, song_strings, cutoff=0)
+        added_songs = f"A. {added_songs[0]}\nB. {added_songs[1]}\nC. {added_songs[2]}"
+        references = ctx.bot.anilist.search.anime(reference, perpage=3)
+        print(references)
+        references = [reference["title"] for reference in references["data"]["Page"]["media"]]
+        references = [reference["english"] if reference.get("english") else reference["romaji"] for reference in references]
+        recommended_songs = [f"[{title} ‧ {recommended_song}]({url})" for recommended_song in references]
+        recommended_songs = f"1. {recommended_songs[0]}\n2. {recommended_songs[1]}\n3. {recommended_songs[2]}"
+
+        embed = discord.Embed(color=7830745, title=f"**\\🔧 New {category} request**")
+        embed.description = f"User **{ctx.author.name}#{ctx.author.discriminator}** requested {song_string}."
+        embed.add_field(name="Already added", value=added_songs, inline=False)
+        embed.add_field(name="Recommendations", value=recommended_songs)
         message = await self.shiro.get_channel(601374759724384272).send(embed=embed)
-        await message.add_reaction("👍🏻")
-        await message.add_reaction("👎🏻")
+        await message.add_reaction("1⃣")
+        await message.add_reaction("2⃣")
+        await message.add_reaction("3⃣")
+        await message.add_reaction("❌")
+        # TODO: Add pending songs to database with specific status
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         """Add song to database if owner accepts"""
-        if payload.emoji.name != "👍🏻" and payload.emoji.name != "👎🏻":
-            return
-
-        if payload.channel_id != 601374759724384272:
-            return
-
-        user = self.shiro.get_user(payload.user_id)
-        if user.bot:
-            return
-
+        emojis = ["1⃣", "2⃣", "3⃣", "❌"]
         channel = self.shiro.get_channel(payload.channel_id)
         message = await channel.fetch_message(payload.message_id)
-        if message is None:
+        user = self.shiro.get_user(payload.user_id)
+
+        try:
+            if message.embeds[0].fields[1].name != "Recommendations" or message.author.bot:
+                raise ValueError
+            if payload.emoji.name not in emojis or payload.channel_id != 601374759724384272:
+                raise ValueError
+        except (AttributeError, IndexError, ValueError):
             return
 
-        emojis = [reaction.emoji for reaction in message.reactions]
-
-        if "✅" in emojis or "❌" in emojis:
-            return
-
-        embeds = message.embeds
-        if embeds is None:
-            return
-        if embeds[0].title != "**\\⚠️ New song request**":
-            return
-
-        if payload.emoji.name == "👍🏻":
-            fields = embeds[0].fields
-            title = fields[0].value
-            reference = fields[1].value
-            category = fields[2].value
-            url = fields[3].value
-            self.shiro.add_song(title, reference, url, category)
-            await message.add_reaction("✅")
+        embed = message.embeds[0]
+        value = embed.fields[1].value
+        if payload.emoji.name == "❌":
+            embed.set_footer(text=f"Declined by {user.name}#{user.discriminator}")
         else:
-            await message.add_reaction("❌")
+            lines = value.split("\n")
+            category = re.search(r"\*\*\\\\🔧 New (.+?) request\*\*", embed.title)[0]
+            songs = [re.search(r"\d. \[(.+?) ‧ (.+)\]\((.+)\)", line) for line in lines]
+            index = emojis.index(payload.emoji.name)
+            song = songs[index]
+            embed.set_footer(text=f"Version {index+1} accepted by {user.name}#{user.discriminator}")
+            self.shiro.add_song(song[1], song[0], song[2], category)
+
+        await message.clear_reactions()
+        await message.edit(embed=embed)
 
 
 def setup(shiro):

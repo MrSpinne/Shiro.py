@@ -32,8 +32,8 @@ class Shiro(commands.Bot):
         self.sentry.init(dsn=os.environ.get("SENTRY_DSN"),
                          integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
         self.connect_database()
-        self.connect_gspread()
         self.add_command_handlers()
+        self.connect_gspread()
         self.update_songs_list.start()
 
     async def on_ready(self):
@@ -100,11 +100,13 @@ class Shiro(commands.Bot):
     def connect_gspread(self):
         """Connect to google api to use sheets"""
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        raw_credentials = {"type": os.environ.get("GSPREAD_TYPE"),
-                       "private_key_id": os.environ.get("GSPREAD_PRIVATE_KEY_ID"),
-                       "private_key": os.environ.get("GSPREAD_PRIVATE_KEY"),
-                       "client_email": os.environ.get("GSPREAD_CLIENT_EMAIL"),
-                       "client_id": os.environ.get("GSPREAD_CLIENT_ID")}
+        raw_credentials = {
+            "type": os.environ.get("GSPREAD_TYPE"),
+            "private_key_id": os.environ.get("GSPREAD_PRIVATE_KEY_ID"),
+            "private_key": os.environ.get("GSPREAD_PRIVATE_KEY"),
+            "client_email": os.environ.get("GSPREAD_CLIENT_EMAIL"),
+            "client_id": os.environ.get("GSPREAD_CLIENT_ID")
+        }
         credentials = ServiceAccountCredentials.from_json_keyfile_dict(raw_credentials, scope)
         self.gspread = gspread.authorize(credentials)
 
@@ -336,10 +338,11 @@ class Shiro(commands.Bot):
             await self.statposter.post_all(tokens)
         except Exception as e:
             self.sentry.capture_exception(e)
+            # TODO: Specify exception
 
         try:
             await self.dbl.post_guild_count()
-        except Exception as e:
+        except dbl.DBLException as e:
             self.sentry.capture_exception(e)
 
     @tasks.loop(hours=1)

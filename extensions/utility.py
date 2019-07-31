@@ -75,9 +75,9 @@ class Utility(commands.Cog):
         message = await ctx.send(embed=embed)
 
         embed = discord.Embed(color=10892179, title=_("\\❌ **Bot update**"),
-                              description=_("We have detected that you're currently running playback. We're sorry, but"
+                              description=_("We have detected that you're currently running playback. We're sorry, but "
                                             "we have to stop it after this song because we're rolling out a new "
-                                            "update. This will occur in 5 minutes, please be patient."))
+                                            "update. Shiro will be unavailable the next 5 minutes, please be patient."))
 
         songs_cog = self.shiro.get_cog("Songs")
         for player in self.shiro.lavalink.players:

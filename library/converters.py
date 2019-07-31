@@ -104,9 +104,12 @@ class Anime(commands.Converter):
     """Convert to anime"""
     async def convert(self, ctx, argument):
         search = ctx.bot.anilist.search.anime(argument, perpage=1)
-        titles = search["data"]["Page"]["media"][0]["title"]
-        anime = titles["english"] if titles["english"] is not None else titles["romaji"]
-        return anime
+        titles = search["data"]["Page"]["media"]
+        if titles:
+            titles = titles[0]["title"]
+            anime = titles["english"] if titles["english"] is not None else titles["romaji"]
+
+        raise exceptions.NotAnime(argument)
 
 
 class SongID(commands.Converter):

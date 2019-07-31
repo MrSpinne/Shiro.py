@@ -53,7 +53,7 @@ class Songs(commands.Cog):
         """Check songs got from database and return tracks"""
         tracks = []
         player = self.shiro.lavalink.players.get(ctx.guild.id)
-        songs = self.shiro.get_random_songs(category, amount)
+        songs = self.shiro.get_random_songs(category, amount+5)
 
         for song in songs:
             results = await player.node.get_tracks(song["url"])
@@ -66,6 +66,9 @@ class Songs(commands.Cog):
             history = player.fetch("history")
             history.append(song)
             player.store("history", history)
+
+            if len(history) == amount:
+                break
 
         return tracks
 

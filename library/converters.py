@@ -45,9 +45,6 @@ class Prefix(commands.Converter):
 
 class Bool(commands.Converter):
     """Converts to bool value if it's the specified"""
-    def __init__(self, bool=None):
-        self.bool = bool
-
     async def convert(self, ctx, argument):
         argument = argument.lower()
         if argument in ["true", "enable", "enabled", "on", "activate", "activated", "1"]:
@@ -55,10 +52,10 @@ class Bool(commands.Converter):
         elif argument in ["false", "disable", "disabled", "off", "deactivate", "deactivated", "0"]:
             argument = False
 
-        if (self.bool is None and isinstance(argument, bool)) or self.bool is argument:
+        if isinstance(argument, bool):
             return argument
 
-        raise exceptions.NotBool(argument, bool)
+        raise exceptions.NotBool(argument)
 
 
 class Nothing(commands.Converter):
@@ -117,7 +114,7 @@ class SongID(commands.Converter):
     async def convert(self, ctx, argument):
         try:
             argument = int(argument)
-            if len(ctx.bot.get_song(argument)) > 0:
+            if ctx.bot.get_song(argument):
                 return argument
         except:
             pass

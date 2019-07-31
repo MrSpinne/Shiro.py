@@ -29,36 +29,36 @@ class Utility(commands.Cog):
 
     @commands.command(aliases=["changetitle", "etitle", "etit"])
     @commands.check(checks.is_team)
-    async def edittitle(self, ctx, id: converters.SongID, title: converters.LengthStr(35)):
+    async def edittitle(self, ctx, song_id: converters.SongID, title: converters.LengthStr(35)):
         """Edit song title in database"""
-        await self.update_song(ctx, id, "Title", title)
+        await self.update_song(ctx, song_id, "Title", title)
 
     @commands.command(aliases=["changereference", "ereference", "eref"])
     @commands.check(checks.is_team)
-    async def editreference(self, ctx, id: converters.SongID, reference: converters.Anime):
+    async def editreference(self, ctx, song_id: converters.SongID, reference: converters.Anime):
         """Edit song reference in database"""
-        await self.update_song(ctx, id, "Reference", reference)
+        await self.update_song(ctx, song_id, "Reference", reference)
 
     @commands.command(aliases=["changeurl", "eurl"])
     @commands.check(checks.is_team)
-    async def editurl(self, ctx, id: converters.SongID, url: converters.YoutubeURL):
+    async def editurl(self, ctx, song_id: converters.SongID, url: converters.YoutubeURL):
         """Edit song url in database"""
-        await self.update_song(ctx, id, "URL", url)
+        await self.update_song(ctx, song_id, "URL", url)
 
     @commands.command(aliases=["changecategory", "ecategory", "ecat"])
     @commands.check(checks.is_team)
-    async def editcategory(self, ctx, id: converters.SongID, category: converters.Category):
+    async def editcategory(self, ctx, song_id: converters.SongID, category: converters.Category):
         """Edit song url in database"""
-        await self.update_song(ctx, id, "category", category)
+        await self.update_song(ctx, song_id, "category", category)
 
-    async def update_song(self, ctx, id, setting, value):
+    async def update_song(self, ctx, song_id, setting, value):
         """Update song in database and send before/after"""
-        before = self.shiro.get_song(id)
-        self.shiro.edit_song(id, setting.lower(), value)
-        after = self.shiro.get_song(id)
+        before = self.shiro.get_song(song_id)
+        self.shiro.edit_song(song_id, setting.lower(), value)
+        after = self.shiro.get_song(song_id)
 
         embed = discord.Embed(color=7830745, title=_("**\\🔧 {0} changed**").format(setting),
-                              description=_("You've updated the song with the id `{0}`.").format(id))
+                              description=_("You've updated the song with the id `{0}`.").format(song_id))
         embed.add_field(name=_("{0} ‧ {1} (Before)").format(before["id"], before["category"]),
                         value=f"[{before['reference']} ‧ {before['title']}]({before['url']})", inline=False)
         embed.add_field(name=_("{0} ‧ {1} (After)").format(after["id"], after["category"]),

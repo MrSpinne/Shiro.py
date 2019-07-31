@@ -45,9 +45,8 @@ class NotPrefix(commands.BadArgument):
 
 class NotBool(commands.BadArgument):
     """Raised when a string is not the specified bool"""
-    def __init__(self, argument, bool):
+    def __init__(self, argument):
         self.argument = argument
-        self.bool = bool
 
 
 class NotNothing(commands.BadArgument):

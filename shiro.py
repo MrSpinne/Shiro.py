@@ -5,7 +5,6 @@ from library import exceptions, checks, statposter
 import json
 import psycopg2.extras
 import psycopg2.sql
-import asyncio
 import pathlib
 import inspect
 import gettext
@@ -65,10 +64,10 @@ class Shiro(commands.Bot):
 
         try:
             translation = gettext.translation("base", "locales/", [language], codeset="utf-8").gettext(string)
-        except Exception as error:
+        except Exception as e:
             translation = string
-            logging.warning(error)
-            self.sentry.capture_exception(error)
+            logging.error(e)
+            self.sentry.capture_exception(e)
 
         return translation
 
@@ -182,21 +181,21 @@ class Shiro(commands.Bot):
         sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
         self.database_commit(sql, [title, reference, url, category])
 
-    def get_song(self, id):
+    def get_song(self, song_id):
         """Get a song from database by id if exists"""
         sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE id = %s")
-        song = self.database_fetch(sql, [id])
-        return None if len(song) == 0 else song[0]
+        song = self.database_fetch(sql, [song_id])
+        return song[0] if song else None
 
     def get_all_songs(self):
         """Get all songs from database in alphabetic order"""
         sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY category, reference, title")
         return self.database_fetch(sql)
 
-    def edit_song(self, id, setting, value):
+    def edit_song(self, song_id, setting, value):
         """Edit a song entry in database"""
         sql = psycopg2.sql.SQL("UPDATE public.songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
-        self.database_commit(sql, [value, id])
+        self.database_commit(sql, [value, song_id])
 
     def get_languages(self):
         """Get all languages found in locales"""

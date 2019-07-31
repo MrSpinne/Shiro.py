@@ -83,7 +83,7 @@ class Songs(commands.Cog):
         """Stops current playback"""
         player = self.shiro.lavalink.players.get(ctx.guild.id)
         if player.current is not None or player.fetch("end"):
-            for track in player.queue:
+            for unused in player.queue:
                 history = player.fetch("history")
                 history.pop(-1)
                 player.store("history", history)
@@ -180,7 +180,7 @@ class Songs(commands.Cog):
         winner_mentions = [winner.mention for winner in winners]
         embed = discord.Embed(color=7830745, title=_("**\\🎵 {0} quiz ‧ End**").format(category))
 
-        if len(winners) == 0:
+        if not winners:
             embed.description = _("Nobody won the song quiz! There were {0} round(s).").format(len(player.fetch("history")))
         elif len(winners) == 1:
             embed.description = _("{0} has guessed {1}/{2} songs correctly and won!").format(

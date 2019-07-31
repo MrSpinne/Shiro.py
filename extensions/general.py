@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from library import checks, converters
 
-import asyncio
 import time
 
 

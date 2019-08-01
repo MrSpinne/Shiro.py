@@ -100,6 +100,7 @@ class Shiro(commands.Bot):
     def connect_gspread(self):
         """Connect to google api to use sheets"""
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        logging.error(os.environ.get("GSPREAD_PRIVATE_KEY"))
         logging.error(os.environ.get("GSPREAD_PRIVATE_KEY").replace("\\\n", "\n"))
         credentials = {
             "type": os.environ.get("GSPREAD_TYPE"),

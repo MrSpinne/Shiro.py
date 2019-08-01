@@ -101,11 +101,11 @@ class Shiro(commands.Bot):
         """Connect to google api to use sheets"""
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         logging.error(os.environ.get("GSPREAD_PRIVATE_KEY"))
-        logging.error(os.environ.get("GSPREAD_PRIVATE_KEY").replace("\\\n", "\n"))
+        logging.error(os.environ.get("GSPREAD_PRIVATE_KEY").replace("\\n", "\n"))
         credentials = {
             "type": os.environ.get("GSPREAD_TYPE"),
             "private_key_id": os.environ.get("GSPREAD_PRIVATE_KEY_ID"),
-            "private_key": os.environ.get("GSPREAD_PRIVATE_KEY").replace("\\\n", "\n"),
+            "private_key": os.environ.get("GSPREAD_PRIVATE_KEY").replace("\\n", "\n"),
             "client_email": os.environ.get("GSPREAD_CLIENT_EMAIL"),
             "client_id": os.environ.get("GSPREAD_CLIENT_ID")
         }

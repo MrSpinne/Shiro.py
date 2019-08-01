@@ -28,8 +28,7 @@ class Songs(commands.Cog):
 
     async def on_lavalink_event(self, event):
         """Track events raised by lavalink"""
-        if isinstance(event, lavalink.events.QueueEndEvent) or isinstance(event, lavalink.events.TrackStuckEvent) or \
-                isinstance(event, lavalink.events.TrackExceptionEvent):
+        if isinstance(event, (lavalink.events.QueueEndEvent, lavalink.events.TrackStuckEvent, lavalink.events.TrackExceptionEvent)):
             await self.connect_to(event.player.guild_id, None)
             self.shiro.lavalink.players.remove(int(event.player.guild_id))
 
@@ -54,7 +53,7 @@ class Songs(commands.Cog):
         """Check songs got from database and return tracks"""
         tracks = []
         player = self.shiro.lavalink.players.get(ctx.guild.id)
-        songs = self.shiro.get_random_songs(category, amount)
+        songs = self.shiro.get_random_songs(category, amount+5)
 
         for song in songs:
             results = await player.node.get_tracks(song["url"])
@@ -67,6 +66,9 @@ class Songs(commands.Cog):
             history = player.fetch("history")
             history.append(song)
             player.store("history", history)
+
+            if len(history) == amount:
+                break
 
         return tracks
 
@@ -176,11 +178,11 @@ class Songs(commands.Cog):
             await self.run_round(ctx, category)
 
         counted = collections.Counter(player.fetch("points"))
-        winners = [self.shiro.get_user(id) for id, points in dict(counted).items() if counted.most_common(1)[0][1] == points]
+        winners = [self.shiro.get_user(user_id) for user_id, points in dict(counted).items() if counted.most_common(1)[0][1] == points]
         winner_mentions = [winner.mention for winner in winners]
         embed = discord.Embed(color=7830745, title=_("**\\🎵 {0} quiz ‧ End**").format(category))
 
-        if len(winners) == 0:
+        if not winners:
             embed.description = _("Nobody won the song quiz! There were {0} round(s).").format(len(player.fetch("history")))
         elif len(winners) == 1:
             embed.description = _("{0} has guessed {1}/{2} songs correctly and won!").format(
@@ -192,19 +194,19 @@ class Songs(commands.Cog):
         await ctx.send(embed=embed)
         await player.skip()
 
-    @commands.command(aliases=["openingquiz", "openings"])
+    @commands.command(aliases=["openingquiz", "openings", "ops", "op", "play", "p"])
     @commands.check(checks.voice_available)
     async def opquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Guess anime openings with specified amount of rounds\n"""
         await self.run_quiz(ctx, "Opening", rounds)
 
-    @commands.command(aliases=["endingquiz", "endings"])
+    @commands.command(aliases=["endingquiz", "endings", "eds", "ed"])
     @commands.check(checks.voice_available)
     async def edquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Openings are too easy for you? This is next level!"""
         await self.run_quiz(ctx, "Ending", rounds)
 
-    @commands.command(aliases=["osts"])
+    @commands.command(aliases=["osts", "ost", "soundtrack", "soundtracks"])
     @commands.check(checks.voice_available)
     @commands.check(checks.has_voted)
     async def ostquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
@@ -222,11 +224,11 @@ class Songs(commands.Cog):
 
         embed = discord.Embed(color=7830745, title=_("**\\🎵 Stop quiz**"))
         if player.fetch("count") == 0:
-            embed.description = _("Quiz will now end after the first round is played.")
+            embed.description = _("Playback will now end after the first song is played.")
         elif len(guild_history_before) == len(player.fetch("history")):
-            embed.description = _("Quiz already ends after this round. Playback will be stopped then.")
+            embed.description = _("Playback already ends after this song. It will be stopped then.")
         else:
-            embed.description = _("Reducing quiz rounds from {0} to {1}. Playback will end after current round.").format(
+            embed.description = _("Reducing songs from {0} to {1}. Playback will end after current round.").format(
                 len(guild_history_before), len(player.fetch("history")))
 
         await ctx.send(embed=embed)

@@ -2,10 +2,8 @@ import discord
 from discord.ext import commands, tasks
 from library import exceptions, checks, statposter
 
-import json
 import psycopg2.extras
 import psycopg2.sql
-import asyncio
 import pathlib
 import inspect
 import gettext
@@ -24,20 +22,18 @@ class Shiro(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
-        self.credentials, self.db_connector, self.db_cursor, self.app_info, self.gspread = None, None, None, None, None
-        self.sentry, self.lavalink, self.dbl, self.statposter = sentry_sdk, None, None, None
-        self.anilist = Pymoe.Anilist()
+        self.db_connector, self.db_cursor, self.app_info, self.gspread = None, None, None, None
+        self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
         self.startup()
 
     def startup(self):
         """Prepare start"""
         logging.basicConfig(level=logging.INFO)
-        self.load_credentials()
-        self.sentry.init(dsn=self.credentials["sentry"]["dsn"],
+        self.sentry.init(dsn=os.environ.get("SENTRY_DSN"),
                          integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
         self.connect_database()
-        self.connect_gspread()
         self.add_command_handlers()
+        # self.connect_gspread()
         self.update_songs_list.start()
 
     async def on_ready(self):
@@ -45,7 +41,7 @@ class Shiro(commands.Bot):
         self.app_info = await self.application_info()
         self.update_guilds()
         self.connect_lavalink()
-        self.dbl = dbl.Client(self, self.credentials["bot_list_tokens"]["discordbots"])
+        self.dbl = dbl.Client(self, os.environ.get("DISCORDBOTS"))
         self.statposter = statposter.StatPoster(self)
         self.load_all_extensions()
         self.update_status.start()
@@ -65,28 +61,16 @@ class Shiro(commands.Bot):
 
         try:
             translation = gettext.translation("base", "locales/", [language], codeset="utf-8").gettext(string)
-        except Exception as error:
+        except Exception as e:
             translation = string
-            logging.warning(error)
-            self.sentry.capture_exception(error)
+            logging.error(e)
+            self.sentry.capture_exception(e)
 
         return translation
 
-    def load_credentials(self):
-        """Get credentials from file and overwrite them if environment variable is found"""
-        with open("data/credentials.json", "r", encoding="utf-8") as file:
-            credentials = json.load(file)
-
-        for service, service_credentials in credentials.items():
-            for credential in service_credentials.keys():
-                if os.environ.get(f"{service}_{credential}") is not None:
-                    credentials[service][credential] = os.environ[f"{service}_{credential}"]
-
-        self.credentials = credentials
-
     def connect_database(self):
         """Establish connection to postgres database"""
-        self.db_connector = psycopg2.connect(**self.credentials["postgres"])
+        self.db_connector = psycopg2.connect(os.environ.get("DATABASE_URL"))
         self.db_cursor = self.db_connector.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     def disconnect_database(self):
@@ -116,13 +100,21 @@ class Shiro(commands.Bot):
     def connect_gspread(self):
         """Connect to google api to use sheets"""
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.credentials["gspread"], scope)
+        raw_credentials = {
+            "type": os.environ.get("GSPREAD_TYPE"),
+            "private_key_id": os.environ.get("GSPREAD_PRIVATE_KEY_ID"),
+            "private_key": os.environ.get("GSPREAD_PRIVATE_KEY"),
+            "client_email": os.environ.get("GSPREAD_CLIENT_EMAIL"),
+            "client_id": os.environ.get("GSPREAD_CLIENT_ID")
+        }
+        credentials = ServiceAccountCredentials.from_json_keyfile_dict(raw_credentials, scope)
         self.gspread = gspread.authorize(credentials)
 
     def connect_lavalink(self):
         """Connect to lavalink server"""
         self.lavalink = lavalink.Client(self.user.id)
-        self.lavalink.add_node(**self.credentials["lavalink"])
+        self.lavalink.add_node(os.environ.get("LAVALINK_HOST"), os.environ.get("LAVALINK_PORT"),
+                               os.environ.get("LAVALINK_PASSWORD"), os.environ.get("LAVALINK_REGION"))
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
@@ -182,21 +174,21 @@ class Shiro(commands.Bot):
         sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
         self.database_commit(sql, [title, reference, url, category])
 
-    def get_song(self, id):
+    def get_song(self, song_id):
         """Get a song from database by id if exists"""
         sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE id = %s")
-        song = self.database_fetch(sql, [id])
-        return None if len(song) == 0 else song[0]
+        song = self.database_fetch(sql, [song_id])
+        return song[0] if song else None
 
     def get_all_songs(self):
         """Get all songs from database in alphabetic order"""
         sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY category, reference, title")
         return self.database_fetch(sql)
 
-    def edit_song(self, id, setting, value):
+    def edit_song(self, song_id, setting, value):
         """Edit a song entry in database"""
         sql = psycopg2.sql.SQL("UPDATE public.songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
-        self.database_commit(sql, [value, id])
+        self.database_commit(sql, [value, song_id])
 
     def get_languages(self):
         """Get all languages found in locales"""
@@ -209,7 +201,7 @@ class Shiro(commands.Bot):
             if self.get_guild_setting(ctx.guild.id, "command_deletion") is True:
                 try:
                     await ctx.message.delete()
-                except:
+                except discord.HTTPException:
                     pass
 
     async def on_message(self, message):
@@ -217,7 +209,7 @@ class Shiro(commands.Bot):
         if message.guild is None or message.author.bot:
             return
 
-        if self.user in message.mentions:
+        if message.content.startswith(message.guild.me.mention):
             ctx = await self.get_context(message)
             ctx.prefix = self.get_guild_setting(message.guild.id, "prefix")
             ctx.command = self.get_command("help")
@@ -247,7 +239,7 @@ class Shiro(commands.Bot):
 
     async def on_command_error(self, ctx, error):
         """Catch errors on command execution"""
-        embed = discord.Embed(color=10892179, title=_("\❌ **Error on command**"))
+        embed = discord.Embed(color=10892179, title=_("\\❌ **Error on command**"))
         if ctx.command:
             ctx.command.reset_cooldown(ctx)
 
@@ -271,30 +263,35 @@ class Shiro(commands.Bot):
         elif isinstance(error, exceptions.NotYoutubeURL):
             embed.description = _("The url `{0}` isn't a valid YouTube url or it's geo restricted.").format(error.argument)
         elif isinstance(error, exceptions.NotSongID):
-            embed.description = _("The id `{0}` isn't valid!").format(error.argument)
+            embed.description = _("The song id `{0}` isn't valid!").format(error.argument)
+        elif isinstance(error, exceptions.NotCategory):
+            embed.description = _("`{0}` isn't a valid song category.")
         elif isinstance(error, commands.BadUnionArgument):
             converter_names = ", ".join([converter.__name__.lower() for converter in error.converters])
             embed.description = _("The argument `{0}` in command `{1}` has to be one of these: {2}").format(
                 error.param.name, ctx.message.content, converter_names)
-        elif isinstance(error, commands.ConversionError) or isinstance(error, commands.BadArgument):
+        elif isinstance(error, (commands.ConversionError, commands.BadArgument)):
             embed.description = _("A wrong argument were passed into the command `{0}`.").format(ctx.message.content)
         elif isinstance(error, commands.CommandNotFound):
-            embed.description = _("The command `{0}` wasn't found. To get a list of command use `{1}`.").format(
+            embed.description = _("The command `{0}` wasn't found. To get a list of commands use `{1}`.").format(
                 ctx.message.content, f"{ctx.prefix}help")
-        elif isinstance(error, exceptions.NotTeamMember):
-            embed.description = _("The command `{0}` can only be executed by team members.").format(ctx.message.content)
+        elif isinstance(error, exceptions.NotTeam):
+            embed.description = _("The command `{0}` can only be executed by team "
+                                  "members on this server.").format(ctx.message.content)
+        elif isinstance(error, commands.NotOwner):
+            embed.description = _("The command `{0}` can only be executed by {1} on this server.")
         elif isinstance(error, exceptions.NotGuildAdmin):
-            embed.description = _("The command `{0}` can only be executed by admins.").format(ctx.message.content)
-        elif isinstance(error, exceptions.NoVoice):
-            embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
-                                  "Also, the bot can't serve multiple channels.").format(ctx.message.content)
+            embed.description = _("The command `{0}` can only be executed by server admins.").format(ctx.message.content)
         elif isinstance(error, exceptions.NotVoted):
             embed.description = _("This command is only available for voters. Please [vote for free]({0}) "
                                   "to support this bot!").format("https://discordbots.org/bot/593116701281746955/vote")
+        elif isinstance(error, exceptions.NoVoice):
+            embed.description = _("To use the command `{0}` you have to be in an voice channel (not afk). "
+                                  "Also, the bot can't serve multiple channels.").format(ctx.message.content)
         elif isinstance(error, exceptions.NoPlayer):
-            embed.description = _("There's no quiz to stop.")
+            embed.description = _("There's no playback to stop.")
         elif isinstance(error, exceptions.NotRequester):
-            embed.description = _("Only the user who started the quiz or an admin can stop the playback.")
+            embed.description = _("Only the user who started the playback or an admin can stop it.")
         elif isinstance(error, exceptions.SpecificChannelOnly):
             embed.description = _("On this server commands can only be executed in channel {0}.").format(
                 error.channel.mention)
@@ -311,6 +308,9 @@ class Shiro(commands.Bot):
                                   "with spaces.").format(ctx.message.content)
         elif isinstance(error, commands.CommandOnCooldown):
             embed.description = _("Command on cooldown! Try again in {0} seconds.").format(int(error.retry_after))
+        elif isinstance(error, commands.DisabledCommand):
+            embed.description = _("All commands have been disabled because of a bot update. We'll be back in "
+                                  "about 5 minutes. Please be patient.")
         else:
             embed.description = _("An unknown error occurred on command `{0}`. We're going to fix that soon!").format(
                 ctx.message.content)
@@ -330,13 +330,19 @@ class Shiro(commands.Bot):
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         try:
-            await self.statposter.post_all(self.credentials["bot_list_tokens"])
+            tokens = {"divinediscordbots": os.environ.get("DIVINEDISCORDBOTS"),
+                      "discordbotreviews": os.environ.get("DISCORDBOTREVIEWS"),
+                      "mythicalbots": os.environ.get("MYTHICALBOTS"),
+                      "discordbotlist": os.environ.get("DISCORDBOTLIST"),
+                      "discordboats": os.environ.get("DISCORDBOATS")}
+            await self.statposter.post_all(tokens)
         except Exception as e:
             self.sentry.capture_exception(e)
+            # TODO: Specify exception
 
         try:
             await self.dbl.post_guild_count()
-        except Exception as e:
+        except dbl.DBLException as e:
             self.sentry.capture_exception(e)
 
     @tasks.loop(hours=1)
@@ -356,4 +362,4 @@ class Shiro(commands.Bot):
 
 
 shiro = Shiro()
-shiro.run(shiro.credentials["discord"]["token"])
+shiro.run(os.environ.get("DISCORD_TOKEN"))

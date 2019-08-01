@@ -16,7 +16,7 @@ class RangeInt(commands.Converter):
             argument = int(float(argument))
             if argument in range(self.min_num, self.max_num + 1):
                 return argument
-        except:
+        except ValueError:
             pass
 
         raise exceptions.NotInRange(argument, self.min_num, self.max_num)
@@ -45,9 +45,6 @@ class Prefix(commands.Converter):
 
 class Bool(commands.Converter):
     """Converts to bool value if it's the specified"""
-    def __init__(self, bool=None):
-        self.bool = bool
-
     async def convert(self, ctx, argument):
         argument = argument.lower()
         if argument in ["true", "enable", "enabled", "on", "activate", "activated", "1"]:
@@ -55,10 +52,10 @@ class Bool(commands.Converter):
         elif argument in ["false", "disable", "disabled", "off", "deactivate", "deactivated", "0"]:
             argument = False
 
-        if (self.bool is None and isinstance(argument, bool)) or self.bool is argument:
+        if isinstance(argument, bool):
             return argument
 
-        raise exceptions.NotBool(argument, bool)
+        raise exceptions.NotBool(argument)
 
 
 class Nothing(commands.Converter):
@@ -96,7 +93,7 @@ class YoutubeURL(commands.Converter):
     async def convert(self, ctx, argument):
         results = await ctx.bot.lavalink.get_tracks(argument)
         if results and results["tracks"]:
-            video_id = re.search("((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)", argument)[0]
+            video_id = re.search(r"((?<=([vV])/)|(?<=be/)|(?<=([?&])v=)|(?<=embed/))([\w-]+)", argument)[0]
             video_url = f"https://www.youtube.com/watch?v={video_id}"
             return video_url
 
@@ -107,9 +104,14 @@ class Anime(commands.Converter):
     """Convert to anime"""
     async def convert(self, ctx, argument):
         search = ctx.bot.anilist.search.anime(argument, perpage=1)
-        titles = search["data"]["Page"]["media"][0]["title"]
-        anime = titles["english"] if titles["english"] is not None else titles["romaji"]
-        return anime
+        try:
+            titles = search["data"]["Page"]["media"][0]["title"]
+            anime = titles["english"] if titles["english"] is not None else titles["romaji"]
+            return anime
+        except KeyError:
+            raise exceptions.NotAnime(argument)
+
+        # TODO: Will be used in upcoming version
 
 
 class SongID(commands.Converter):
@@ -117,9 +119,26 @@ class SongID(commands.Converter):
     async def convert(self, ctx, argument):
         try:
             argument = int(argument)
-            if len(ctx.bot.get_song(argument)) > 0:
+            if ctx.bot.get_song(argument):
                 return argument
-        except:
+        except ValueError:
             pass
 
         raise exceptions.NotSongID(argument)
+
+
+class Category(commands.Converter):
+    """Convert to category if possible"""
+    async def convert(self, ctx, argument):
+        opening = ["op", "ops", "opening", "openings"]
+        ending = ["ed", "eds", "ending", "endings"]
+        ost = ["ost", "osts", "soundtrack", "soundtracks"]
+
+        if argument.lower() in opening:
+            return "Opening"
+        if argument.lower() in ending:
+            return "Ending"
+        if argument.lower() in ost:
+            return "OST"
+
+        raise exceptions.NotCategory(argument)

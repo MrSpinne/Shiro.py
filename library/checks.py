@@ -40,14 +40,25 @@ def is_guild_admin(ctx):
     return True
 
 
-def is_team_member(ctx):
+def is_team(ctx):
     """Check if user is team member of bot"""
     if ctx.guild.id != 600761022089003021:
         raise commands.CommandNotFound
 
     role_ids = [role.id for role in ctx.author.roles]
-    if ctx.author != ctx.bot.app_info.owner and (601376061418373141 not in role_ids or 601503055816687628 not in role_ids):
-        raise exceptions.NotTeamMember
+    if ctx.author.id != ctx.bot.app_info.owner.id and 601376061418373141 not in role_ids and 601503055816687628 not in role_ids:
+        raise exceptions.NotTeam
+
+    return True
+
+
+def is_owner(ctx):
+    """Check if user is owner of bot"""
+    if ctx.guild.id != 600761022089003021:
+        raise commands.CommandNotFound
+
+    if ctx.author != ctx.bot.app_info.owner:
+        raise commands.NotOwner
 
     return True
 

@@ -1,8 +1,10 @@
 import discord
 from discord.ext import commands
-from library import checks, converters
+from library import checks, converters, exceptions
 
-import asyncio
+import time
+import difflib
+import re
 
 
 class General(commands.Cog):
@@ -15,6 +17,7 @@ class General(commands.Cog):
         embed = discord.Embed(color=7830745, title=_("**\\📄 General**"))
         embed.description = _("`{0}help` ‧ Display all commands\n"
                               "`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
+                              "`{0}stats` ‧ List up some stats of Shiro\n"
                               "`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request opening for quiz\n"
                               "`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request ending for quiz\n"
                               "`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request OST for quiz"
@@ -30,26 +33,28 @@ class General(commands.Cog):
 
         try:
             checks.is_guild_admin(ctx)
-        except:
-            return
-
-        languages = "/".join(self.shiro.get_languages())
-        embed = discord.Embed(color=7830745, title=_("**\\⚙️ Settings**"))
-        embed.description = _("`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
-                              "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
-                              "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
-                              "`{0}language <{1}>` ‧ Change bot language\n"
-                              "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
-        await ctx.author.send(embed=embed)
+            languages = "/".join(self.shiro.get_languages())
+            embed = discord.Embed(color=7830745, title=_("**\\⚙️ Settings**"))
+            embed.description = _("`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
+                                  "`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
+                                  "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
+                                  "`{0}language <{1}>` ‧ Change bot language\n"
+                                  "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
+            await ctx.author.send(embed=embed)
+        except exceptions.NotGuildAdmin:
+            pass
 
         try:
-            checks.is_team_member(ctx)
-        except:
-            return
-
-        embed = discord.Embed(color=7830745, title=_("**\\🔧 Utility**"))
-        embed.description = _("`{0}search <query>` ‧ Search for songs in database\n").format(ctx.prefix)
-        await ctx.author.send(embed=embed)
+            checks.is_team(ctx)
+            embed = discord.Embed(color=7830745, title=_("**\\🔧 Utility**"))
+            embed.description = _("`{0}search <query>` ‧ Search for songs in database\n"
+                                  "`{0}edittitle <song id> <title>` ‧ Edit title of song\n"
+                                  "`{0}editreference <song id> <reference>` ‧ Edit reference of song\n"
+                                  "`{0}editurl <song id> <url>` ‧ Edit url of song\n"
+                                  "`{0}editcategory <song id> <category` ‧ Edit category of song").format(ctx.prefix)
+            await ctx.author.send(embed=embed)
+        except exceptions.NotTeam:
+            pass
 
     @commands.command(aliases=["information", "about", "credits", "spinne", "shiro"])
     async def info(self, ctx):
@@ -64,23 +69,38 @@ class General(commands.Cog):
             "https://docs.google.com/spreadsheets/d/1S8u-V3LBMSzf8g78ZEE1I7_YT8SSFa8ROpXysoqvSFg")
         await ctx.send(embed=embed)
 
+    @commands.command(aliases=["status", "stat"])
+    @commands.cooldown(1, 300, commands.BucketType.user)
+    async def stats(self, ctx):
+        """List up some stats of Shiro"""
+        ping = time.monotonic()
+        await self.shiro.application_info()
+        ping = int((time.monotonic() - ping) * 1000)
+
+        embed = discord.Embed(color=7830745, title=_("**\\📄 Statistics**"))
+        embed.description = _("Guilds ‧ {0}\nUsers ‧ {1}\nAudio players ‧ {2}\nVotes (on dbl) ‧ {3}\nPing ‧ {4}ms\nSongs ‧ {5}").format(
+            len(self.shiro.guilds), len(self.shiro.users), len(self.shiro.lavalink.players),
+            len(await self.shiro.dbl.get_bot_upvotes()), ping, len(self.shiro.get_all_songs()))
+
+        await ctx.send(embed=embed)
+
     @commands.command(aliases=["openingrequest", "openingreq", "opreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def oprequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def oprequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
         """Request a song for the song quiz"""
-        await self.do_request(ctx, title, anime, yt_url, "Opening")
+        await self.do_request(ctx, song, anime, yt_url, "Opening")
 
     @commands.command(aliases=["endingrequest", "endingreq", "edreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def edrequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def edrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
         """Request a song for the ending quiz"""
-        await self.do_request(ctx, title, anime, yt_url, "Ending")
+        await self.do_request(ctx, song, anime, yt_url, "Ending")
 
     @commands.command(aliases=["ostreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def ostrequest(self, ctx, title: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def ostrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
         """Request a song for the ost quiz"""
-        await self.do_request(ctx, title, anime, yt_url, "OST")
+        await self.do_request(ctx, song, anime, yt_url, "OST")
 
     async def do_request(self, ctx, title, reference, url, category):
         """Request a song for specified category"""

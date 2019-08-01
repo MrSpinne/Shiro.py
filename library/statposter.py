@@ -68,7 +68,7 @@ class StatPoster:
         try:
             await self.session.post(url, data=data, headers=headers)
         except Exception as e:
-            raise Exception(f"Failed post request to {url}")
+            raise Exception(e)
 
     async def post_all(self, tokens):
         await self.divinediscordbots(tokens["divinediscordbots"])

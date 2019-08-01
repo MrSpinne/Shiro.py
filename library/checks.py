@@ -46,7 +46,7 @@ def is_team(ctx):
         raise commands.CommandNotFound
 
     role_ids = [role.id for role in ctx.author.roles]
-    if ctx.author != ctx.bot.app_info.owner and (601376061418373141 not in role_ids or 601503055816687628 not in role_ids):
+    if ctx.author.id != ctx.bot.app_info.owner.id and 601376061418373141 not in role_ids and 601503055816687628 not in role_ids:
         raise exceptions.NotTeam
 
     return True

@@ -29,25 +29,25 @@ class Utility(commands.Cog):
 
     @commands.command(aliases=["changetitle", "etitle", "etit"])
     @commands.check(checks.is_team)
-    async def edittitle(self, ctx, song_id: converters.SongID, title: converters.LengthStr(35)):
+    async def edittitle(self, ctx, song_id: converters.SongID, *, title: converters.LengthStr(35)):
         """Edit song title in database"""
         await self.update_song(ctx, song_id, "Title", title)
 
     @commands.command(aliases=["changereference", "ereference", "eref"])
     @commands.check(checks.is_team)
-    async def editreference(self, ctx, song_id: converters.SongID, reference: converters.Anime):
+    async def editreference(self, ctx, song_id: converters.SongID, *, reference):
         """Edit song reference in database"""
         await self.update_song(ctx, song_id, "Reference", reference)
 
     @commands.command(aliases=["changeurl", "eurl"])
     @commands.check(checks.is_team)
-    async def editurl(self, ctx, song_id: converters.SongID, url: converters.YoutubeURL):
+    async def editurl(self, ctx, song_id: converters.SongID, *, url: converters.YoutubeURL):
         """Edit song url in database"""
         await self.update_song(ctx, song_id, "URL", url)
 
     @commands.command(aliases=["changecategory", "ecategory", "ecat"])
     @commands.check(checks.is_team)
-    async def editcategory(self, ctx, song_id: converters.SongID, category: converters.Category):
+    async def editcategory(self, ctx, song_id: converters.SongID, *, category: converters.Category):
         """Edit song url in database"""
         await self.update_song(ctx, song_id, "category", category)
 
@@ -81,7 +81,7 @@ class Utility(commands.Cog):
 
         songs_cog = self.shiro.get_cog("Songs")
         for player in self.shiro.lavalink.players:
-            player_ctx = player.fetch("ctx")
+            player_ctx = player[1].fetch("ctx")
             songs_cog.stop_playback(player_ctx)
             await player_ctx.send(embed=embed)
 

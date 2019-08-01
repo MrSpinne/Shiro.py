@@ -33,7 +33,7 @@ class Shiro(commands.Bot):
                          integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
         self.connect_database()
         self.add_command_handlers()
-        self.connect_gspread()
+        # self.connect_gspread()
         self.update_songs_list.start()
 
     async def on_ready(self):

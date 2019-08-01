@@ -51,7 +51,7 @@ class General(commands.Cog):
                                   "`{0}edittitle <song id> <title>` ‧ Edit title of song\n"
                                   "`{0}editreference <song id> <reference>` ‧ Edit reference of song\n"
                                   "`{0}editurl <song id> <url>` ‧ Edit url of song\n"
-                                  "`{0}editcategory <song id> <category` ‧ Edit category of song").format(ctx.prefix)
+                                  "`{0}editcategory <song id> <category>` ‧ Edit category of song").format(ctx.prefix)
             await ctx.author.send(embed=embed)
         except exceptions.NotTeam:
             pass
@@ -62,8 +62,8 @@ class General(commands.Cog):
         owner = f"{self.shiro.app_info.owner.name}#{self.shiro.app_info.owner.discriminator}"
         embed = discord.Embed(color=7830745, title=_("**\\📄 About Shiro**"))
         embed.set_thumbnail(url=self.shiro.app_info.owner.avatar_url)
-        embed.description = _("Shiro were made by **{0}** in Python. If you have any questions, feel free "
-                              "to contact.\n\n[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ "
+        embed.description = _("Shiro were made by **{0}** in Python. If you have any questions please join our support "
+                              "server.\n\n[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ "
                               "[Vote]({2}) ‧ [All songs]({3})").format(
             owner, "https://discord.gg/5z4z8kh", "https://discordbots.org/bot/593116701281746955/vote",
             "https://docs.google.com/spreadsheets/d/1S8u-V3LBMSzf8g78ZEE1I7_YT8SSFa8ROpXysoqvSFg")
@@ -78,9 +78,10 @@ class General(commands.Cog):
         ping = int((time.monotonic() - ping) * 1000)
 
         embed = discord.Embed(color=7830745, title=_("**\\📄 Statistics**"))
-        embed.description = _("Guilds ‧ {0}\nUsers ‧ {1}\nAudio players ‧ {2}\nVotes (on dbl) ‧ {3}\nPing ‧ {4}ms\nSongs ‧ {5}").format(
+        embed.description = _("Guilds ‧ {0}\nUsers ‧ {1}\nAudio players ‧ {2}\nVotes (on discordbots) ‧ {3}\nPing ‧ {4}ms\nSongs ‧ {5}").format(
             len(self.shiro.guilds), len(self.shiro.users), len(self.shiro.lavalink.players),
             len(await self.shiro.dbl.get_bot_upvotes()), ping, len(self.shiro.get_all_songs()))
+        embed.set_thumbnail(url=self.shiro.user.avatar_url)
 
         await ctx.send(embed=embed)
 

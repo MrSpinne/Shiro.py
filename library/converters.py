@@ -77,13 +77,13 @@ class Language(commands.Converter):
         for language in pycountry.languages:
             if getattr(language, "name", None) == argument.capitalize():
                 if getattr(language, "alpha_2", None) in available_languages:
-                    return language.alpha_2
+                    return language
             elif getattr(language, "alpha_2", None) == argument:
                 if getattr(language, "alpha_2") in available_languages:
-                    return language.alpha_2
+                    return language
             elif getattr(language, "alpha_3", None) == argument:
                 if getattr(language, "alpha_2", None) in available_languages:
-                    return language.alpha_2
+                    return language
 
         raise exceptions.NotLanguage(argument, available_languages)
 

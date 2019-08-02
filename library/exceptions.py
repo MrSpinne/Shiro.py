@@ -85,7 +85,7 @@ class NotAnime(commands.BadArgument):
 
 class NotSongID(commands.BadArgument):
     """Raised when song doesn't exist in database"""
-    def __int__(self, argument):
+    def __init__(self, argument):
         self.argument = argument
 
 

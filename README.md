@@ -8,42 +8,47 @@
   </a>
   <br>
   <a href="https://discordbots.org/bot/593116701281746955">
-    <img src="https://www.codefactor.io/repository/github/mrspinne/shiro.py/badge">
+    <img src="https://api.codacy.com/project/badge/Grade/13cffdffc33045ee9dea2a6a45535ba3">
+  </a>
+  <a href="https://discordbots.org/bot/593116701281746955">
+    <img src="https://api.travis-ci.org/MrSpinne/Shiro.py.svg?branch=unstable">
   </a>
   <a href="https://discordbots.org/bot/593116701281746955">
     <img src="https://img.shields.io/badge/python-3.7-blue">
   </a>
   <a href="https://discordbots.org/bot/593116701281746955">
-    <img src="https://img.shields.io/badge/version-1.1-orange">
+    <img src="https://img.shields.io/badge/version-1.3-orange">
   </a>
   <a href="https://discordbots.org/bot/593116701281746955">
     <img src="https://img.shields.io/discord/600761022089003021">
   </a>
 </div>
 
+## WORK IN PROGRESS - NOT PURPOSED FOR PERSONAL USAGE
+
 ## Requirements
 ### Packages
     pip install -r requirements.txt
 ### Environmental Variables 
-* Discord bot token
+  * Discord bot token
     * `DISCORD_TOKEN`
-* Postgres database url
+  * Postgres database url
     * `DATABASE_URL`
-* Sentry DSN
+  * Sentry DSN
     * `SENTRY_DSN`
-* Lavalink server
+  * Lavalink server
     * `LAVALINK_HOST`
     * `LAVALINK_PASSWORD`
     * `LAVALINK_PORT`
     * `LAVALINK_REGION`
-* Discord bot list tokens
+  * Discord bot list tokens
     * `DISCORDBOTS`
     * `DIVINEDISCORDBOTS` 
     * `DISCORDBOTREVIEWS`
     * `MYTHICALBOTS`
     * `DISCORDBOTLIST`
     * `DISCORDBOATS`
-* Google Sheets (Gspread)
+  * Google Sheets (Gspread)
     * `GSPREAD_TYPE`
     * `GSPREAD_PRIVATE_KEY_ID`
     * `GSPREAD_PRIVATE_KEY`

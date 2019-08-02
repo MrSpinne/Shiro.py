@@ -70,7 +70,7 @@ class Utility(commands.Cog):
     async def commit(self, ctx):
         """Shut down bot for update"""
         embed = discord.Embed(color=7830745, title=_("**\\🔧 Bot update**"),
-                              description=_("Bot will stop in 5 minutes, {0} players will be shut down.").format(
+                              description=_("Bot will stop in 5 minutes, {0} audio players will be shut down.").format(
                                   len(self.shiro.lavalink.players)))
         message = await ctx.send(embed=embed)
 
@@ -91,8 +91,8 @@ class Utility(commands.Cog):
         await asyncio.sleep(300)
         await message.delete()
         embed = discord.Embed(color=7830745, title=_("**\\🔧 Bot update**"),
-                              description=_("Bot will now be shut down. {0}").format(ctx.author.mention))
-        await ctx.send(embed=embed)
+                              description=_("Bot will now be shut down.").format(ctx.author.mention))
+        await ctx.send(embed=embed, content=ctx.author.mention)
 
 
 def setup(shiro):

@@ -77,6 +77,7 @@ class Language(commands.Converter):
 
         for language in pycountry.languages:
             if getattr(language, "name", None) == argument.capitalize():
+
                 if getattr(language, "alpha_2", None) in languages:
                     return language.alpha_2
             elif getattr(language, "alpha_2", None) == argument:

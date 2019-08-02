@@ -43,9 +43,9 @@ class Settings(commands.Cog):
     @commands.check(checks.is_guild_admin)
     async def language(self, ctx, language: converters.Language):
         """Set bots language"""
-        self.shiro.set_guild_setting(ctx.guild.id, "language", language)
+        self.shiro.set_guild_setting(ctx.guild.id, "language", language.alpha_2)
         embed = discord.Embed(color=7830745, title=_("**\\⚙️ Language**"))
-        embed.description = _("Language were set to `{0}`.").format(language)
+        embed.description = _("Language were set to `{0}`.").format(language.name)
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["configuration", "setting", "settings", "option", "options"])

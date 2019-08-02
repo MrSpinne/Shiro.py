@@ -277,8 +277,7 @@ class Shiro(commands.Bot):
         elif isinstance(error, (commands.ConversionError, commands.BadArgument)):
             embed.description = _("A wrong argument were passed into the command `{0}`.").format(ctx.message.content)
         elif isinstance(error, commands.CommandNotFound):
-            embed.description = _("The command `{0}` wasn't found. To get a list of commands use `{1}`.").format(
-                ctx.message.content, f"{ctx.prefix}help")
+            return
         elif isinstance(error, exceptions.NotTeam):
             embed.description = _("The command `{0}` can only be executed by team "
                                   "members on this server.").format(ctx.message.content)
@@ -334,20 +333,18 @@ class Shiro(commands.Bot):
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         try:
-            tokens = {"divinediscordbots": os.environ.get("DIVINEDISCORDBOTS"),
-                      "discordbotreviews": os.environ.get("DISCORDBOTREVIEWS"),
-                      "mythicalbots": os.environ.get("MYTHICALBOTS"),
-                      "discordbotlist": os.environ.get("DISCORDBOTLIST"),
-                      "discordboats": os.environ.get("DISCORDBOATS")}
+            tokens = {
+                "discordbots": os.environ.get("DISCORDBOTS"),
+                "divinediscordbots": os.environ.get("DIVINEDISCORDBOTS"),
+                "discordbotreviews": os.environ.get("DISCORDBOTREVIEWS"),
+                "mythicalbots": os.environ.get("MYTHICALBOTS"),
+                "discordbotlist": os.environ.get("DISCORDBOTLIST"),
+                "discordboats": os.environ.get("DISCORDBOATS")
+            }
             await self.statposter.post_all(tokens)
         except Exception as e:
             self.sentry.capture_exception(e)
             # TODO: Specify exception
-
-        try:
-            await self.dbl.post_guild_count()
-        except dbl.DBLException as e:
-            self.sentry.capture_exception(e)
 
     @tasks.loop(hours=1)
     async def update_songs_list(self):

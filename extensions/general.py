@@ -22,7 +22,7 @@ class General(commands.Cog):
                               "`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request ending for quiz\n"
                               "`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request OST for quiz"
                               ).format(ctx.prefix)
-        await ctx.author.send(embed=embed, content=_("Here're all commands for **{0}**:").format(ctx.guild.name))
+        await ctx.author.send(embed=embed, content=_("Here're all your commands for **{0}**:").format(ctx.guild.name))
 
         embed = discord.Embed(color=7830745, title=_("**\\🎵 Songs**"))
         embed.description = _("`{0}opquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"

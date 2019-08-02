@@ -5,7 +5,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
 "Project-Id-Version: Shiro.py\n"
-"Language: en\n"
+"Language: en-us\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -253,7 +253,7 @@ msgstr "`{0}search <query>` ‧ Search for songs in database\n"
 "`{0}edittitle <song id> <title>` ‧ Edit title of song\n"
 "`{0}editreference <song id> <reference>` ‧ Edit reference of song\n"
 "`{0}editurl <song id> <url>` ‧ Edit url of song\n"
-"`{0}editcategory <song id> <category>` ‧ Edit category of song"
+"`{0}editcategory <song id> <category` ‧ Edit category of song"
 
 #: extensions/general.py:81
 msgid "**\\📄 Statistics**"

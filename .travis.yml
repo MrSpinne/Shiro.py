@@ -1,0 +1,11 @@
+dist: xenial
+language: python
+python:
+  - "3.7"
+install:
+  - pip install -r requirements.txt
+services:
+  - postgresql
+before_script:
+  - psql -c "CREATE DATABASE shiro.py;" -U postgres
+  - psql -c "CREATE USER shiro.py WITH PASSWORD 'shiro.py';" -U postgres

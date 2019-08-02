@@ -39,19 +39,18 @@ msgstr "\n"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr "**\\📄 About Shiro**"
+msgstr "**\\📄 Sobre Shiro**"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n"
 "\n"
 "[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
-msgstr "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n"
-"\n"
-"[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
+msgstr "Shiro fue creado por **{0}** en Python. Si tenes cualquier duda, sentite libre de contactar.\n"
+"[Soporte y Preguntas]({1}) · [Ayuda a traducir]({1}) · [Vota]({2})·[Todas las canciones]({3})  "
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
-msgstr "**\\⚙️ Prefix**"
+msgstr "**\\⚙️ Prefijo**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."

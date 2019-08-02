@@ -1,0 +1,413 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Shiro.py\n"
+"Language: pl\n"
+
+#: extensions/general.py:17
+msgid "**\\📄 General**"
+msgstr "**\\📄 Ogólnie**"
+
+#: extensions/general.py:25
+msgid "Here're all commands for **{0}**:"
+msgstr "Oto wszystkie polecenia dla **{0}**"
+
+#: extensions/general.py:27
+msgid "**\\🎵 Songs**"
+msgstr "**\\🎵 Piosenki**"
+
+#: extensions/general.py:40
+msgid "**\\⚙️ Settings**"
+msgstr "**\\⚙️ Ustawienia**"
+
+#: extensions/general.py:41
+msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
+"`{0}deletion <on/off>` ‧ Enable or disable command message deletion\n"
+"`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
+"`{0}language <{1}>` ‧ Change bot language\n"
+"`{0}config` ‧ Display current configuration"
+msgstr "`{0}prefix <1-10 symbols>` ‧ Zmień prefiks serwera\n"
+"`{0}deletion <on/off>` ‧ Włącz lub wyłącz usunięcie komunikatu polecenia\n"
+"`{0}channel <none/channel>` ‧ Wybierz kanał w którym dozwolone są tylko polecenia\n"
+"`{0}language <{1}>` ‧ Zmień język bota\n"
+"`{0}config` ‧ Wyświetl obecną konfigurację"
+
+#: extensions/general.py:65
+msgid "**\\📄 About Shiro**"
+msgstr "**\\📄 O Shiro**"
+
+#: extensions/general.py:67
+msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n"
+"\n"
+"[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
+msgstr "Shiro została stworzona przez **{0}** w Pythonie. Jeżeli masz jakieś pytania, skontaktuj się z autorem.\n"
+"\n"
+"[Pomoc i opinie]({1}) ‧ [Pomóż w tłumaczeniu]({1}) ‧ [Głosuj]({2}) ‧ [Wszystkie piosenki]({3}) "
+
+#: extensions/settings.py:17
+msgid "**\\⚙️ Prefix**"
+msgstr "**\\⚙️ Prefiks**"
+
+#: extensions/settings.py:18
+msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
+msgstr "Prefiks serwera został zmieniony na `{0}`. Jeżeli o tym zapomnisz, zawsze możesz użyć `@Shiro` aby uzyskać pomoc.\n"
+""
+
+#. not sure about this one
+#: extensions/settings.py:28
+msgid "**\\⚙️ Command deletion**"
+msgstr "**\\⚙️ Usunięcie poleceń**"
+
+#: extensions/settings.py:29
+msgid "Command message deletion were {0}."
+msgstr "Usuwanie komunikatów poleceń zostało {0}"
+
+#: extensions/settings.py:29 extensions/settings.py:64
+msgid "disabled"
+msgstr "wyłączone"
+
+#: extensions/settings.py:29 extensions/settings.py:64
+msgid "enabled"
+msgstr "włączone"
+
+#: extensions/settings.py:37
+msgid "**\\⚙️ Channel only**"
+msgstr "**\\⚙️ Tylko kanał**"
+
+#: extensions/settings.py:38
+msgid "Commands can now be executed {0}."
+msgstr "Polecenia mogą zostać wykonane {0}."
+
+#: extensions/settings.py:39
+msgid "everywhere"
+msgstr "wszędzie"
+
+#: extensions/settings.py:39
+msgid "in channel {0}"
+msgstr "w kanale"
+
+#: extensions/settings.py:47
+msgid "**\\⚙️ Language**"
+msgstr "**\\⚙️ Język**"
+
+#: extensions/settings.py:48
+msgid "Language were set to `{0}`."
+msgstr "Język został ustawiony na `{0}`."
+
+#: extensions/settings.py:56
+msgid "**\\⚙️ Config**"
+msgstr "**\\⚙️ Ustawienia**"
+
+#. not sure about the channel only translation
+#: extensions/settings.py:57
+msgid "Prefix ‧ `{0}`\n"
+"Command deletion ‧ `{1}`\n"
+"Channel only ‧ {2}\n"
+"Language ‧ `{3}`"
+msgstr "Ustawienia domyślne ‧ `{0}`\n"
+"Usuwanie poleceń‧ `{1}`\n"
+"Tylko kanał ‧ {2}\n"
+"Język ‧ `{3}`"
+
+#: extensions/settings.py:66
+msgid "`disabled`"
+msgstr "wyłączone"
+
+#: extensions/songs.py:124 extensions/songs.py:153
+msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"
+msgstr "**\\🎵 {0} quiz ‧ Runda {1}/{2}**"
+
+#: extensions/songs.py:145
+msgid "Nobody"
+msgstr "Nikt"
+
+#: extensions/songs.py:155
+msgid "{0} has won the round!\n"
+"Song: [{1} ‧ {2}]({3})"
+msgstr "{0} wygrał rundę!\n"
+"Utwór: [{1} ‧ {2}]({3})"
+
+#. not sure
+#: extensions/songs.py:169
+msgid "**\\🎵 {0} quiz ‧ Starting**"
+msgstr "**\\🎵 {0} quiz ‧ Początek**"
+
+#: extensions/songs.py:183
+msgid "**\\🎵 {0} quiz ‧ End**"
+msgstr "**\\🎵 {0} quiz ‧ Koniec**"
+
+#. {0} is the amount of rounds
+#: extensions/songs.py:186
+msgid "Nobody won the song quiz! There were {0} round(s)."
+msgstr "Nikt nie wygrał quizu! Rundy: {0}"
+
+#: extensions/songs.py:188
+msgid "{0} has guessed {1}/{2} songs correctly and won!"
+msgstr "{0} zgadł {1}/{2} utworów i wygrał!"
+
+#: extensions/songs.py:191
+msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."
+msgstr "{0} zremisował z {1}/{2} utworami poprawnie odgadniętymi"
+
+#: extensions/songs.py:225
+msgid "**\\🎵 Stop quiz**"
+msgstr "**\\🎵 Przerwij quiz**"
+
+#: shiro.py:242
+msgid "\\❌ **Error on command**"
+msgstr "\\❌ **Błąd w poleceniu**"
+
+#: shiro.py:247
+msgid "The command `{0}` is missing the `{1}`."
+msgstr "Poleceniu `{0}` brakuje `{1}`."
+
+#: shiro.py:250
+msgid "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
+msgstr "Liczba `{0}` jest niedozwolona i musi znajdować się w zakresie {1}-{2}."
+
+#: shiro.py:256
+msgid "The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only consist out of numbers and letters."
+msgstr "Prefiks `{0}` jest niedozwolony i musi mieć długość 1-10 znaków i może zawierać tylko liczby i litery."
+
+#: shiro.py:259
+msgid "The value `{0}` isn't allowed, it has to be on or off."
+msgstr "Wartość `{0}` jest niedozwolona, musi być włączona lub wyłączona."
+
+#: shiro.py:261
+msgid "The language `{0}` isn't a available language. Available languages: {1}"
+msgstr "Język `{0}` jest niedostępny. Dostępne języki: {1}"
+
+#: shiro.py:264
+msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
+msgstr "URL `{0}` nie jest poprawnym linkiem z YouTube lub jest globalnie zablokowany."
+
+#: shiro.py:271
+msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
+msgstr "Argument `{0}` w poleceniu `{1}` musi być jednym z tych: {2}"
+
+#: shiro.py:274
+msgid "A wrong argument were passed into the command `{0}`."
+msgstr "Złe argumenty zostały przekazane w poleceniu `{0}`."
+
+#: shiro.py:289
+msgid "To use the command `{0}` you have to be in an voice channel (not afk). Also, the bot can't serve multiple channels."
+msgstr "Aby użyć polecenia `{0}` musisz być w kanale głosowym (i nie być afk). Bot nie może działać w wielu kanałach jednocześnie."
+
+#: shiro.py:286
+msgid "This command is only available for voters. Please [vote for free]({0}) to support this bot!"
+msgstr "Ta komenda jest dostępna tylko dla głosujących. Proszę [zagłosuj za darmo]({0}) aby wesprzeć tego bota!"
+
+#: shiro.py:296
+msgid "On this server commands can only be executed in channel {0}."
+msgstr "Na tym serwerze polecenia mogą zostać wykonane tylko na kanale {0}."
+
+#: shiro.py:299
+msgid "The bot is missing permissions to execute commands, please grant: `{0}`"
+msgstr "Bot nie posiada uprawnień aby wykonać polecenia, prosżę o przyznanie: `{0}`"
+
+#: shiro.py:302
+msgid "You're lacking permission to execute command `{0}`."
+msgstr "Nie masz uprawnień aby wykonać polecenie `{0}`."
+
+#: extensions/general.py:108
+msgid "**\\📄 {0} request**"
+msgstr "**\\📄 {0} żądanie**"
+
+#: extensions/general.py:109
+msgid "You requested [{0} ‧ {1}]({2}) to be added into the {3} quiz. Thank you for your support, our bot staff will review it."
+msgstr "Zażądałeś [{0} ‧ {1}]({2}) zostaną dodanie do {3} quizu. Dziękujemy za wsparcie, nasza ekipa to sprawdzi."
+
+#. list up - not sure
+#: extensions/general.py:18
+msgid "`{0}help` ‧ Display all commands\n"
+"`{0}info` ‧ Show credits of the bot and links (e.g. support server)\n"
+"`{0}stats` ‧ List up some stats of Shiro\n"
+"`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request opening for quiz\n"
+"`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request ending for quiz\n"
+"`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request OST for quiz"
+msgstr "`{0}help` ‧ Wyświetl wszystkie polecenia\n"
+"`{0}info` ‧ Pokaż autorów bota oraz linki (np. serwer wsparcia technicznego)\n"
+"`(0)stats` ‧ Wymień statystyki Shiro\n"
+"`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Zażądaj intra dla quizu\n"
+"`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Zażądaj piosenki końcowej dla quizu\n"
+"`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Zażądaj ścieżki dźwiękowej dla quizu"
+
+#: extensions/general.py:28
+msgid "`{0}opquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
+"`{0}edquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
+"`{0}ostquiz [1-25]` ‧ Guess OST's from animes! Only for pros.\n"
+"`{0}stop` ‧ Stop running quiz or playback"
+msgstr "`{0}opquiz [1-25]` ‧ Zgadnij openingi do anime przy określonej ilości rund\n"
+"`{0}edquiz [1-25]` ‧ Openingi są dla Ciebie za łatwe? Wchodzimy na kolejny poziom!\n"
+"`{0}ostquiz [1-25]` ‧ Odgadnij ścieżki dźwiękowe z anime! Tylko dla znawców. \n"
+"`{0}stop` ‧ Przerwij bieżący quiz lub playback."
+
+#: extensions/general.py:53
+msgid "**\\🔧 Utility**"
+msgstr "**\\🔧 Użytkowe**"
+
+#. "Edit reference of song"
+#: extensions/general.py:54
+msgid "`{0}search <query>` ‧ Search for songs in database\n"
+"`{0}edittitle <song id> <title>` ‧ Edit title of song\n"
+"`{0}editreference <song id> <reference>` ‧ Edit reference of song\n"
+"`{0}editurl <song id> <url>` ‧ Edit url of song\n"
+"`{0}editcategory <song id> <category` ‧ Edit category of song"
+msgstr "`{0}search <query>` ‧ Szukaj piosenek w bazie danych\n"
+"`{0}edittitle <song id> <title>` ‧ Zmień tytuł piosenki\n"
+"`{0}editreference <song id> <reference>` ‧ Zmień nawiązanie piosenki\n"
+"`{0}editurl <song id> <url>` ‧ Zmień url piosenki\n"
+"`{0}editcategory <song id> <category` ‧ Zmień kategorię piosenki\n"
+""
+
+#: extensions/general.py:81
+msgid "**\\📄 Statistics**"
+msgstr "**\\📄 Statystyki**"
+
+#: extensions/general.py:82
+msgid "Guilds ‧ {0}\n"
+"Users ‧ {1}\n"
+"Audio players ‧ {2}\n"
+"Votes (on dbl) ‧ {3}\n"
+"Ping ‧ {4}ms\n"
+"Songs ‧ {5}"
+msgstr "Gildie ‧ {0}\n"
+"Użytkownicy ‧ {1}\n"
+"Gracze audio (odtwarzacze?) ‧ {2}\n"
+"Głosy (na dbl) ‧ {3}\n"
+"Ping ‧ {4}ms\n"
+"Utwory ‧ {5}"
+
+#: extensions/songs.py:170
+msgid "Get ready, the quiz will start in {0} seconds!\n"
+"{1}"
+msgstr "Przygotuj się, quiz się zacznie za {0} sekund!"
+
+#: extensions/songs.py:227
+msgid "Playback will now end after the first song is played."
+msgstr "Playback skończy się po pierwszym utworze."
+
+#: extensions/songs.py:229
+msgid "Playback already ends after this song. It will be stopped then."
+msgstr "Playback już się kończy po tym utworze. Wtedy zostanie zatrzymany."
+
+#: extensions/songs.py:231
+msgid "Reducing songs from {0} to {1}. Playback will end after current round."
+msgstr "Odejmuję piosenki z {0} do {1}. Playback skończy się po tej rundzie."
+
+#: extensions/songs.py:243
+msgid "\\❌ **Bot kicked from voice**"
+msgstr "\\❌ **Bot został wyrzucony z kanału głosowego**"
+
+#: extensions/songs.py:244
+msgid "The bot was kicked from voice channel. Current playback will be stopped."
+msgstr "Bot został wyrzucony z kanału głosowego. Playback zostanie zatrzymany."
+
+#: extensions/utility.py:21
+msgid "**\\🔧 Song search**"
+msgstr "**\\🔧 Wyszukiwanie utworów**"
+
+#: extensions/utility.py:22
+msgid "Top results for `{0}`"
+msgstr "Najlepsze wyniki dla `{0}`"
+
+#: extensions/utility.py:60
+msgid "**\\🔧 {0} changed**"
+msgstr "**\\🔧 {0} zmienione**"
+
+#: extensions/utility.py:61
+msgid "You've updated the song with the id `{0}`."
+msgstr "Zakutalizowałeś piosenkę z ID`{0}`."
+
+#: extensions/utility.py:62
+msgid "{0} ‧ {1} (Before)"
+msgstr "{0} ‧ {1} (Przed)"
+
+#: extensions/utility.py:64
+msgid "{0} ‧ {1} (After)"
+msgstr "{0} ‧ {1} (Po)"
+
+#: extensions/utility.py:72 extensions/utility.py:93
+msgid "**\\🔧 Bot update**"
+msgstr "**\\🔧 Aktualizacja bota**"
+
+#: extensions/utility.py:73
+msgid "Bot will stop in 5 minutes, {0} players will be shut down."
+msgstr "Bot przestanie działać za 5 minut, {0} graczy zostanie wyłączonych."
+
+#: extensions/utility.py:77
+msgid "\\❌ **Bot update**"
+msgstr "\\❌ **Aktualizacja bota**"
+
+#: extensions/utility.py:78
+msgid "We have detected that you're currently running playback. We're sorry, butwe have to stop it after this song because we're rolling out a new update. This will occur in 5 minutes, please be patient."
+msgstr "Wykryliśmy że używasz playbacku. Przykro nam, ale musimy go zatrzymać po tej piosence ze względu na nową akutalizację. Nastąpi to za 5 minut, prosimy o cierpliwość."
+
+#: extensions/utility.py:94
+msgid "Bot will now be shut down. {0}"
+msgstr "Bot zostanie wyłączony. {0}"
+
+#: shiro.py:253
+msgid "The argument `{0}` is too long. Maximum allowed characters are {1}."
+msgstr "Argument `{0}` jest za długi. Maksymalna ilość znaków to {1}."
+
+#: shiro.py:266
+msgid "The song id `{0}` isn't valid!"
+msgstr "ID piosenki `{0}` jest niepoprawne!"
+
+#: shiro.py:268
+msgid "`{0}` isn't a valid song category."
+msgstr "`{0}` nie jest poprawną kategorią utworu."
+
+#: shiro.py:276
+msgid "The command `{0}` wasn't found. To get a list of commands use `{1}`."
+msgstr "Polecenie `{0}` nie zostało znalezione. Aby uzyskać listę poleceń użyj `{1}`"
+
+#: shiro.py:279
+msgid "The command `{0}` can only be executed by team members on this server."
+msgstr "Polecenie `{0}` może zostać wykonane tylko przez członków drużyny na tym serwerze."
+
+#: shiro.py:282
+msgid "The command `{0}` can only be executed by {1} on this server."
+msgstr "Polecenie `{0}` może zostać wykonane tylko przez {1} na tym serwerze."
+
+#: shiro.py:284
+msgid "The command `{0}` can only be executed by server admins."
+msgstr "Polecenie `{0}` może zostać wykonane tylko prze z adminów serwera."
+
+#: shiro.py:292
+msgid "There's no playback to stop."
+msgstr "Nie ma aktywnego playbacku, który można zatrzymać."
+
+#: shiro.py:294
+msgid "Only the user who started the playback or an admin can stop it."
+msgstr "Playback może zatrzymać tylko użytkownik który go aktywował lub admin."
+
+#. really rough, don't know how to translate it
+#: shiro.py:304
+msgid "You messed up quotation on `{0}`. If you use `\"`, you have to close it. If you want to use it as an input, escape it with `\\`."
+msgstr "Pomyliłeś się z cytatem przy `{0}`. Jeżeli używasz `\"`, pamiętaj aby użyć go ponownie po zakończeniu cytatu. Jeżeli chcesz użyć go jako przycisku, zakończ go używając `\\`."
+
+#: shiro.py:307
+msgid "You messed up quotation on `{0}`. You have to separate the quoted arguments with spaces."
+msgstr "Pomyliłeś się z cytatem przy `{0}`. Musisz oddzielić cytowane argumenty spacją."
+
+#: shiro.py:310
+msgid "Command on cooldown! Try again in {0} seconds."
+msgstr "Polecenie ma cooldown. Spróbuj ponownie za {0} sekund."
+
+#: shiro.py:312
+msgid "All commands have been disabled because of a bot update. We'll be back in about 5 minutes. Please be patient."
+msgstr "Wszystkie poleceinia zostały wyłączone ze względu na update bota. Wrócimy za 5 minut. Prosimy o cierpliwość."
+
+#: shiro.py:315
+msgid "An unknown error occurred on command `{0}`. We're going to fix that soon!"
+msgstr "Nieznany błąd wystąpił przy poleceniu `{0}`. Spróbujemy to niedługo naprawić!"
+
+#: extensions/utility.py:78
+msgid "We have detected that you're currently running playback. We're sorry, but we have to stop it after this song because we're rolling out a new update. Shiro will be unavailable the next 5 minutes, please be patient."
+msgstr "Wykryliśmy, że używasz playback. Przykro nam, lecz musimy go wyłączyć po tej piosence, ze względu na nową akualizację. Shiro nie będzie dostępna przez następne 5 minut. Prosimy o cierpliwość."
+

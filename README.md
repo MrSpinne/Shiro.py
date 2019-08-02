@@ -21,7 +21,7 @@
   </a>
 </div>
 
-# WORK IN PROGRESS - NOT FOR PERSONAL USE PURPOSE
+# WORK IN PROGRESS - NOT PURPOSED FOR PERSONAL
 ## Requirements
 ### Packages
     pip install -r requirements.txt

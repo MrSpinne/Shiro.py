@@ -3,8 +3,6 @@ from discord.ext import commands
 from library import checks, converters, exceptions
 
 import time
-import difflib
-import re
 
 
 class General(commands.Cog):

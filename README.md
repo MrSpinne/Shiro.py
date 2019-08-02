@@ -24,30 +24,31 @@
   </a>
 </div>
 
-# WORK IN PROGRESS - NOT PURPOSED FOR PERSONAL
+## WORK IN PROGRESS - NOT PURPOSED FOR PERSONAL USAGE
+
 ## Requirements
 ### Packages
     pip install -r requirements.txt
 ### Environmental Variables 
-* Discord bot token
+  * Discord bot token
     * `DISCORD_TOKEN`
-* Postgres database url
+  * Postgres database url
     * `DATABASE_URL`
-* Sentry DSN
+  * Sentry DSN
     * `SENTRY_DSN`
-* Lavalink server
+  * Lavalink server
     * `LAVALINK_HOST`
     * `LAVALINK_PASSWORD`
     * `LAVALINK_PORT`
     * `LAVALINK_REGION`
-* Discord bot list tokens
+  * Discord bot list tokens
     * `DISCORDBOTS`
     * `DIVINEDISCORDBOTS` 
     * `DISCORDBOTREVIEWS`
     * `MYTHICALBOTS`
     * `DISCORDBOTLIST`
     * `DISCORDBOATS`
-* Google Sheets (Gspread)
+  * Google Sheets (Gspread)
     * `GSPREAD_TYPE`
     * `GSPREAD_PRIVATE_KEY_ID`
     * `GSPREAD_PRIVATE_KEY`

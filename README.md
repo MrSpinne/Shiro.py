@@ -14,7 +14,7 @@
     <img src="https://img.shields.io/badge/python-3.7-blue">
   </a>
   <a href="https://discordbots.org/bot/593116701281746955">
-    <img src="https://img.shields.io/badge/version-1.1-orange">
+    <img src="https://img.shields.io/badge/version-1.3-orange">
   </a>
   <a href="https://discordbots.org/bot/593116701281746955">
     <img src="https://img.shields.io/discord/600761022089003021">

@@ -194,11 +194,6 @@ class Shiro(commands.Bot):
         sql = psycopg2.sql.SQL("UPDATE public.songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
         self.database_commit(sql, [value, song_id])
 
-    def get_languages(self):
-        """Get all languages found in locales"""
-        languages = [item.name for item in pathlib.Path("locales").iterdir() if item.is_dir()]
-        return languages
-
     async def delete_command(self, ctx):
         """Delete command if enabled in guild settings"""
         if ctx.guild is not None:

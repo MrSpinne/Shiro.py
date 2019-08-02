@@ -11,6 +11,9 @@
     <img src="https://api.codacy.com/project/badge/Grade/13cffdffc33045ee9dea2a6a45535ba3">
   </a>
   <a href="https://discordbots.org/bot/593116701281746955">
+    <img src="https://api.travis-ci.org/MrSpinne/Shiro.py.svg?branch=unstable">
+  </a>
+  <a href="https://discordbots.org/bot/593116701281746955">
     <img src="https://img.shields.io/badge/python-3.7-blue">
   </a>
   <a href="https://discordbots.org/bot/593116701281746955">

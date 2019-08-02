@@ -3,6 +3,7 @@ from library import exceptions
 
 import pycountry
 import re
+import pathlib
 
 
 class RangeInt(commands.Converter):
@@ -72,20 +73,20 @@ class Language(commands.Converter):
     """Converts to language value if it's the specified"""
     async def convert(self, ctx, argument):
         argument = argument.lower()
-        available_languages = ctx.bot.get_languages()
+        languages = [item.name for item in pathlib.Path("locales").iterdir() if item.is_dir()]
 
         for language in pycountry.languages:
             if getattr(language, "name", None) == argument.capitalize():
-                if getattr(language, "alpha_2", None) in available_languages:
+                if getattr(language, "alpha_2", None) in languages:
                     return language.alpha_2
             elif getattr(language, "alpha_2", None) == argument:
-                if getattr(language, "alpha_2") in available_languages:
+                if getattr(language, "alpha_2") in languages:
                     return language.alpha_2
             elif getattr(language, "alpha_3", None) == argument:
-                if getattr(language, "alpha_2", None) in available_languages:
+                if getattr(language, "alpha_2", None) in languages:
                     return language.alpha_2
 
-        raise exceptions.NotLanguage(argument, available_languages)
+        raise exceptions.NotLanguage(argument, languages)
 
 
 class YoutubeURL(commands.Converter):

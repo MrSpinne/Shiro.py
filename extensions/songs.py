@@ -167,9 +167,9 @@ class Songs(commands.Cog):
         members = ctx.author.voice.channel.members
         member_mentions = " ".join([member.mention for member in members if not member.bot])
         embed = discord.Embed(color=7830745, title=_("**\\🎵 {0} quiz ‧ Starting**").format(category))
-        embed.description = _("Get ready, the quiz will start in {0} seconds!\n{1}").format(int(rounds/5), member_mentions)
+        embed.description = _("Get ready, the quiz will start in {0} seconds!").format(int(rounds/5)+1)
 
-        message = await ctx.send(embed=embed)
+        message = await ctx.send(embed=embed, content=member_mentions)
         tracks = await self.get_random_tracks(ctx, category, rounds)
         self.enqueue_tracks(ctx, tracks)
         await message.delete()

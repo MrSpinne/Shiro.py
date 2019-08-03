@@ -1,0 +1,6 @@
+/.gitignore
+/.travis.yml
+/FUNDING.yml
+/README.md
+/LICENSE
+/locales/template.pot

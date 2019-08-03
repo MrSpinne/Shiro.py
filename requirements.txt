@@ -4,7 +4,6 @@ psycopg2
 sentry-sdk
 pycountry
 typing
-dblpy
 psutil
 lavalink
 aiodns
@@ -14,3 +13,5 @@ aiohttp
 gspread
 oauth2client
 PyOpenSSL
+coverage
+codacy-coverage

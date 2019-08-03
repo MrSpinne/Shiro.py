@@ -39,6 +39,7 @@ class Shiro(commands.Bot):
             self.credentials[section.lower()] = {}
             for option in config.options(section):
                 value = config.get(section, option)
+                print(value)
                 if value == "":
                     self.credentials[section.lower()][option] = os.environ.get("{0}_{1}".format(section, option))
                 else:

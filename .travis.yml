@@ -15,14 +15,14 @@ env:
   - secure: jm/Xa+eyofoiQJO/HUHA91C8yyleoAoiOj10ESCuvz0suPG3UebLSPcgBoZqLiFEtfUZnIZ9IxOxvZCNqrHr6KB0cO7A0IuqBqpQEaClJoF09uZSB3ZNSuBbzaaEXj7VqLr3rZPXz7z+pqE4/bodwk5TEgSZxuOD9JvV+Z0fz9g0SJrTlgbFc5TnSnp1y47OLfaBzgZLM7W+pf/BCdWlh8693zCyfTbiS3pKuhjJFEtaNT8V9zllufgFmsxgki4XjBq6eeWfaWMCS66X1GH202VtcQ1RIXljwuvcYIw5z+ePRbIyAYyoluhI/iIYse6AnRq0+UnFt5RBDhO6Seoc9boJVuox/LFXt48g2V1ZNmWwfjzAsHRA5SAS9Lk1H3DHeqWGD+NRP3kdH3uw1XHkV03MDZ/d09Wt5c7p4ww1lfERchQnt/OiTyGrOsEqm9jb9c+Dbv3h0swYSn8AKpObvymalcYFD+bX7fajDVNVrKf07q4idXXqVz2fVzZSUKL0YmyuFUCjR5ty2cNatAzH0D5P0PuSOU2kexnk8Ey+nqXiKhOD+s1Hp3/aW4JGojav9FAgHgOwn/LPSgY7JnKJUxc7ubh9OwsWCMXAc9qB1p1o+yz7wqWrWo1Q+lLUCuKjnbm4GO+fV9yzr8xw5y9+jM2xKAkvdV5DjTrqBf4AHK0=
 services:
 - docker
-before_install:
+install:
 - docker pull postgres
 - docker pull fredboat/lavalink:master
-install:
 - pip install -r requirements.txt
 before_script:
 - docker run -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_USER=$POSTGRES_USER
   -e POSTGRES_DB=$POSTGRES_DATABASE -d -p $POSTGRES_PORT:$POSTGRES_PORT postgres
 - docker run -d -p 2333:2333 fredboat/lavalink:master
+- psql -h $POSTGRES_HOST -d $POSTGRES_DATABASE -U $POSTGRES
 script:
 - python shiro.py

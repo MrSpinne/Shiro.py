@@ -20,8 +20,6 @@ import Pymoe
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import configparser
-import sys
-import traceback
 
 
 class Shiro(commands.Bot):
@@ -60,9 +58,6 @@ class Shiro(commands.Bot):
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
-        if os.environ.get("TRAVIS"):
-            exit()
-
     def connect_optionals(self):
         """Prepare start"""
         if self.credentials["sentry"].get("dsn"):
@@ -98,13 +93,6 @@ class Shiro(commands.Bot):
             self.sentry.capture_exception(e)
 
         return translation
-
-    async def on_error(self, event_method, *args, **kwargs):
-        """Override on_error to exit if error occurs on build"""
-        print("Ignoring exception in {}".format(event_method), file=sys.stderr)
-        traceback.print_exc()
-        if os.environ.get("TRAVIS"):
-            exit(1)
 
     def connect_database(self):
         """Establish connection to postgres database"""

@@ -12,7 +12,7 @@ class Songs(commands.Cog):
     def __init__(self, shiro):
         self.shiro = shiro
         self.shiro.add_listener(self.shiro.lavalink.voice_update_handler, "on_socket_response")
-        lavalink.add_event_hook(self.on_lavalink_event)
+        self.shiro.lavalink.add_event_hook(self.on_lavalink_event)
 
     async def cog_before_invoke(self, ctx):
         """Connect to voice channel before playing audio"""

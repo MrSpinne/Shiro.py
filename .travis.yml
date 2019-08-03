@@ -1,78 +1,17 @@
-dist: xenial
-language: python
-python:
-- '3.7'
+dist: trusty
 env:
   global:
-  - POSTGRES_HOST=localhost
-  - POSTGRES_PORT=5432
-  - POSTGRES_DATABASE=shiro
-  - POSTGRES_USER=shiro
-  - POSTGRES_PASSWORD=shiro
-  - LAVALINK_HOST=localhost
-  - LAVALINK_PORT=2333
-  - LAVALINK_PASSWORD=youshallnotpass
-  - LAVALINK_REGION=eu
-  - secure: jm/Xa+eyofoiQJO/HUHA91C8yyleoAoiOj10ESCuvz0suPG3UebLSPcgBoZqLiFEtfUZnIZ9IxOxvZCNqrHr6KB0cO7A0IuqBqpQEaClJoF09uZSB3ZNSuBbzaaEXj7VqLr3rZPXz7z+pqE4/bodwk5TEgSZxuOD9JvV+Z0fz9g0SJrTlgbFc5TnSnp1y47OLfaBzgZLM7W+pf/BCdWlh8693zCyfTbiS3pKuhjJFEtaNT8V9zllufgFmsxgki4XjBq6eeWfaWMCS66X1GH202VtcQ1RIXljwuvcYIw5z+ePRbIyAYyoluhI/iIYse6AnRq0+UnFt5RBDhO6Seoc9boJVuox/LFXt48g2V1ZNmWwfjzAsHRA5SAS9Lk1H3DHeqWGD+NRP3kdH3uw1XHkV03MDZ/d09Wt5c7p4ww1lfERchQnt/OiTyGrOsEqm9jb9c+Dbv3h0swYSn8AKpObvymalcYFD+bX7fajDVNVrKf07q4idXXqVz2fVzZSUKL0YmyuFUCjR5ty2cNatAzH0D5P0PuSOU2kexnk8Ey+nqXiKhOD+s1Hp3/aW4JGojav9FAgHgOwn/LPSgY7JnKJUxc7ubh9OwsWCMXAc9qB1p1o+yz7wqWrWo1Q+lLUCuKjnbm4GO+fV9yzr8xw5y9+jM2xKAkvdV5DjTrqBf4AHK0=
-  - secure: fS0Fx1kBd6ttnfKwyTViJFXKCfBmtg8127q1GMjwHdl56st/iykZCChabkCqYFZ97iR3wcUn5N/2htnsR2Yk/cEqH3Rbz6bpkPeiUnbiPp0X5U/0XKaaC/PdsGHdUOHRVRcR/9SVnn5SSheyonObHuY2d3e+gBqIqzmDHd2Nedns4pvJ824zpi1rjsOwwwoTMuAgUfr9HEDJnhKxAImZq13NFs+nCoOevQX9Mb95OES1Y5mqqa7rTHJUi96l1ffu2a+zZl/S+caykGvnprtbL0Einf0SrPpgszUq6rbi63cKOcPONQJjnYv5UFZxcgZxnNP0+PPYPNcNfQD1UxvW+0rbTSpFgPvOJuF58YzwL7/uhzACwt8dzape7IxFBeUI7Vpj5eHUYJbCcfD9wV8KqiiwwmSAU3Plm7fTG7ayQ2nMddHbQiFIxMk3hCVF8agPinmcrxV2yMDJvZwuKdLikjBY82Djg1cqCaYcTehyH4ye1tKhzqL3cQdFvAkSAwvniPGBfUBsHZ46LbSwVa+ZRCjPOC2WS3HCYWckBYxW9gUyIHvh+iiBoZotUj6IMjkLyVqleflqlCOC+CjXfh+H9MjbaMX1B+yGCInWrB/UD0LS/otB9mCRGGI2gvUagx9e8dsZ3NccAe5ct5zSuiayyKJV0iGMZoLbBhUZ3/it8wg=
-services:
-- postgresql
-- docker
-install:
-- docker pull fredboat/lavalink:master
-- pip install -r requirements.txt
-before_script:
-- docker run -d -p 2333:2333 fredboat/lavalink:master
-- psql -c "create database $POSTGRES_DATABASE;" -U postgres
-- psql -c "create user $POSTGRES_USER with password '$POSTGRES_PASSWORD';" -U postgres
-- psql -c "create table guilds
-  (
-    id               bigint                       not null,
-    prefix           text      default 's.'::text not null,
-    command_deletion boolean   default false      not null,
-    channel_only     bigint,
-    language         text      default 'en'::text not null,
-    updated          timestamp default now()      not null,
-    constraint guilds_pk
-    primary key (id)
-  );
-
-  alter table guilds
-  owner to $POSTGRES_USER;
-
-  create unique index guilds_id_uindex
-  on guilds (id);" -U $POSTGRES_USER
-- psql -c "create table songs
-  (
-    id        bigint                  not null,
-    title     text                    not null,
-    reference text                    not null,
-    url       text                    not null,
-    category  text                    not null,
-    updated   timestamp default now() not null,
-    constraint songs_pk
-    primary key (id)
-  );
-
-  alter table songs
-  owner to $POSTGRES_USER;
-
-  create unique index songs_id_uindex
-  on songs (id);" -U $POSTGRES_USER
-- psql -c "create table users
-  (
-    id bigint not null,
-    last_vote timestamp,
-    updates timestamp default now() not null
-  );
-
-  create unique index users_id_uindex
-  on users (id);
-
-  alter table users
-  add constraint users_pk
-  primary key (id);" -U $POSTGRES_USER
-script:
-- coverage run shiro.py
-- coverage xml
-- python-codacy-coverage -r coverage.xml
+    - DOCKER_USERNAME=MrSpinne
+    secure: hr8fGe845V1zIEQUwBwL1G2MWux8BEtKMy+aF4x2gA4RD/s0NGxkiCVjZMhxFwHqkTGwnZLHWdcg8ThAMhX2dFyCJ6zFNfippD5aTwVAPq5u40IySAy+hS5r8Sk4fKJOR5nZ5eRQXgHNDpX9tWNY7IWKIQa+6q9DeuOtBHVut7XOG8nD/4ONX5aAFmIr4fx+1/Lfhg5CpfUCvU0BhHbgVWT4fdGEfORnoOQxx18VHT+XKmEI8spgYIeV9IpsEyDbPsJGKpwXUU5tS6v5nNWwBPzo+o5ff4Ckb52DHApZRv4kfomoRSV/k5ACKv+k5l9Sqb0wrlAfqlSokAnzG3HF4DJI0l9yTZaZ4eA7d4JwzZ6IBIo2WV7njPADz4iBmv59M7gawihTzDF8fQwQ0bfNtfKg4aSDJQ7cI7YCC2ufewDFruEsHakSCoKINprcVYN/SPJbV15JJe2PD5q03nXhQJKoW7g+Balr7XDcnFUA1tPrFRGeA0upHivWNx8uThuAS45/eb10oxr9ayzFPVAGuXbLHL+i9cwZFP9b8u1MayGgGLeoGIOgBrd5JHpLn0hAbKaL7zc5TjoBF3a0B9NXd8GfmpYaRfaLr/tXKEQa/LRR8ojVUdW6gLGTdmZzXAJxvP4K4eVQc/LalOsFGWYM29gLP7uLaUPpiL7rBsTxavY=
+jobs:
+  include:
+  - stage: build docker image
+    script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t shiro.py .
+    - docker images
+    - docker tag latest $DOCKER_USERNAME/shiro.py
+    - docker push $DOCKER_USERNAME/shiro.py
+  - stage: test
+    script: docker run --rm $DOCKER_USERNAME/shiro.py cat hello.txt
+  - script: docker run --rm $DOCKER_USERNAME/shiro.py cat hello.txt

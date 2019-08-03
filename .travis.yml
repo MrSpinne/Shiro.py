@@ -11,7 +11,7 @@ env:
   - POSTGRES_PASSWORD=shiro
   - LAVALINK_HOST=localhost
   - LAVALINK_PORT=2333
-  - LAVALINK_PASSWORD=youshallnotpass
+  - LAVALINK_PASSWORD=
   - secure: jm/Xa+eyofoiQJO/HUHA91C8yyleoAoiOj10ESCuvz0suPG3UebLSPcgBoZqLiFEtfUZnIZ9IxOxvZCNqrHr6KB0cO7A0IuqBqpQEaClJoF09uZSB3ZNSuBbzaaEXj7VqLr3rZPXz7z+pqE4/bodwk5TEgSZxuOD9JvV+Z0fz9g0SJrTlgbFc5TnSnp1y47OLfaBzgZLM7W+pf/BCdWlh8693zCyfTbiS3pKuhjJFEtaNT8V9zllufgFmsxgki4XjBq6eeWfaWMCS66X1GH202VtcQ1RIXljwuvcYIw5z+ePRbIyAYyoluhI/iIYse6AnRq0+UnFt5RBDhO6Seoc9boJVuox/LFXt48g2V1ZNmWwfjzAsHRA5SAS9Lk1H3DHeqWGD+NRP3kdH3uw1XHkV03MDZ/d09Wt5c7p4ww1lfERchQnt/OiTyGrOsEqm9jb9c+Dbv3h0swYSn8AKpObvymalcYFD+bX7fajDVNVrKf07q4idXXqVz2fVzZSUKL0YmyuFUCjR5ty2cNatAzH0D5P0PuSOU2kexnk8Ey+nqXiKhOD+s1Hp3/aW4JGojav9FAgHgOwn/LPSgY7JnKJUxc7ubh9OwsWCMXAc9qB1p1o+yz7wqWrWo1Q+lLUCuKjnbm4GO+fV9yzr8xw5y9+jM2xKAkvdV5DjTrqBf4AHK0=
 services:
 - postgresql
@@ -20,8 +20,8 @@ install:
 - docker pull fredboat/lavalink:master
 - pip install -r requirements.txt
 before_script:
-- psql -c "CREATE DATABASE $POSTGRES_DATABASE;" -U postgres
-- psql -c "CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';" -U postgres
+- psql -c "create database $POSTGRES_DATABASE;" -U postgres
+- psql -c "create user $POSTGRES_USER with password '$POSTGRES_PASSWORD';" -U postgres
 - psql -c "create table guilds
   (
     id               bigint                       not null,
@@ -39,7 +39,23 @@ before_script:
 
   create unique index guilds_id_uindex
   on guilds (id);" -U $POSTGRES_USER
-- psql -c "SELECT * FROM guilds;" -U $POSTGRES_USER
+- psql -c "create table songs
+  (
+    id        bigserial               not null,
+    title     text                    not null,
+    reference text                    not null,
+    url       text                    not null,
+    category  text                    not null,
+    updated   timestamp default now() not null,
+    constraint songs_pk
+    primary key (id)
+  );
+
+  alter table songs
+  owner to $POSTGRES_USER;
+
+  create unique index songs_id_uindex
+  on songs (id);" -U $POSTGRES_USER
 - docker run -d -p 2333:2333 fredboat/lavalink:master
 script:
 - python shiro.py

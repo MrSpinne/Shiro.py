@@ -357,4 +357,5 @@ class Shiro(commands.Bot):
 
 
 shiro = Shiro()
+print(shiro.credentials["discord"]["token"])
 shiro.run(shiro.credentials["discord"]["token"])

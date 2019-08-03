@@ -21,6 +21,7 @@ install:
 - pip install -r requirements.txt
 before_script:
 - docker run -v application.yml:/opt/Lavalink/application.yml -p 2333:2333 fredboat/lavalink:master
+- sleep 5s
 - psql -c "create database $POSTGRES_DATABASE;" -U postgres
 - psql -c "create user $POSTGRES_USER with password '$POSTGRES_PASSWORD';" -U postgres
 - psql -c "create table guilds

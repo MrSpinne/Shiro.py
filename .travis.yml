@@ -1,8 +1,8 @@
 dist: trusty
 env:
   global:
-    - DOCKER_USERNAME=mrspinne
-    - secure: hr8fGe845V1zIEQUwBwL1G2MWux8BEtKMy+aF4x2gA4RD/s0NGxkiCVjZMhxFwHqkTGwnZLHWdcg8ThAMhX2dFyCJ6zFNfippD5aTwVAPq5u40IySAy+hS5r8Sk4fKJOR5nZ5eRQXgHNDpX9tWNY7IWKIQa+6q9DeuOtBHVut7XOG8nD/4ONX5aAFmIr4fx+1/Lfhg5CpfUCvU0BhHbgVWT4fdGEfORnoOQxx18VHT+XKmEI8spgYIeV9IpsEyDbPsJGKpwXUU5tS6v5nNWwBPzo+o5ff4Ckb52DHApZRv4kfomoRSV/k5ACKv+k5l9Sqb0wrlAfqlSokAnzG3HF4DJI0l9yTZaZ4eA7d4JwzZ6IBIo2WV7njPADz4iBmv59M7gawihTzDF8fQwQ0bfNtfKg4aSDJQ7cI7YCC2ufewDFruEsHakSCoKINprcVYN/SPJbV15JJe2PD5q03nXhQJKoW7g+Balr7XDcnFUA1tPrFRGeA0upHivWNx8uThuAS45/eb10oxr9ayzFPVAGuXbLHL+i9cwZFP9b8u1MayGgGLeoGIOgBrd5JHpLn0hAbKaL7zc5TjoBF3a0B9NXd8GfmpYaRfaLr/tXKEQa/LRR8ojVUdW6gLGTdmZzXAJxvP4K4eVQc/LalOsFGWYM29gLP7uLaUPpiL7rBsTxavY=
+  - DOCKER_USERNAME=mrspinne
+  - secure: EpUfXKASylABRk5lFhaec5HFE6RikGgoXOf3TAUaNegS2G/cEEXLhfH3mDM1zGg2YyIG6Ut/6wKJ4v07XLGJQngNTSog5jZr7s27r4q+kb2y1sFMm3K50LcXpAFZw/aGh05WxMUlW3s5YvgCa0z09he3G2fps6AUxtzzS6HYbax97fcloqa6dA68J6/nEpCLE+yHvwzT7V75RCk6INOd66vOdotL2RE/s6sbWohV1mf0sZI2husr4WsfeN9i+BsUD+pmoswJw5pSKtLK3RgjHdHayfKzZvrZh8NSKeuvz+zxUwalXR9RLjfByyj9Y5y8vB9LATkyDMUcBQ6xUQh99sbYMohmSpgLl57ta9zydr6kA2vvsSIihw4aJE4rC505CFx7oRTq3BEaBqxJ4Uv/wUext5sNnlkt40a5vZuvRgygWJu9QT+iVZPf6nSHqV5GJociG22AG3UW8/GMqEACnap0AOzXJj3m6MB5Y9OL7kGK1WQf6w9xQoCKOQtphJgqj3LHJeSpCPOlfRaMPDxDp3GWpHR6bwI/d0Ca6qFIZjAZ263MoXV8m/S4v2T+1UE3BUM6hRG6EudMZ82FjFhLe7n7Mida2ds+iRQgzxoTM5UzB+d+Ji83mp+xjoAN2P4J3C/h1q/FZdwyf+AA1uTuklDlBn1gEOz7JB5VlVlfL7s=
 jobs:
   include:
   - stage: build docker image
@@ -10,7 +10,7 @@ jobs:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker build -t shiro.py .
     - docker images
-    - docker tag latest $DOCKER_USERNAME/shiro.py
+    - docker tag shiro.py $DOCKER_USERNAME/shiro.py
     - docker push $DOCKER_USERNAME/shiro.py
   - stage: test
     script: docker run --rm $DOCKER_USERNAME/shiro.py cat hello.txt

@@ -6,7 +6,7 @@ python:
 addons:
   apt:
     packages:
-      - oracle-java8-installer
+      - oracle-java8-set-default
 
 env:
   - POSTGRES_HOST=localhost POSTGRES_PORT=5432 POSTGRES_DATABASE=shiro POSTGRES_USER=shiro POSTGRES_PASSWORD=shiro
@@ -17,7 +17,7 @@ services:
 before_install:
   - psql -c "CREATE DATABASE $POSTGRES_DATABASE;" -U postgres
   - psql -c "CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';" -U postgres
-  - git clone https://github.com/Frederikam/Lavalink/releases/download/3.2.1.1/Lavalink.jar
+  - wget https://github.com/Frederikam/Lavalink/releases/download/3.2.1.1/Lavalink.jar
 
 install:
   - pip install -r requirements.txt

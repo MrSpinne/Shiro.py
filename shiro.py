@@ -20,21 +20,22 @@ import lavalink
 import Pymoe
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import configparser
 
 
 class Shiro(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
-        self.db_connector, self.db_cursor, self.app_info, self.gspread = None, None, None, None
+        self.db_connector, self.db_cursor, self.app_info, self.gspread, self.credentials = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
         self.startup()
 
     def startup(self):
         """Prepare start"""
         logging.basicConfig(level=logging.INFO)
-        self.sentry.init(dsn=os.environ.get("SENTRY_DSN"),
-                         integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
+        self.parse_credentials()
+        self.sentry.init(dsn=os.environ.get("SENTRY_DSN"), integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
         self.connect_database()
         self.add_command_handlers()
         self.connect_gspread()
@@ -43,13 +44,26 @@ class Shiro(commands.Bot):
     async def on_ready(self):
         """Get ready and start"""
         self.app_info = await self.application_info()
+        self.dbl = dbl.Client(self, os.environ.get("DISCORDBOTS"), autopost=True)
         self.update_guilds()
         self.connect_lavalink()
-        self.dbl = dbl.Client(self, os.environ.get("DISCORDBOTS"))
         self.statposter = statposter.StatPoster(self)
         self.load_all_extensions()
         self.update_status.start()
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
+
+    def parse_credentials(self):
+        """Parse credentials from envs to file"""
+        config = configparser.ConfigParser()
+        config.read("config.ini")
+        for section in config.sections():
+            self.credentials[section] = {}
+            for option in config.options(section):
+                value = config.get(section, option)
+                if value == "":
+                    self.credentials[section][option] = os.environ.get("{0}_{1}".format(section, option))
+                else:
+                    self.credentials[section][option] = value
 
     def translate(self, string):
         """Translate string to language of ctx got from frame (commands only)"""
@@ -329,7 +343,6 @@ class Shiro(commands.Bot):
         await self.change_presence(activity=activity)
         try:
             tokens = {
-                "discordbots": os.environ.get("DISCORDBOTS"),
                 "divinediscordbots": os.environ.get("DIVINEDISCORDBOTS"),
                 "discordbotreviews": os.environ.get("DISCORDBOTREVIEWS"),
                 "mythicalbots": os.environ.get("MYTHICALBOTS"),
@@ -349,8 +362,8 @@ class Shiro(commands.Bot):
         formatted = []
 
         for song in songs:
-            formatted.append([song["id"], song["title"], song["reference"], song["url"], song["category"],
-                              song["updated"].strftime("%d. %B %Y - %H:%M:%S")])
+            formatted.append([song["id"], song["title"], song["reference"], song["url"],
+                              song["category"], song["updated"].strftime("%d. %B %Y - %H:%M:%S")])
 
         sheet.sheet1.resize(1)
         sheet.sheet1.resize(len(formatted) + 1)

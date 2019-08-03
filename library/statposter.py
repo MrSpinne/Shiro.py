@@ -7,17 +7,6 @@ class StatPoster:
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=self.bot.loop, raise_for_status=True)
 
-    async def discordbots(self, token):
-        data = json.dumps({
-            "server_count": len(self.bot.guilds)
-        })
-        headers = {
-            "authorization": token,
-            "content-type": "application/json"
-        }
-        url = f"https://discordbots.org/api/bots/{self.bot.user.id}/stats"
-        await self._post(url, data, headers)
-
     async def divinediscordbots(self, token):
         data = json.dumps({
             "server_count": len(self.bot.guilds)

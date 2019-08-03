@@ -2,10 +2,23 @@ dist: xenial
 language: python
 python:
   - "3.7"
-install:
-  - pip install -r requirements.txt
+
+env:
+  - POSTGRES_HOST=localhost
+  - POSTGRES_PORT=5432
+  - POSTGRES_DATABASE=shiro
+  - POSTGRES_USER=shiro
+  - POSTGRES_PASSWORD=shiro
+
 services:
   - postgresql
-before_script:
-  - psql -c "CREATE DATABASE shiropy;" -U postgres
-  - psql -c "CREATE USER shiropy WITH PASSWORD 'shiropy';" -U postgres
+
+before_install:
+  - psql -c "CREATE DATABASE $POSTGRES_DATABASE;" -U postgres
+  - psql -c "CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';" -U postgres
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - shiro.py

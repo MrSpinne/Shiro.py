@@ -30,6 +30,7 @@ class Shiro(commands.Bot):
         self.db_connector, self.db_cursor, self.app_info, self.gspread, self.credentials = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
         self.parse_credentials()
+        print(self.credentials)
 
     def parse_credentials(self):
         """Parse credentials from envs to file"""
@@ -39,7 +40,6 @@ class Shiro(commands.Bot):
             self.credentials[section.lower()] = {}
             for option in config.options(section):
                 value = config.get(section, option)
-                print(value)
                 if value == "":
                     self.credentials[section.lower()][option] = os.environ.get("{0}_{1}".format(section, option))
                 else:

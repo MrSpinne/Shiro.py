@@ -1,8 +1,8 @@
 FROM ubuntu
 
 RUN apt-get update
-RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install software-properties-common -y
+RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install python3.7 -y
 RUN apt install git -y
 RUN git clone https://github.com/MrSpinne/Shiro.py.git

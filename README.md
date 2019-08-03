@@ -16,7 +16,7 @@ The following setup is done with linux. If you're using another os, it may varia
 ### Postgres
 First of all you need to install a postgres database.
 
-```bash
+```
 $ sudo apt-get install postgresql postgresql-contrib
 ```
 

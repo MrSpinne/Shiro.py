@@ -41,7 +41,7 @@ class Shiro(commands.Bot):
             for option in config.options(section):
                 value = config.get(section, option)
                 if value == "":
-                    self.credentials[section.lower()][option] = os.environ.get("{0}_{1}".format(section, option))
+                    self.credentials[section.lower()][option] = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
                 else:
                     self.credentials[section.lower()][option] = value
 
@@ -358,5 +358,4 @@ class Shiro(commands.Bot):
 
 
 shiro = Shiro()
-print(shiro.credentials["discord"]["token"])
 shiro.run(shiro.credentials["discord"]["token"])

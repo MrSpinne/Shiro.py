@@ -1,4 +1,4 @@
-# Shiro.py - W.I.P.
+# Shiro.py - WIP
 ![Build Status](https://api.travis-ci.org/MrSpinne/Shiro.py.svg?branch=master)
 ![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)
 
@@ -16,11 +16,11 @@ The following setup is done with linux. If you're using another os, it may varia
 ### Postgres
 First of all you need to install a postgres database.
 
-```
+```bash
 $ sudo apt-get install postgresql postgresql-contrib
 ```
 
 ## Links
-* [Support Server](https://discord.gg/5z4z8kh)
-* [Discord Bots](https://discordbots.org/bot/593116701281746955)
-* [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)
+*   [Support Server](https://discord.gg/5z4z8kh)
+*   [Discord Bots](https://discordbots.org/bot/593116701281746955)
+*   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)

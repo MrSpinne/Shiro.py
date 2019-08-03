@@ -14,7 +14,6 @@ import gettext
 import builtins
 import sentry_sdk.integrations.aiohttp
 import logging
-import dbl
 import os
 import lavalink
 import Pymoe

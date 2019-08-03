@@ -4,11 +4,7 @@ python:
   - "3.7"
 
 env:
-  - POSTGRES_HOST=localhost
-  - POSTGRES_PORT=5432
-  - POSTGRES_DATABASE=shiro
-  - POSTGRES_USER=shiro
-  - POSTGRES_PASSWORD=shiro
+  - POSTGRES_HOST=localhost POSTGRES_PORT=5432 POSTGRES_DATABASE=shiro POSTGRES_USER=shiro POSTGRES_PASSWORD=shiro
 
 services:
   - postgresql

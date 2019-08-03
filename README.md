@@ -8,13 +8,14 @@
 
 [![Discord Bots](https://discordbots.org/api/widget/593116701281746955.svg)](https://discordbots.org/bot/593116701281746955)
 
-Want to guess anime openings with your friends? Get Shiro to play 
-song quizzes and enhance your guild with fun related anime features!
+Want to guess anime openings with your friends? 
+
+Get Shiro to play song quizzes and enhance your guild with fun related anime features!
 
 ## Setup
 The following setup is done with linux. If you're using another os, it may variate a bit. 
 ### Postgres
-First of all you need to install a postgres database.
+First of all you need to install postgres and configure it.
 
 ```bash
 $ sudo apt-get install postgresql postgresql-contrib

@@ -20,6 +20,8 @@ import Pymoe
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import configparser
+import sys
+import traceback
 
 
 class Shiro(commands.Bot):
@@ -45,7 +47,6 @@ class Shiro(commands.Bot):
 
     async def on_ready(self):
         """Get ready and start"""
-        logging.basicConfig(level=logging.INFO)
         self.connect_database()
         self.connect_lavalink()
         self.connect_optionals()
@@ -59,8 +60,6 @@ class Shiro(commands.Bot):
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
-        print(os.environ.get("TRAVIS"))
-        print(os.environ)
         if os.environ.get("TRAVIS"):
             exit()
 
@@ -68,11 +67,13 @@ class Shiro(commands.Bot):
         """Prepare start"""
         if self.credentials["sentry"].get("dsn"):
             self.sentry.init(**self.credentials["sentry"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
+
         if self.credentials["gspread"].get("type"):
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.credentials["gspread"], scope)
             self.gspread = gspread.authorize(credentials)
             self.update_songs_list.start()
+
         if self.credentials["botlist"].get("discordbots"):
             self.statposter = statposter.StatPoster(self)
             self.post_stats.start()
@@ -97,6 +98,13 @@ class Shiro(commands.Bot):
             self.sentry.capture_exception(e)
 
         return translation
+
+    async def on_error(self, event_method, *args, **kwargs):
+        """Override on_error to exit if error occurs on build"""
+        print("Ignoring exception in {}".format(event_method), file=sys.stderr)
+        traceback.print_exc()
+        if os.environ.get("TRAVIS"):
+            exit(1)
 
     def connect_database(self):
         """Establish connection to postgres database"""
@@ -359,5 +367,7 @@ class Shiro(commands.Bot):
             # TODO: Specify exception
 
 
-shiro = Shiro()
-shiro.run(shiro.credentials["discord"]["token"])
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    shiro = Shiro()
+    shiro.run(shiro.credentials["discord"]["token"])

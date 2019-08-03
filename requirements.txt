@@ -5,7 +5,7 @@ sentry-sdk
 pycountry
 typing
 psutil
-git+https://github.com/Devoxin/Lavalink.py.git@dev
+lavalink
 aiodns
 cchardet
 PyMoe
@@ -13,3 +13,5 @@ aiohttp
 gspread
 oauth2client
 PyOpenSSL
+coverage
+codacy-coverage

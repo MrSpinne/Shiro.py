@@ -39,7 +39,7 @@ before_script:
 
   create unique index guilds_id_uindex
   on guilds (id);" -U $POSTGRES_USER
-- psql -c "SHOW * FROM guilds;" -U $POSTGRES_USER
+- psql -c "SELECT * FROM guilds;" -U $POSTGRES_USER
 - docker run -d -p 2333:2333 fredboat/lavalink:master
 script:
 - python shiro.py

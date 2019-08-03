@@ -24,14 +24,14 @@ before_script:
 - psql -c "CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';" -U postgres
 - psql -c "create table guilds
   (
-  id               bigint                       not null,
-  prefix           text      default 's.'::text not null,
-  command_deletion boolean   default false      not null,
-  channel_only     bigint,
-  language         text      default 'en'::text not null,
-  updated          timestamp default now()      not null,
-  constraint guilds_pk
-  primary key (id)
+    id               bigint                       not null,
+    prefix           text      default 's.'::text not null,
+    command_deletion boolean   default false      not null,
+    channel_only     bigint,
+    language         text      default 'en'::text not null,
+    updated          timestamp default now()      not null,
+    constraint guilds_pk
+    primary key (id)
   );
 
   alter table guilds

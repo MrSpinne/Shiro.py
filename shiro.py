@@ -155,7 +155,7 @@ class Shiro(commands.Bot):
         for guild in self.guilds:
             self.register_guild(guild.id)
 
-        sql = psycopg2.sql.SQL("SELECT id FROM public.guilds")
+        sql = psycopg2.sql.SQL("SELECT id FROM guilds")
         guild_ids = self.database_fetch(sql)
         for guild_id in guild_ids:
             if self.get_guild(guild_id["id"]) not in self.guilds:

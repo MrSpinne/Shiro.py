@@ -22,7 +22,7 @@ install:
 before_script:
 - docker run -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_USER=$POSTGRES_USER
   -e POSTGRES_DB=$POSTGRES_DATABASE -d --name postgres -p $POSTGRES_PORT:$POSTGRES_PORT postgres
-- docker exec -it postgres psql -c "\du;" -h $POSTGRES_HOST -d $POSTGRES_DATABASE -U $POSTGRES_USER
+- docker exec -it postgres psql -c "\du;" -d $POSTGRES_DATABASE -U $POSTGRES_USER
 - docker run -d -p 2333:2333 fredboat/lavalink:master
 script:
 - python shiro.py

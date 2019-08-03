@@ -59,6 +59,11 @@ class Shiro(commands.Bot):
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
+        print(os.environ.get("TRAVIS"))
+        print(os.environ)
+        if os.environ.get("TRAVIS"):
+            exit()
+
     def connect_optionals(self):
         """Prepare start"""
         if self.credentials["sentry"].get("dsn"):
@@ -141,12 +146,12 @@ class Shiro(commands.Bot):
 
     def register_guild(self, guild_id):
         """Register guild to database if it is not already registered"""
-        sql = psycopg2.sql.SQL("INSERT INTO public.guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
+        sql = psycopg2.sql.SQL("INSERT INTO guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
         self.database_commit(sql, [guild_id])
 
     def unregister_guild(self, guild_id):
         """Unregister guild from database with all settings"""
-        sql = psycopg2.sql.SQL("DELETE FROM public.guilds WHERE id = %s")
+        sql = psycopg2.sql.SQL("DELETE FROM guilds WHERE id = %s")
         self.database_commit(sql, [guild_id])
 
     def update_guilds(self):
@@ -162,43 +167,43 @@ class Shiro(commands.Bot):
 
     def get_guild_setting(self, guild_id, setting):
         """Get guild setting from database"""
-        sql = psycopg2.sql.SQL("SELECT {} FROM public.guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        sql = psycopg2.sql.SQL("SELECT {} FROM guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
         return self.database_fetch(sql, [guild_id])[0][setting]
 
     def set_guild_setting(self, guild_id, setting, value):
         """Set guild setting in database to specified value"""
-        sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        sql = psycopg2.sql.SQL("UPDATE guilds SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
         self.database_commit(sql, [value, guild_id])
 
     def get_random_songs(self, category, amount):
         """Get random songs from database"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
         return self.database_fetch(sql, [category, amount])
 
     def get_choice_songs(self, category, exclusion):
         """Get songs to fill quiz with"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
         return self.database_fetch(sql, [category, exclusion])
 
     def add_song(self, title, reference, url, category):
         """Add a song to the database"""
-        sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
+        sql = psycopg2.sql.SQL("INSERT INTO songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
         self.database_commit(sql, [title, reference, url, category])
 
     def get_song(self, song_id):
         """Get a song from database by id if exists"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE id = %s")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs WHERE id = %s")
         song = self.database_fetch(sql, [song_id])
         return song[0] if song else None
 
     def get_all_songs(self):
         """Get all songs from database in alphabetic order"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY category, reference, title")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs ORDER BY category, reference, title")
         return self.database_fetch(sql)
 
     def edit_song(self, song_id, setting, value):
         """Edit a song entry in database"""
-        sql = psycopg2.sql.SQL("UPDATE public.songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        sql = psycopg2.sql.SQL("UPDATE songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
         self.database_commit(sql, [value, song_id])
 
     async def delete_command(self, ctx):

@@ -6,6 +6,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install python3.7 -y
 RUN apt install git -y
 RUN apt install python3-pip -y
+RUN apt install libpq-dev -y
 RUN git clone https://github.com/MrSpinne/Shiro.py.git
 RUN cp -a Shiro.py/. .
 RUN rm -rf Shiro.py/

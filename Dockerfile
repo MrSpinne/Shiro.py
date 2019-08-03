@@ -6,7 +6,8 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install python3.7 -y
 RUN apt install git -y
 RUN apt install python3-pip -y
-RUN git clone https://github.com/MrSpinne/Shiro.py.git /
+RUN git clone https://github.com/MrSpinne/Shiro.py.git
+RUN mv Shiro.py /
 RUN pip3 install -r requirements.txt
 
 ENV POSTGRES_HOST localhost

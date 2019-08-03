@@ -101,7 +101,7 @@ class Shiro(commands.Bot):
 
     async def on_error(self, event_method, *args, **kwargs):
         """Override on_error to exit if error occurs on build"""
-        print("Ignoring exception in {}".format(event_method), file=sys.stderr)
+        print("1 Ignoring exception in {}".format(event_method), file=sys.stderr)
         traceback.print_exc()
         if os.environ.get("TRAVIS"):
             exit(1)

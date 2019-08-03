@@ -125,8 +125,7 @@ class Shiro(commands.Bot):
     def connect_lavalink(self):
         """Connect to lavalink server"""
         self.lavalink = lavalink.Client(self.user.id)
-        self.lavalink.add_node(os.environ.get("LAVALINK_HOST"), os.environ.get("LAVALINK_PORT"),
-                               os.environ.get("LAVALINK_PASSWORD"), os.environ.get("LAVALINK_REGION"))
+        self.lavalink.add_node(**self.credentials["lavalink"])
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""

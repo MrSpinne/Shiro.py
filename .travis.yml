@@ -3,21 +3,18 @@ language: python
 python:
   - "3.7"
 
-addons:
-  apt:
-    packages:
-      - oracle-java8-set-default
-
 env:
   - POSTGRES_HOST=localhost POSTGRES_PORT=5432 POSTGRES_DATABASE=shiro POSTGRES_USER=shiro POSTGRES_PASSWORD=shiro
 
 services:
+  - docker
   - postgresql
 
 before_install:
   - psql -c "CREATE DATABASE $POSTGRES_DATABASE;" -U postgres
   - psql -c "CREATE USER $POSTGRES_USER WITH PASSWORD '$POSTGRES_PASSWORD';" -U postgres
-  - wget https://github.com/Frederikam/Lavalink/releases/download/3.2.1.1/Lavalink.jar
+  - docker pull fredboat/lavalink:master
+  - docker run -p 2333:2333 fredboat/lavalink:master
 
 install:
   - pip install -r requirements.txt

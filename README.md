@@ -22,6 +22,9 @@
 </div>
 
 ## Requirements
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/02acc957b5a849f5801bcd6b19ef217e)](https://app.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&utm_medium=referral&utm_content=MrSpinne/Shiro.py&utm_campaign=Badge_Grade_Settings)
+
 ### Packages
     pip install -r requirements.txt
 ### Environmental Variables 

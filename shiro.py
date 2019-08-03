@@ -29,41 +29,49 @@ class Shiro(commands.Bot):
         builtins.__dict__["_"] = self.translate
         self.db_connector, self.db_cursor, self.app_info, self.gspread, self.credentials = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
-        self.startup()
-
-    def startup(self):
-        """Prepare start"""
-        logging.basicConfig(level=logging.INFO)
         self.parse_credentials()
-        self.sentry.init(dsn=os.environ.get("SENTRY_DSN"), integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
-        self.connect_database()
-        self.add_command_handlers()
-        self.connect_gspread()
-        self.update_songs_list.start()
-
-    async def on_ready(self):
-        """Get ready and start"""
-        self.app_info = await self.application_info()
-        self.dbl = dbl.Client(self, os.environ.get("DISCORDBOTS"), autopost=True)
-        self.update_guilds()
-        self.connect_lavalink()
-        self.statposter = statposter.StatPoster(self)
-        self.load_all_extensions()
-        self.update_status.start()
-        logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
     def parse_credentials(self):
         """Parse credentials from envs to file"""
         config = configparser.ConfigParser()
         config.read("config.ini")
         for section in config.sections():
-            self.credentials[section] = {}
+            self.credentials[section.lower()] = {}
             for option in config.options(section):
                 value = config.get(section, option)
                 if value == "":
-                    self.credentials[section][option] = os.environ.get("{0}_{1}".format(section, option))
+                    self.credentials[section.lower()][option] = os.environ.get("{0}_{1}".format(section, option))
                 else:
-                    self.credentials[section][option] = value
+                    self.credentials[section.lower()][option] = value
+
+    async def on_ready(self):
+        """Get ready and start"""
+        logging.basicConfig(level=logging.INFO)
+        self.connect_database()
+        self.connect_lavalink()
+        self.connect_optionals()
+
+        self.update_guilds()
+        self.load_all_extensions()
+        self.add_command_handlers()
+        self.app_info = await self.application_info()
+
+        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
+        await self.change_presence(activity=activity)
+        logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
+
+    def connect_optionals(self):
+        """Prepare start"""
+        if self.credentials["sentry"].get("dsn"):
+            self.sentry.init(**self.credentials["sentry"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
+        if self.credentials["gspread"].get("type"):
+            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+            credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.credentials["gspread"], scope)
+            self.gspread = gspread.authorize(credentials)
+            self.update_songs_list.start()
+        if self.credentials["botlist"].get("discordbots"):
+            self.statposter = statposter.StatPoster(self)
+            self.post_stats.start()
 
     def translate(self, string):
         """Translate string to language of ctx got from frame (commands only)"""
@@ -88,7 +96,7 @@ class Shiro(commands.Bot):
 
     def connect_database(self):
         """Establish connection to postgres database"""
-        self.db_connector = psycopg2.connect(os.environ.get("DATABASE_URL"))
+        self.db_connector = psycopg2.connect(**self.credentials["postgres"])
         self.db_cursor = self.db_connector.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     def disconnect_database(self):
@@ -114,19 +122,6 @@ class Shiro(commands.Bot):
             self.db_connector.rollback()
         else:
             return self.db_cursor.fetchall()
-
-    def connect_gspread(self):
-        """Connect to google api to use sheets"""
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        credentials = {
-            "type": os.environ.get("GSPREAD_TYPE"),
-            "private_key_id": os.environ.get("GSPREAD_PRIVATE_KEY_ID"),
-            "private_key": os.environ.get("GSPREAD_PRIVATE_KEY").replace("\\n", "\n"),
-            "client_email": os.environ.get("GSPREAD_CLIENT_EMAIL"),
-            "client_id": os.environ.get("GSPREAD_CLIENT_ID")
-        }
-        credentials = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scope)
-        self.gspread = gspread.authorize(credentials)
 
     def connect_lavalink(self):
         """Connect to lavalink server"""
@@ -336,24 +331,6 @@ class Shiro(commands.Bot):
                 (isinstance(error, commands.BotMissingPermissions) and "embed_links" not in error.missing_perms):
             await ctx.send(embed=embed)
 
-    @tasks.loop(minutes=15)
-    async def update_status(self):
-        """Update status every 30 minutes"""
-        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
-        await self.change_presence(activity=activity)
-        try:
-            tokens = {
-                "divinediscordbots": os.environ.get("DIVINEDISCORDBOTS"),
-                "discordbotreviews": os.environ.get("DISCORDBOTREVIEWS"),
-                "mythicalbots": os.environ.get("MYTHICALBOTS"),
-                "discordbotlist": os.environ.get("DISCORDBOTLIST"),
-                "discordboats": os.environ.get("DISCORDBOATS")
-            }
-            await self.statposter.post_all(tokens)
-        except Exception as e:
-            self.sentry.capture_exception(e)
-            # TODO: Specify exception
-
     @tasks.loop(hours=1)
     async def update_songs_list(self):
         """Dump all songs in database to google sheet"""
@@ -369,6 +346,15 @@ class Shiro(commands.Bot):
         sheet.sheet1.resize(len(formatted) + 1)
         sheet.values_update("List!A2", params={"valueInputOption": "RAW"}, body={"values": formatted})
 
+    @tasks.loop(minutes=15)
+    async def post_stats(self):
+        """Update status every 30 minutes"""
+        try:
+            await self.statposter.post_all(**self.credentials["botlist"])
+        except Exception as e:
+            self.sentry.capture_exception(e)
+            # TODO: Specify exception
+
 
 shiro = Shiro()
-shiro.run(os.environ.get("DISCORD_TOKEN"))
+shiro.run(shiro.credentials["discord"]["token"])

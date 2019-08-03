@@ -4,7 +4,10 @@ python:
   - "3.7"
 
 env:
-  - POSTGRES_HOST=localhost POSTGRES_PORT=5432 POSTGRES_DATABASE=shiro POSTGRES_USER=shiro POSTGRES_PASSWORD=shiro LAVALINK_HOST=localhost LAVALINK_PORT=2333 LAVALINK_PASSWORD=youshallnotpass
+  global:
+    - POSTGRES_HOST=localhost
+    - POSTGRES_PORT=5432
+    - POSTGRES_DATABASE=shiro POSTGRES_USER=shiro POSTGRES_PASSWORD=shiro LAVALINK_HOST=localhost LAVALINK_PORT=2333 LAVALINK_PASSWORD=youshallnotpass
 
 services:
   - docker

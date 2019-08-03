@@ -7,6 +7,17 @@ class StatPoster:
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=self.bot.loop, raise_for_status=True)
 
+    async def discordbots(self, token):
+        data = json.dumps({
+            "server_count": len(self.bot.guilds)
+        })
+        headers = {
+            "authorization": token,
+            "content-type": "application/json"
+        }
+        url = f"https://discordbots.org/api/bots/{self.bot.user.id}/stats"
+        await self._post(url, data, headers)
+
     async def divinediscordbots(self, token):
         data = json.dumps({
             "server_count": len(self.bot.guilds)
@@ -64,6 +75,17 @@ class StatPoster:
         url = f"https://discord.boats/api/V2/bot/{self.bot.user.id}"
         await self._post(url, data, headers)
 
+    async def botsondiscord(self, token):
+        data = json.dumps({
+            "guildCount": len(self.bot.guilds),
+        })
+        headers = {
+            "authorization": token,
+            "content-type": "application/json"
+        }
+        url = f"https://bots.ondiscord.xyz/bot-api/bots/{self.bot.user.id}/guilds"
+        await self._post(url, data, headers)
+
     async def _post(self, url, data, headers):
         try:
             await self.session.post(url, data=data, headers=headers)
@@ -77,3 +99,4 @@ class StatPoster:
         await self.mythicalbots(tokens["mythicalbots"])
         await self.discordbotlist(tokens["discordbotlist"])
         await self.discordboats(tokens["discordboats"])
+        await self.botsondiscord(tokens["botsondiscord"])

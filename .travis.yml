@@ -22,8 +22,23 @@ install:
 before_script:
 - docker run -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_USER=$POSTGRES_USER
   -e POSTGRES_DB=$POSTGRES_DATABASE -d --name postgres -p $POSTGRES_PORT:$POSTGRES_PORT postgres
-- docker exec -it postgres bash
-- psql -U $POSTGRES_USER
+- docker exec -it postgres psql -c "create table guilds
+  (
+  id               bigint                       not null,
+  prefix           text      default 's.'::text not null,
+  command_deletion boolean   default false      not null,
+  channel_only     bigint,
+  language         text      default 'en'::text not null,
+  updated          timestamp default now()      not null,
+  constraint guilds_pk
+  primary key (id)
+  );
+
+  alter table guilds
+  owner to $POSTGRES_USER;
+
+  create unique index guilds_id_uindex
+  on guilds (id);" -U $POSTGRES_USER
 - docker run -d -p 2333:2333 fredboat/lavalink:master
 script:
 - python shiro.py

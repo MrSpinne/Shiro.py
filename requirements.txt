@@ -5,7 +5,7 @@ sentry-sdk
 pycountry
 typing
 psutil
-https://github.com/Devoxin/Lavalink.py.git@dev
+git+https://github.com/Devoxin/Lavalink.py.git@dev
 aiodns
 cchardet
 PyMoe

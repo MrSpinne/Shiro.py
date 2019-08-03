@@ -85,7 +85,6 @@ class Songs(commands.Cog):
         """Stops current playback"""
         player = self.shiro.lavalink.players.get(ctx.guild.id)
         if player.current is not None or player.fetch("end"):
-
             for track in player.queue:
                 history = player.fetch("history")
                 history.pop(-1)

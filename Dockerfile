@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 COPY . .
-RUN pip3 install -r requirements.txt
+RUN pip3 install --user travis -r requirements.txt
 
 ENV POSTGRES_HOST localhost
 ENV POSTGRES_PORT 5432

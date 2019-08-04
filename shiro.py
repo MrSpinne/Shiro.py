@@ -20,12 +20,14 @@ import Pymoe
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import configparser
+import signal
 
 
 class Shiro(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
+        signal.signal(signal.SIGTERM, self.shutdown)
         self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
         self.parse_config()
@@ -50,7 +52,6 @@ class Shiro(commands.Bot):
         self.connect_lavalink()
         self.connect_optionals()
 
-        self.create_tables()
         self.update_guilds()
         self.load_all_extensions()
         self.add_command_handlers()
@@ -62,7 +63,7 @@ class Shiro(commands.Bot):
 
         if os.environ.get("TRAVIS"):
             await tests.Tester(self).run()
-            exit()
+            self.shutdown()
 
     def connect_optionals(self):
         """Prepare start"""
@@ -99,6 +100,21 @@ class Shiro(commands.Bot):
             self.sentry.capture_exception(e)
 
         return translation
+
+    def shutdown(self):
+        """Stops all processes running and the bot himself"""
+        embed = discord.Embed(color=10892179, title=_("\\❌ **Bot restart**"),
+                              description=_("We have detected that you're currently running playback. We're sorry, but "
+                                            "we have to stop it because we're rolling out a new update. Shiro will be "
+                                            "back in a minute."))
+
+        for guild_id, player in self.lavalink.players:
+            player.fetch("ctx").send(embed=embed)
+            player.queue.clear()
+            player.stop()
+
+        self.disconnect_database()
+        self.loop.create_task(self.close)
 
     def connect_database(self):
         """Establish connection to postgres database"""
@@ -145,14 +161,6 @@ class Shiro(commands.Bot):
         extensions = [file.stem for file in pathlib.Path("extensions").glob("*.py")]
         for extension in extensions:
             self.load_extension(f"extensions.{extension}")
-
-    def create_tables(self):
-        """Create tables in database if not exist"""
-        with open("data/schema.sql", "r", encoding="UTF-8") as file:
-            sql = file.read().replace("shiro", self.config["postgres"]["user"])
-            sql = psycopg2.sql.SQL(sql)
-
-        self.database_commit(sql)
 
     def register_guild(self, guild_id):
         """Register guild to database if it is not already registered"""
@@ -237,11 +245,6 @@ class Shiro(commands.Bot):
             await self.invoke(ctx)
 
         await self.process_commands(message)
-
-    async def shutdown(self):
-        """Stops all processes running and the bot himself"""
-        self.disconnect_database()
-        await self.close()
 
     async def get_prefix(self, message):
         """Return the prefix which the guild has set"""
@@ -372,4 +375,4 @@ class Shiro(commands.Bot):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     shiro = Shiro()
-    shiro.run(shiro.credentials["discord"]["token"])
+    shiro.run(shiro.config["discord"]["token"])

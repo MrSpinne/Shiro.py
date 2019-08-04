@@ -1,4 +1,4 @@
-# Shiro.py - Work in progress...
+# Shiro.py - Work in progress
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Coverage)
 [![Build Status](https://travis-ci.org/MrSpinne/Shiro.py.svg?branch=master)](https://travis-ci.org/MrSpinne/Shiro.py)
@@ -27,6 +27,7 @@ Get Shiro to play song quizzes and enhance your guild with fun related anime fea
     *   [Environmental Variables](#environmental-variables)
 
 *   [Contribute](#contribute)
+
 *   [Links](#links)
 
 ## Setup

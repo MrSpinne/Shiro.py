@@ -15,14 +15,12 @@ jobs:
       dist: xenial
       language: python
       python: "3.7"
-      services:
-        - docker
-        - postgresql
+      services: postgresql
       before_install:
         - pip install coverage
         - pip install codacy-coverage
         - docker pull fredboat/lavalink:master
-        - docker run -d -p 2333:2333 fredboat/lavalink
+        - docker run -d -p 2333:2333 fredboat/lavalink:master
       before_script:
         - psql -c "create database $POSTGRES_DATABASE;" -U postgres
         - psql -c "create user $POSTGRES_USER with password '$POSTGRES_PASSWORD';" -U postgres

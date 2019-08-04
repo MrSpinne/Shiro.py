@@ -4,7 +4,6 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt-get install -y --no-install-recommends python3.7 python3-pip libpq-dev git \
-    && apt-get -s install software-properties-common python3.7 python3-pip libpq-dev git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/MrSpinne/Shiro.py.git

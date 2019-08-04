@@ -23,6 +23,7 @@ Get Shiro to play song quizzes and enhance your guild with fun related anime fea
 *   [Configuration](#configuration)
     *   [Config options](#config-options)
     *   [Environmental Variables](#environmental-variables)
+
 *   [Links](#links)
 
 ## Setup
@@ -80,7 +81,7 @@ The configuration file is located in `data/config.ini`. If you use docker, it's 
 Please note that sections marked with `optional` in the `config.ini` aren't supposed to be used by you. 
 [Create a Discord application](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
 
-**config.ini** (that part you have to configure)
+**config.ini** (the part you have to configure)
 ```ini
 [Discord]
 token = 

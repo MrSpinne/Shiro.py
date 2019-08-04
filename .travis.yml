@@ -1,5 +1,4 @@
 dist: xenial
-
 jobs:
   include:
     - stage: build docker image
@@ -19,7 +18,9 @@ jobs:
         - POSTGRES_DATABASE=shiro
         - POSTGRES_USER=shiro
         - POSTGRES_PASSWORD=shiro
-        - LAVALINK
+      language: python
+      python: "3.7"
+      services: postgresql
       install:
         - pip install coverage
         - pip install codacy-coverage

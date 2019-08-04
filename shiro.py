@@ -87,7 +87,7 @@ class Shiro(commands.Bot):
 
         try:
             translation = gettext.translation("base", "locales/", [language], codeset="utf-8").gettext(string)
-        except Exception as e:
+        except FileNotFoundError as e:
             translation = string
             logging.error(e)
             self.sentry.capture_exception(e)
@@ -109,7 +109,7 @@ class Shiro(commands.Bot):
         """Commit data to database"""
         try:
             self.db_cursor.execute(sql, variables)
-        except:
+        except psycopg2.DatabaseError:
             self.db_connector.rollback()
         else:
             self.db_connector.commit()
@@ -118,7 +118,7 @@ class Shiro(commands.Bot):
         """Fetch data from database"""
         try:
             self.db_cursor.execute(sql, variables)
-        except:
+        except psycopg2.DatabaseError:
             self.db_connector.rollback()
         else:
             return self.db_cursor.fetchall()

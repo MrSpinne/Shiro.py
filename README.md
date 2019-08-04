@@ -1,9 +1,10 @@
-# Shiro.py - WIP
+# Shiro.py - Not working
 ![Build Status](https://api.travis-ci.org/MrSpinne/Shiro.py.svg?branch=master)
 ![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)
 
 ![Python Version](https://img.shields.io/badge/python-3.7-blue)
 ![Bot Version](https://img.shields.io/badge/version-1.3-orange)
+![License](https://img.shields.io/github/license/MrSpinne/Shiro.py)
 ![Discord Server](https://img.shields.io/discord/600761022089003021)
 
 [![Discord Bots](https://discordbots.org/api/widget/593116701281746955.svg)](https://discordbots.org/bot/593116701281746955)
@@ -16,10 +17,13 @@ Want to guess anime openings with your friends? Get Shiro to play song quizzes a
     *   [Postgres Database](#postgres-database)
     *   [Lavalink Server](#lavalink-server)
     *   [Shiro](#shiro)
+    *   [Watchtower](#watchtower)
+*   [Configuration](#configuration)
 *   [Links](#links)
 
 ## Setup
 The following setup is done with **docker on debian**. If you're using another os, it may variate a bit.
+If you don't like docker, you can also install everything on your own. But be aware, **you won't get automatic patches** then!
 
 ### Docker
 First of all you need to install docker. 
@@ -45,15 +49,24 @@ docker run --rm --name postgres -e POSTGRES_DATABASE=shiro -e POSTGRES_USER=shir
 Also, you have to setup a Lavalink server in order for the bot to play music. [More about Lavalink](https://github.com/Frederikam/Lavalink)
 ```bash
 docker pull fredboat/lavalink
-docker run --rm -name lavalink -e LAVALINK_SERVER_PASSWORD=shiro -d fredboat/lavalink
+docker run --rm --name lavalink -e LAVALINK_SERVER_PASSWORD=shiro -d fredboat/lavalink
 ```
 
 ### Shiro
-After installing and running all requirements, we finally can start Shiro. [Configure]()
+After installing and running all requirements, we finally can start Shiro. [Configure](#configuration)
 ```bash
 docker pull mrspinne/shiro.py
-docker run --rm name shiro -e DISCORD_TOKEN=shiro -d mrspinne/shiro.py
+docker run --rm --name shiro -e DISCORD_TOKEN=shiro -d mrspinne/shiro.py
 ```
+
+### Watchtower
+The following will keep you docker container up to date. If you only want to auto update specific container, [have a look here](https://containrrr.github.io/watchtower/arguments/).
+```bash
+docker pull containrrr/watchtower
+docker run --rm --name watchtower -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower
+```
+
+## Configuration
 
 ## Links
 *   [Support Server](https://discord.gg/5z4z8kh)

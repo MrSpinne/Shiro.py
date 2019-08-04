@@ -108,10 +108,10 @@ class Shiro(commands.Bot):
                                             "we have to stop it because we're rolling out a new update. Shiro will be "
                                             "back in a minute."))
 
-        for guild_id, player in self.lavalink.players:
-            player.fetch("ctx").send(embed=embed)
-            player.queue.clear()
-            player.stop()
+        for player in self.lavalink.players:
+            player[1].fetch("ctx").send(embed=embed)
+            player[1].queue.clear()
+            player[1].stop()
 
         self.disconnect_database()
         self.loop.create_task(self.close)

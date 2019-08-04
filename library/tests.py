@@ -11,6 +11,7 @@ class Tester:
         """Start tests"""
         await self.create_ctx()
         await self.test_commands()
+        self.shiro.shutdown()
 
     async def create_ctx(self):
         """Create fake ctx to invoke commands under"""

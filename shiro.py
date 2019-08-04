@@ -52,6 +52,7 @@ class Shiro(commands.Bot):
         self.connect_lavalink()
         self.connect_optionals()
 
+        self.create_tables()
         self.update_guilds()
         self.load_all_extensions()
         self.add_command_handlers()
@@ -171,6 +172,13 @@ class Shiro(commands.Bot):
         """Unregister guild from database with all settings"""
         sql = psycopg2.sql.SQL("DELETE FROM guilds WHERE id = %s")
         self.database_commit(sql, [guild_id])
+
+    def create_tables(self):
+        """Create tables if not exist from sql file"""
+        with open("data/schema.sql", "r", encoding="utf-8") as file:
+            sql = psycopg2.sql.SQL(file.read().replace("shiro", self.config["postgres"]["user"]))
+
+        self.database_commit(sql)
 
     def update_guilds(self):
         """Add or remove guilds from database to prevent bugs"""

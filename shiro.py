@@ -359,3 +359,10 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     shiro = Shiro()
     shiro.run(shiro.credentials["discord"]["token"])
+
+    if os.environ.get("TRAVIS"):
+        await shiro.wait_until_ready()
+        message = shiro.get_channel()
+        ctx = shiro.get_context()
+        for command in shiro.walk_commands():
+            pass

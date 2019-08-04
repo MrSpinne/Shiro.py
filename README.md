@@ -4,12 +4,13 @@
 
 ![Python Version](https://img.shields.io/badge/python-3.7-blue)
 ![Bot Version](https://img.shields.io/badge/version-1.3-orange)
-![License](https://img.shields.io/github/license/MrSpinne/Shiro.py)
 ![Discord Server](https://img.shields.io/discord/600761022089003021)
+![License](https://img.shields.io/github/license/MrSpinne/Shiro.py)
 
 [![Discord Bots](https://discordbots.org/api/widget/593116701281746955.svg)](https://discordbots.org/bot/593116701281746955)
 
-Want to guess anime openings with your friends? Get Shiro to play song quizzes and enhance your guild with fun related anime features!
+Want to guess anime openings with your friends? 
+Get Shiro to play song quizzes and enhance your guild with fun related anime features!
 
 ## Table of Contents
 *   [Setup](#setup)
@@ -18,7 +19,10 @@ Want to guess anime openings with your friends? Get Shiro to play song quizzes a
     *   [Lavalink Server](#lavalink-server)
     *   [Shiro](#shiro)
     *   [Watchtower](#watchtower)
+
 *   [Configuration](#configuration)
+    *   [Config options](#config-options)
+    *   [Environmental Variables](#environmental-variables)
 *   [Links](#links)
 
 ## Setup
@@ -46,7 +50,8 @@ docker run --rm --name postgres -e POSTGRES_DATABASE=shiro -e POSTGRES_USER=shir
 ```
 
 ### Lavalink Server
-Also, you have to setup a Lavalink server in order for the bot to play music. [More about Lavalink](https://github.com/Frederikam/Lavalink)
+Also, you have to setup a Lavalink server in order for the bot to play music. 
+[More about Lavalink](https://github.com/Frederikam/Lavalink)
 ```bash
 docker pull fredboat/lavalink
 docker run --rm --name lavalink -e LAVALINK_SERVER_PASSWORD=shiro -d fredboat/lavalink
@@ -60,13 +65,43 @@ docker run --rm --name shiro -e DISCORD_TOKEN=shiro -d mrspinne/shiro.py
 ```
 
 ### Watchtower
-The following will keep you docker container up to date. If you only want to auto update specific container, [have a look here](https://containrrr.github.io/watchtower/arguments/).
+The following will keep you docker container up to date. If you only want to auto update specific container, 
+[have a look here](https://containrrr.github.io/watchtower/arguments/).
 ```bash
 docker pull containrrr/watchtower
 docker run --rm --name watchtower -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower
 ```
 
 ## Configuration
+The configuration file is located in `data/config.ini`. If you use docker, it's recommended to pass config values via 
+[environmental variables](https://docs.docker.com/engine/reference/commandline/run/#options) (or you mount the config). 
+
+### Config options
+Please note that sections marked with `optional` in the `config.ini` aren't supposed to be used by you. 
+[Create a Discord application](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
+
+**config.ini** (that part you have to configure)
+```ini
+[Discord]
+token = 
+
+[Postgres]
+host =
+port =
+database =
+user =
+password =
+
+[Lavalink]
+host =
+port =
+password =
+region =
+```
+
+### Environmental Variables
+If you want to use envs, here is how to pass them. You can look up them from the config.
+Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSWORD` 
 
 ## Links
 *   [Support Server](https://discord.gg/5z4z8kh)

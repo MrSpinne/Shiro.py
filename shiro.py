@@ -4,7 +4,7 @@
 
 import discord
 from discord.ext import commands, tasks
-from library import exceptions, checks, statposter
+from library import exceptions, checks, statposter, tests
 
 import psycopg2.extras
 import psycopg2.sql
@@ -33,13 +33,14 @@ class Shiro(commands.Bot):
     def parse_credentials(self):
         """Parse credentials from envs to file"""
         config = configparser.ConfigParser()
-        config.read("config.ini")
+        config.read("data/config.ini")
         for section in config.sections():
             self.credentials[section.lower()] = {}
             for option in config.options(section):
                 value = config.get(section, option)
-                if value == "":
-                    self.credentials[section.lower()][option] = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
+                env = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
+                if env:
+                    self.credentials[section.lower()][option] = env
                 else:
                     self.credentials[section.lower()][option] = value
 
@@ -49,6 +50,7 @@ class Shiro(commands.Bot):
         self.connect_lavalink()
         self.connect_optionals()
 
+        self.create_tables()
         self.update_guilds()
         self.load_all_extensions()
         self.add_command_handlers()
@@ -57,6 +59,9 @@ class Shiro(commands.Bot):
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
+
+        if os.environ.get("TRAVIS"):
+            tests.Tester(self)
 
     def connect_optionals(self):
         """Prepare start"""
@@ -139,6 +144,14 @@ class Shiro(commands.Bot):
         extensions = [file.stem for file in pathlib.Path("extensions").glob("*.py")]
         for extension in extensions:
             self.load_extension(f"extensions.{extension}")
+
+    def create_tables(self):
+        """Create tables in database if not exist"""
+        with open("data/schema.sql", "r", encoding="UTF-8") as file:
+            sql = file.read().replace("shiro", self.credentials["postgres"]["user"])
+            sql = psycopg2.sql.SQL(sql)
+
+        self.database_commit(sql)
 
     def register_guild(self, guild_id):
         """Register guild to database if it is not already registered"""
@@ -359,10 +372,3 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     shiro = Shiro()
     shiro.run(shiro.credentials["discord"]["token"])
-
-    if os.environ.get("TRAVIS"):
-        await shiro.wait_until_ready()
-        message = shiro.get_channel()
-        ctx = shiro.get_context()
-        for command in shiro.walk_commands():
-            pass

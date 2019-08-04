@@ -6,10 +6,10 @@ env:
 jobs:
   include:
   - if: branch = master
-  - stage: build docker image
-  - script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build -t shiro.py .
-    - docker images
-    - docker tag shiro.py $DOCKER_USERNAME/shiro.py
-    - docker push $DOCKER_USERNAME/shiro.py
+    - stage: build docker image
+    - script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t shiro.py .
+      - docker images
+      - docker tag shiro.py $DOCKER_USERNAME/shiro.py
+      - docker push $DOCKER_USERNAME/shiro.py

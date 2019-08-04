@@ -9,9 +9,8 @@ jobs:
         - POSTGRES_PASSWORD=shiro
         - LAVALINK_HOST=localhost
         - LAVALINK_PORT=2333
-        - LAVALINK_PASSWORD=shiro
+        - LAVALINK_PASSWORD=youshallnotpass
         - LAVALINK_REGION=eu
-        - SERVER_ADDRESS=localhost
         - secure: wGK5i30+b7NxoVPPS4Uid941wEE3cPFDwhbKSeQON8rbSDRMwFl1YEzfWddMOAeyYnpsat/O1v4s1+6xUuo/zqv0CcxkKoqJ596qP0o3l6hB9brCPEl/ZQEOjA+ylxpdX4Xd6nz8lXzej/9O6lhz7PdmgYCdxFSbjkuANX6/Z3HXmMfBq1JwGT401IoEaPtUIHrzHmuw7BcYqz2i7T/4q93vdH+m6mU70+5PkFYZfxSIQssby1QwmqOC+MwVjEwZ3KGEr7JF8Wr97aMO/MS2fvxSHKCH2v6awoglT1gYLsL31kLT827M+1OEfWksd27oUcyJchlWXSYEf7OOddQDe6X94Op6IFizFI96jOZAGj5641oIsJzJlfudMQEDAu+NLsb+btSKFdGAjZOOKLv94kL5tST3XNhznozSqcKEVS13u3IbP/W+pBeF3+ik7az7RlrhEyHj+ofV7zDvvf7s73ELLgMEZiYut0fglKqqqIdjQ+6/7cUdZzekB2vghNh5MqdykuyMwDGB2gahCC930lNdozfyHTIWbFtD3AOY8F1i+bLwRgJUO/AYxqkPlbGmVWKDIpyGs9QmrbFnd3azZBFAIpwJG/fz+R83qhvKhLfuGDY3IALDrjcdj///2aDj04eBrM+pk71Ts4H0hq8NwN/h/Mzms0bxS+zYutfA/3U=
         - secure: FGYEWJVo7yOBul3e6ASKi9IFKOuXnWZIZeuZIPvuZMcVULhRtfeYdRQUamVidroWtJa137dQrPc0kPapqZxslPbAzV6mNhD2d6/noyBLvmWF5XXM2tgkVN9mLBf3NdyROr314eN1Hbfcj0HV7Mypk0u+6lef/hY/XSXCk81Nh96gjDQAliuHJ5iaPIIWlH99ehgyz93r3M4jg/m7fqnE/P8RNSmEFchyMutkgKfts1xu4+0/74CRn4LMvQ4dFAgmg2055EQeViMkwwPztNM3kfb44lAJ1JSeBjYNhEm8ZrIvNz/W0/DSuPP8pa58FwrTO5MnhF/8PZVDrKRsqHvMTFtWQOGEdWu3vE5n3SfuhUroZTkJAKegYc7kB8gDSzderemhVUBS906CGsI/kUfwKSwQC97aktCvVSv+vyHz4cpXXtuiu3u9U2pKLFFeAl8B/mdRx4HivMGfo5HvfM5Y/af/9P4UmMnPNBM7ye878LGcD+I0yv4xWM+YkZDs09E8KjSBJ5WzmhAJuZH043+Yssm96auJriG3Y7i9+FXWGxP3acFshHnD8TDqx64Tygm6FD9iu6QbvlQ+7k+8wgHsbF6YLM/iDSN214T6DkYctS1GQeEeY8c387E0EDjE4OtfAlxizJY8ySSUEnddpU91jrOPXIju57AFKPSqQ5+2RPI=
       dist: xenial
@@ -22,8 +21,7 @@ jobs:
         - pip install coverage
         - pip install codacy-coverage
         - docker pull fredboat/lavalink:master
-        -
-        - docker run -d -p 2333:2333 fredboat/lavalink:master
+        - docker run -e SERVER_ADDRESS=localhost -d -p 2333:2333 fredboat/lavalink:master
       before_script:
         - psql -c "create database $POSTGRES_DATABASE;" -U postgres
         - psql -c "create user $POSTGRES_USER with password '$POSTGRES_PASSWORD';" -U postgres

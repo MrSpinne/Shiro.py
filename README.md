@@ -11,12 +11,13 @@
 Want to guess anime openings with your friends? Get Shiro to play song quizzes and enhance your guild with fun related anime features!
 
 ## Table of Contents
-* [Setup](#setup)
-  * [Docker](#docker)
-  * [Postgres Database](#postgres-database)
-  * [Lavalink Server](#lavalink-server)
-  * [Shiro](#shiro)
-* [Links](#links)
+*   [Setup](#setup)
+    *   [Docker](#docker)
+    *   [Postgres Database](#postgres-database)
+    *   [Lavalink Server](#lavalink-server)
+    *   [Shiro](#shiro)
+  
+*   [Links](#links)
 
 ## Setup
 The following setup is done with **docker on debian**. If you're using another os, it may variate a bit.

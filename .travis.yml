@@ -12,6 +12,3 @@ jobs:
     - docker images
     - docker tag shiro.py $DOCKER_USERNAME/shiro.py
     - docker push $DOCKER_USERNAME/shiro.py
-  - stage: test
-    script: docker run --rm $DOCKER_USERNAME/shiro.py cat hello.txt
-  - script: docker run --rm $DOCKER_USERNAME/shiro.py cat hello.txt

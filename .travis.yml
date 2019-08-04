@@ -7,11 +7,11 @@ jobs:
         - POSTGRES_DATABASE=shiro
         - POSTGRES_USER=shiro
         - POSTGRES_PASSWORD=shiro
+        - LAVALINK_HOST=localhost
         - LAVALINK_PORT=2333
+        - LAVALINK_PASSWORD=youshallnotpass
         - LAVALINK_REGION=eu
         - secure: wGK5i30+b7NxoVPPS4Uid941wEE3cPFDwhbKSeQON8rbSDRMwFl1YEzfWddMOAeyYnpsat/O1v4s1+6xUuo/zqv0CcxkKoqJ596qP0o3l6hB9brCPEl/ZQEOjA+ylxpdX4Xd6nz8lXzej/9O6lhz7PdmgYCdxFSbjkuANX6/Z3HXmMfBq1JwGT401IoEaPtUIHrzHmuw7BcYqz2i7T/4q93vdH+m6mU70+5PkFYZfxSIQssby1QwmqOC+MwVjEwZ3KGEr7JF8Wr97aMO/MS2fvxSHKCH2v6awoglT1gYLsL31kLT827M+1OEfWksd27oUcyJchlWXSYEf7OOddQDe6X94Op6IFizFI96jOZAGj5641oIsJzJlfudMQEDAu+NLsb+btSKFdGAjZOOKLv94kL5tST3XNhznozSqcKEVS13u3IbP/W+pBeF3+ik7az7RlrhEyHj+ofV7zDvvf7s73ELLgMEZiYut0fglKqqqIdjQ+6/7cUdZzekB2vghNh5MqdykuyMwDGB2gahCC930lNdozfyHTIWbFtD3AOY8F1i+bLwRgJUO/AYxqkPlbGmVWKDIpyGs9QmrbFnd3azZBFAIpwJG/fz+R83qhvKhLfuGDY3IALDrjcdj///2aDj04eBrM+pk71Ts4H0hq8NwN/h/Mzms0bxS+zYutfA/3U=
-        - secure: dtsJ/pj8Bh43EvP4vUriPuFjF2AJKteOIbDhwfUTERhtM3JEnl+GJGD8Os50E1Lv55lNB40LCOx5v83qZr5h3WigUzusxZoDb/tYAxP98YPySaeEP4AMtVU1058Ap+zLCCfZ9poiRuXFWOJN1gXzGxmq1r8NIgygH39YyAYs98fFWW6/i6l6/4E40cKRlxiKScUvg8HBKeBqkNqbFHidoK2ZPRF3lITrMpnsfbhGBwGCDC1q4Xj+7aFt/Mf9qPTHU90QtlnBf3vN7+9tNmEg3l4j7MPAOOLREIX28GKIAFP1nADDYIwPWAoXVXcw20t/fZlHQuof1fuE+NkvHxTl9jgAlYhAafmagrcmzUAZVweAR53c4BCNrcFsTSLeMrhl51wVkxnFJrZhOxYEMTsQyZ93bh9tUOeq29g6jevCM7bM7h6Sh7T/eTt/P+RBLstMUvWfQknW15R1ZZjUQVoOjsFhAn8sKyKppD+z6sXp946YJiQ1MHHZ9foGX7mpbW/Wl2qiIRAJaNFehTWklRR1MStP2sgpQLF/46SsG2gPVm2iShu1JNKAVKV2x4jEuDEUy+spnEsqguyhWJ8monym6IaDvYGWUMPIWw15BQsUYCjBs4P86/NRwd9gBV2+CF+Mya1ygjfL61NMxe4RYjWefqTRwmC6wxNo4h9u1CI3C28=
-        - secure: Jh7SfZao8Ub41ieg/fCuf0aInmxUMD356GJtka0H/mnwnfb+keak0ohgsJRyUw0YuHwEvwAQcItMIct/sb+Rb4PXj4br+o4u+Ig8MFYTT6UECo4qzgtkkQsPGRGOES4dHtYXc1yyGHzjY9Qm9Pd/r+Re8heXg1ab7Jws8Q9mLJqZXRszOKg+yoKdHDt5PjNAJ8s9hj+faMEnwR5WJyzdf7cUjfjFHWJyv50vuPqVUlf4EJz5rhFWfcUhpD9xQEVSKSLEagzHJaJ0RcDyxXBv1xQ5pqQ8ZL4yhPIv2AHSgLMzfWJqGubO9tpVxbU9n3/xWT2DqTi0E+m3OfEyUab3d5ZmjnRHlGGMyFB7UwpTMz6fbXNF2fEE+EaDI6DujOHfj8hhDhczClzyBlnf3ux4D75L4xBIU5qnp4MC933+JpIdUaLipj6CTPc9g0dxeMl1cRAyfBWDlxm+k64TmVHxLQ9hUv4Mdd8Hh25hmoHeXJF3xkWogu3WIozx4IA3TWy3cMjCEqn2gDSCeGC50NNQACDDQfVi3V0lqO895VY6yLR//9FHJQ2GzeQ+TXQIWRF9OXXReTdZyiNscsh3Q1OzScvV6ottSfpi8xfBghsYyA3194NsR5cMH/c1nYiWM+PEdMtLhF9TA8RJ+1KOb/1Qxm89evRQfe8YoeqAB2wWY2M=
       dist: xenial
       language: python
       python: "3.7"
@@ -19,6 +19,8 @@ jobs:
       before_install:
         - pip install coverage
         - pip install codacy-coverage
+        - docker pull fredboat/lavalink
+        - docker run -d -p 2333:2333 fredboat/lavalink
       before_script:
         - psql -c "create database $POSTGRES_DATABASE;" -U postgres
         - psql -c "create user $POSTGRES_USER with password '$POSTGRES_PASSWORD';" -U postgres

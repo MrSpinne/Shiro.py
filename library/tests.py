@@ -1,7 +1,6 @@
 class Tester:
     def __init__(self, shiro):
         self.shiro = shiro
-        self.shiro.loop.create_task(self.run)
 
     async def run(self):
         """Start tests"""

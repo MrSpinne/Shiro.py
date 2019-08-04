@@ -61,7 +61,8 @@ class Shiro(commands.Bot):
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
         if os.environ.get("TRAVIS"):
-            tests.Tester(self)
+            await tests.Tester(self).run()
+            exit()
 
     def connect_optionals(self):
         """Prepare start"""

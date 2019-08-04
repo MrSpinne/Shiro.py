@@ -1,12 +1,13 @@
-FROM debian
+FROM debian:buster
 
-RUN apt-get update && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install python3.7 -y
 RUN apt install git -y
 RUN apt install python3-pip -y
 RUN apt install libpq-dev -y
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/MrSpinne/Shiro.py.git
 RUN cp -a Shiro.py/. .
 RUN rm -rf Shiro.py/

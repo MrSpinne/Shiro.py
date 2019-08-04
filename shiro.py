@@ -48,7 +48,6 @@ class Shiro(commands.Bot):
 
     async def on_ready(self):
         """Get ready and start"""
-        logging.info(self.config["tests"]["text_channel"])
         self.connect_database()
         self.connect_lavalink()
         self.connect_optionals()
@@ -64,6 +63,7 @@ class Shiro(commands.Bot):
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
         if self.config["tests"]["enabled"] == "True":
+            logging.info("Running tests...")
             await tests.Tester(self).run()
             self.shutdown()
 

@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt-get update \
-    && apt-get install software-properties-common git python3-pip -y \
+    && apt-get install software-properties-common git python3-pip libpq-dev -y \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt install python3.7 -y \
     && apt-get clean \

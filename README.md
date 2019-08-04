@@ -54,7 +54,7 @@ docker run --rm --name postgres -e POSTGRES_DATABASE=shiro -e POSTGRES_USER=shir
 Also, you have to setup a Lavalink server in order for the bot to play music. 
 [More about Lavalink](https://github.com/Frederikam/Lavalink)
 ```bash
-docker pull fredboat/lavalink
+docker pull fredboat/lavalink:master
 docker run --rm --name lavalink -e LAVALINK_SERVER_PASSWORD=shiro -d fredboat/lavalink
 ```
 

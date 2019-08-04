@@ -3,7 +3,7 @@ FROM debian:buster
 RUN apt-get update \
     && apt-get install -y --no-install-recommends software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get install -y --no-install-recommends python3.7 python3-pip libpq-dev \
+    && apt-get install -y --no-install-recommends python3.7 python3-pip libpq-dev python3-setuptools \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 COPY . .

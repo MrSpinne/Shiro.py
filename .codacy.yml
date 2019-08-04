@@ -1,0 +1,7 @@
+engines:
+  coverage:
+    exclude_paths:
+      - /Dockerfile
+      - /data/*
+      - "**/*.md"
+      - "**/*.yml"

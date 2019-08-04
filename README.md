@@ -1,6 +1,8 @@
-# Shiro.py - Not working
-![Build Status](https://api.travis-ci.org/MrSpinne/Shiro.py.svg?branch=master)
-![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)
+# Shiro.py - Work in progress...
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Coverage)
+[![Build Status](https://travis-ci.org/MrSpinne/Shiro.py.svg?branch=master)](https://travis-ci.org/MrSpinne/Shiro.py)
+[![Crowdin](https://badges.crowdin.net/shiro-py/localized.svg)](https://crowdin.com/project/shiro-py)
 
 ![Python Version](https://img.shields.io/badge/python-3.7-blue)
 ![Bot Version](https://img.shields.io/badge/version-1.3-orange)
@@ -24,6 +26,7 @@ Get Shiro to play song quizzes and enhance your guild with fun related anime fea
     *   [Config options](#config-options)
     *   [Environmental Variables](#environmental-variables)
 
+*   [Contribute](#contribute)
 *   [Links](#links)
 
 ## Setup
@@ -102,7 +105,10 @@ region =
 
 ### Environmental Variables
 If you want to use envs, here is how to pass them. You can look up them from the config.
-Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSWORD` 
+Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSWORD`
+
+## Contribute
+I'd like to hear your thoughts about the whole project. It's far from perfect so feel free to contribute.
 
 ## Links
 *   [Support Server](https://discord.gg/5z4z8kh)

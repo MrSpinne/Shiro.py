@@ -26,23 +26,23 @@ class Shiro(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
-        self.db_connector, self.db_cursor, self.app_info, self.gspread, self.credentials = None, None, None, None, {}
+        self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
-        self.parse_credentials()
+        self.parse_config()
 
-    def parse_credentials(self):
+    def parse_config(self):
         """Parse credentials from envs to file"""
         config = configparser.ConfigParser()
         config.read("data/config.ini")
         for section in config.sections():
-            self.credentials[section.lower()] = {}
+            self.config[section.lower()] = {}
             for option in config.options(section):
                 value = config.get(section, option)
                 env = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
                 if env:
-                    self.credentials[section.lower()][option] = env
+                    self.config[section.lower()][option] = env
                 else:
-                    self.credentials[section.lower()][option] = value
+                    self.config[section.lower()][option] = value
 
     async def on_ready(self):
         """Get ready and start"""
@@ -66,16 +66,16 @@ class Shiro(commands.Bot):
 
     def connect_optionals(self):
         """Prepare start"""
-        if self.credentials["sentry"].get("dsn"):
-            self.sentry.init(**self.credentials["sentry"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
+        if self.config["sentry"].get("dsn"):
+            self.sentry.init(**self.config["sentry"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
 
-        if self.credentials["gspread"].get("type"):
+        if self.config["gspread"].get("type"):
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-            credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.credentials["gspread"], scope)
+            credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.config["gspread"], scope)
             self.gspread = gspread.authorize(credentials)
             self.update_songs_list.start()
 
-        if self.credentials["botlist"].get("discordbots"):
+        if self.config["botlist"].get("discordbots"):
             self.statposter = statposter.StatPoster(self)
             self.post_stats.start()
 
@@ -102,7 +102,7 @@ class Shiro(commands.Bot):
 
     def connect_database(self):
         """Establish connection to postgres database"""
-        self.db_connector = psycopg2.connect(**self.credentials["postgres"])
+        self.db_connector = psycopg2.connect(**self.config["postgres"])
         self.db_cursor = self.db_connector.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     def disconnect_database(self):
@@ -132,7 +132,7 @@ class Shiro(commands.Bot):
     def connect_lavalink(self):
         """Connect to lavalink server"""
         self.lavalink = lavalink.Client(self.user.id)
-        self.lavalink.add_node(**self.credentials["lavalink"])
+        self.lavalink.add_node(**self.config["lavalink"])
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
@@ -149,7 +149,7 @@ class Shiro(commands.Bot):
     def create_tables(self):
         """Create tables in database if not exist"""
         with open("data/schema.sql", "r", encoding="UTF-8") as file:
-            sql = file.read().replace("shiro", self.credentials["postgres"]["user"])
+            sql = file.read().replace("shiro", self.config["postgres"]["user"])
             sql = psycopg2.sql.SQL(sql)
 
         self.database_commit(sql)
@@ -363,7 +363,7 @@ class Shiro(commands.Bot):
     async def post_stats(self):
         """Update status every 30 minutes"""
         try:
-            await self.statposter.post_all(**self.credentials["botlist"])
+            await self.statposter.post_all(**self.config["botlist"])
         except Exception as e:
             self.sentry.capture_exception(e)
             # TODO: Specify exception

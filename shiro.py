@@ -48,7 +48,7 @@ class Shiro(commands.Bot):
 
     async def on_ready(self):
         """Get ready and start"""
-        logging.error(self.config["tests"]["text_channel"])
+        logging.info(self.config["tests"]["text_channel"])
         self.connect_database()
         self.connect_lavalink()
         self.connect_optionals()

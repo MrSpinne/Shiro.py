@@ -1,6 +1,7 @@
 FROM python:3.7-alpine
 
 COPY . .
+RUN apt-get install libpq-dev -y
 RUN pip install -r requirements.txt
 
 ENV POSTGRES_HOST localhost

@@ -1,11 +1,16 @@
-FROM ubuntu
+FROM debian
 
 RUN apt-get update
-RUN apt install software-properties-common
+RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt install python3.7
+RUN apt install python3.7 -y
+RUN apt install git -y
+RUN apt install python3-pip -y
+RUN apt install libpq-dev -y
 RUN git clone https://github.com/MrSpinne/Shiro.py.git
-RUN pip install -r requirements.txt
+RUN cp -a Shiro.py/. .
+RUN rm -rf Shiro.py/
+RUN pip3 install -r requirements.txt
 
 ENV POSTGRES_HOST localhost
 ENV POSTGRES_PORT 5432
@@ -16,3 +21,5 @@ ENV LAVALINK_HOST localhost
 ENV LAVALINK_PORT 2333
 ENV LAVALINK_PASSWORD shiro
 ENV LAVALINK_REGION eu
+
+CMD ["python", "shiro.py"]

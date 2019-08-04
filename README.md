@@ -63,7 +63,8 @@ docker run --rm --name lavalink -e LAVALINK_SERVER_PASSWORD=shiro -d fredboat/la
 ```
 
 ### Shiro
-After installing and running all requirements, we finally can start Shiro. [Configure](#configuration)
+After installing and running all requirements, we finally can start Shiro. It will automatically create all tables in 
+the database.[Configure](#configuration)
 ```bash
 docker pull mrspinne/shiro.py
 docker run --rm --name shiro -e DISCORD_TOKEN=shiro -d mrspinne/shiro.py

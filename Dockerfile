@@ -22,4 +22,4 @@ ENV LAVALINK_PORT 2333
 ENV LAVALINK_PASSWORD shiro
 ENV LAVALINK_REGION eu
 
-CMD ["python", "shiro.py"]
+ENTRYPOINT ["python", "shiro.py"]

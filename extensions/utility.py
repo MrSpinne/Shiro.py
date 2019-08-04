@@ -3,7 +3,6 @@ from discord.ext import commands
 from library import checks, converters
 
 import difflib
-import asyncio
 
 
 class Utility(commands.Cog):

@@ -1,9 +1,9 @@
 FROM debian:buster
 
 RUN apt-get update \
-    && apt-get install software-properties-common git python3-pip libpq-dev -y \
     && add-apt-repository ppa:deadsnakes/ppa \
-    && apt install python3.7 -y \
+    && apt-get install --no-install-recommends software-properties-common git python3-pip libpq-dev -y \
+    && apt install --no-install-recommends python3.7 -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/MrSpinne/Shiro.py.git

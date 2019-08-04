@@ -16,7 +16,6 @@ Want to guess anime openings with your friends? Get Shiro to play song quizzes a
     *   [Postgres Database](#postgres-database)
     *   [Lavalink Server](#lavalink-server)
     *   [Shiro](#shiro)
-  
 *   [Links](#links)
 
 ## Setup

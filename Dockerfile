@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian
 
 RUN apt-get update && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN apt install software-properties-common -y

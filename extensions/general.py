@@ -85,19 +85,19 @@ class General(commands.Cog):
 
     @commands.command(aliases=["openingrequest", "openingreq", "opreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def oprequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def oprequest(self, ctx, song: converters.LengthStr(40), anime, yt_url: converters.YoutubeURL):
         """Request a song for the song quiz"""
         await self.do_request(ctx, song, anime, yt_url, "Opening")
 
     @commands.command(aliases=["endingrequest", "endingreq", "edreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def edrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def edrequest(self, ctx, song: converters.LengthStr(40), anime, yt_url: converters.YoutubeURL):
         """Request a song for the ending quiz"""
         await self.do_request(ctx, song, anime, yt_url, "Ending")
 
     @commands.command(aliases=["ostreq"])
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def ostrequest(self, ctx, song: converters.LengthStr(35), anime, yt_url: converters.YoutubeURL):
+    async def ostrequest(self, ctx, song: converters.LengthStr(40), anime, yt_url: converters.YoutubeURL):
         """Request a song for the ost quiz"""
         await self.do_request(ctx, song, anime, yt_url, "OST")
 

@@ -10,6 +10,7 @@ RUN git clone https://github.com/MrSpinne/Shiro.py.git
 RUN cp -a Shiro.py/. .
 RUN rm -rf Shiro.py/
 RUN pip3 install wheel
+RUN python3 setup.py bdist_wheel
 RUN pip3 install -r requirements.txt
 
 

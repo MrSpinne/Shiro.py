@@ -1,6 +1,6 @@
-FROM debian
+FROM debian:buster
 
-RUN apt-get update
+RUN apt-get update && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt install python3.7 -y

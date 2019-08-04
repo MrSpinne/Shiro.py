@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 COPY . .
-RUN python3 -m pip install -U pip setuptools
+RUN python3 -m pip3 install -U pip3 setuptools
 RUN pip3 install -r requirements.txt
 
 ENV POSTGRES_HOST localhost

@@ -1,13 +1,7 @@
-FROM debian:buster
+FROM python:3.7-alpine
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends software-properties-common \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get install -y --no-install-recommends python3.7 python3-pip libpq-dev python3-setuptools \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
 COPY . .
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 ENV POSTGRES_HOST localhost
 ENV POSTGRES_PORT 5432

@@ -10,6 +10,14 @@
 
 Want to guess anime openings with your friends? Get Shiro to play song quizzes and enhance your guild with fun related anime features!
 
+## Table of Contents
+* [Setup](#setup)
+    * [Docker](#docker)
+    * [Postgres Database](#postgres-database)
+    * [Lavalink Server](#lavalink-server)
+    * [Shiro](#shiro)
+* [Links](#links)
+
 ## Setup
 The following setup is done with **docker on debian**. If you're using another os, it may variate a bit.
 
@@ -34,9 +42,17 @@ $ docker run --rm --name postgres -e POSTGRES_DATABASE=shiro -e POSTGRES_USER=sh
 ```
 
 ### Lavalink Server
+Also, you have to setup a Lavalink server in order for the bot to play music. [More about Lavalink](https://github.com/Frederikam/Lavalink)
 ```bash
 $ docker pull fredboat/lavalink
-$ 
+$ docker run --rm -name lavalink -e LAVALINK_SERVER_PASSWORD=shiro -d fredboat/lavalink
+```
+
+### Shiro
+After installing and running all requirements, we finally can start Shiro. [Configure]()
+```bash
+$ docker pull mrspinne/shiro.py
+$ docker run --rm name shiro -e DISCORD_TOKEN=shiro -d mrspinne/shiro.py
 ```
 
 ## Links

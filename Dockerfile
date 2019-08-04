@@ -9,7 +9,9 @@ RUN apt-get update \
 RUN git clone https://github.com/MrSpinne/Shiro.py.git
 RUN cp -a Shiro.py/. .
 RUN rm -rf Shiro.py/
+RUN pip3 install wheel
 RUN pip3 install -r requirements.txt
+
 
 
 ENV POSTGRES_HOST localhost

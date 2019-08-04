@@ -61,7 +61,7 @@ class Shiro(commands.Bot):
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
-        if os.environ.get("TRAVIS"):
+        if self.config["tests"]["enabled"] == "True":
             await tests.Tester(self).run()
             self.shutdown()
 

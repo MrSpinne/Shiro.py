@@ -10,7 +10,7 @@ class Tester:
         """Create ctx to invoke commands under"""
         text_channel = self.shiro.get_channel(self.shiro.config["tests"]["text_channel"])
         voice_channel = self.shiro.get_channel(self.shiro.config["tests"]["voice_channel"])
-        commands.Context
+        message = discord.Message()
 
     async def run(self):
         """Start tests"""

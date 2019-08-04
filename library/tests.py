@@ -12,9 +12,9 @@ class Tester:
 
     async def create_ctx(self):
         """Create fake ctx to invoke commands under"""
-        text_channel = self.shiro.get_channel(self.shiro.config["tests"]["text_channel"])
+        text_channel = self.shiro.fetch_channel(self.shiro.config["tests"]["text_channel"])
         logging.info(text_channel)
-        voice_channel = self.shiro.get_channel(self.shiro.config["tests"]["voice_channel"])
+        voice_channel = self.shiro.fetch_channel(self.shiro.config["tests"]["voice_channel"])
         logging.info(voice_channel)
         message = await text_channel.send("Starting tests!")
         logging.info(message)

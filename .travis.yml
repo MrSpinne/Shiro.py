@@ -2,13 +2,13 @@ dist: xenial
 language: python
 python:
   - "3.7"
-jobs:
-  include:
-    - stage: build docker image
-      env:
+env:
         global:
           - DOCKER_USERNAME=mrspinne
           - secure: EpUfXKASylABRk5lFhaec5HFE6RikGgoXOf3TAUaNegS2G/cEEXLhfH3mDM1zGg2YyIG6Ut/6wKJ4v07XLGJQngNTSog5jZr7s27r4q+kb2y1sFMm3K50LcXpAFZw/aGh05WxMUlW3s5YvgCa0z09he3G2fps6AUxtzzS6HYbax97fcloqa6dA68J6/nEpCLE+yHvwzT7V75RCk6INOd66vOdotL2RE/s6sbWohV1mf0sZI2husr4WsfeN9i+BsUD+pmoswJw5pSKtLK3RgjHdHayfKzZvrZh8NSKeuvz+zxUwalXR9RLjfByyj9Y5y8vB9LATkyDMUcBQ6xUQh99sbYMohmSpgLl57ta9zydr6kA2vvsSIihw4aJE4rC505CFx7oRTq3BEaBqxJ4Uv/wUext5sNnlkt40a5vZuvRgygWJu9QT+iVZPf6nSHqV5GJociG22AG3UW8/GMqEACnap0AOzXJj3m6MB5Y9OL7kGK1WQf6w9xQoCKOQtphJgqj3LHJeSpCPOlfRaMPDxDp3GWpHR6bwI/d0Ca6qFIZjAZ263MoXV8m/S4v2T+1UE3BUM6hRG6EudMZ82FjFhLe7n7Mida2ds+iRQgzxoTM5UzB+d+Ji83mp+xjoAN2P4J3C/h1q/FZdwyf+AA1uTuklDlBn1gEOz7JB5VlVlfL7s=
+jobs:
+  include:
+    - stage: build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build -t shiro.py .
@@ -16,8 +16,5 @@ jobs:
       - docker tag shiro.py:$TRAVIS_BRANCH $DOCKER_USERNAME/shiro.py
       - docker push $DOCKER_USERNAME/shiro.py:$TRAVIS_BRANCH
     - stage: test coverage
-      env:
-        global:
-
       script:
         - echo "all right"

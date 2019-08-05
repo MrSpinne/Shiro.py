@@ -342,6 +342,10 @@ class Shiro(commands.Bot):
         elif isinstance(error, commands.DisabledCommand):
             embed.description = _("All commands have been disabled because of a bot update. We'll be back in "
                                   "about 5 minutes. Please be patient.")
+        elif isinstance(error, discord.NotFound):
+            embed.description = _("Please don't delete messages while the song quiz.")
+        elif isinstance(error, discord.Forbidden):
+            embed.description = _("Any Permissions are removed while a Song Quiz.")
         else:
             embed.description = _("An unknown error occurred on command `{0}`. We're going to fix that soon!").format(
                 ctx.message.content)

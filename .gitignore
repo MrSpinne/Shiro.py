@@ -1,4 +1,5 @@
 /.idea/
 /tools/
+/docs
 /.coverage
 /coverage.xml

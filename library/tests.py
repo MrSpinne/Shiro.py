@@ -32,9 +32,9 @@ class Tester:
         """Run tests for every general command"""
         self.test_command("info")
         self.test_command("stats")
-        self.test_command("oprequest \"TitleTest\" \"ReferenceTest\" https://www.youtube.com/watch?v=5_iuNaULT5k")
-        self.test_command("edrequest \"TitleTest\" \"ReferenceTest\" https://www.youtube.com/watch?v=xhtC1YU2RME")
-        self.test_command("ostrequest \"TitleTest\" \"ReferenceTest\" https://www.youtube.com/watch?v=TKeI8eYtWyQ&t=109s")
+        self.test_command("oprequest TitleTest ReferenceTest https://www.youtube.com/watch?v=5_iuNaULT5k")
+        self.test_command("edrequest TitleTest ReferenceTest https://www.youtube.com/watch?v=xhtC1YU2RME")
+        self.test_command("ostrequest TitleTest ReferenceTest https://www.youtube.com/watch?v=TKeI8eYtWyQ&t=109s")
 
     async def test_songs(self):
         """Run test for every songs command"""

@@ -32,15 +32,15 @@ class Tester:
         """Run tests for every general command"""
         self.test_command("info")
         self.test_command("stats")
-        self.test_command("oprequest \"TitleTest \"ReferenceTest \"https://www.youtube.com/watch?v=5_iuNaULT5k")
-        self.test_command("edrequest \"TitleTest \"ReferenceTest \"https://www.youtube.com/watch?v=xhtC1YU2RME")
-        self.test_command("ostrequest \"TitleTest \"ReferenceTest \"https://www.youtube.com/watch?v=TKeI8eYtWyQ&t=109s")
+        self.test_command("oprequest \"TitleTest\" \"ReferenceTest\" https://www.youtube.com/watch?v=5_iuNaULT5k")
+        self.test_command("edrequest \"TitleTest\" \"ReferenceTest\" https://www.youtube.com/watch?v=xhtC1YU2RME")
+        self.test_command("ostrequest \"TitleTest\" \"ReferenceTest\" https://www.youtube.com/watch?v=TKeI8eYtWyQ&t=109s")
 
     async def test_songs(self):
         """Run test for every songs command"""
-        self.test_command("opquiz \"1")
-        self.test_command("edquiz \"1")
-        self.test_command("ostquiz \"1")
+        self.test_command("opquiz 1")
+        self.test_command("edquiz 1")
+        self.test_command("ostquiz 1")
         self.test_command("stop")
 
     async def test_settings(self):
@@ -58,4 +58,3 @@ class Tester:
         self.test_command("editreference 19 Code Geass")
         self.test_command("editurl 19 https://www.youtube.com/watch?v=cZ7zQbMxm28")
         self.test_command("editcategory 19 Opening")
-

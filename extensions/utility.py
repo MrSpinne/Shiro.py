@@ -3,7 +3,6 @@ from discord.ext import commands
 from library import checks, converters
 
 import difflib
-import asyncio
 
 
 class Utility(commands.Cog):
@@ -70,30 +69,10 @@ class Utility(commands.Cog):
     async def commit(self, ctx):
         """Shut down bot for update"""
         embed = discord.Embed(color=7830745, title=_("**\\🔧 Bot update**"),
-                              description=_("Bot will stop in 5 minutes, {0} audio players will be shut down.").format(
+                              description=_("Bot stopping, {0} audio players will be shut down.").format(
                                   len(self.shiro.lavalink.players)))
-        message = await ctx.send(embed=embed)
-
-        embed = discord.Embed(color=10892179, title=_("\\❌ **Bot update**"),
-                              description=_("We have detected that you're currently running playback. We're sorry, but "
-                                            "we have to stop it after this song because we're rolling out a new "
-                                            "update. Shiro will be unavailable the next 5 minutes, please be patient."))
-
-        songs_cog = self.shiro.get_cog("Songs")
-        for player in self.shiro.lavalink.players:
-            player_ctx = player[1].fetch("ctx")
-            songs_cog.stop_playback(player_ctx)
-            await player_ctx.send(embed=embed)
-
-        for command in self.shiro.walk_commands():
-            command.update(enabled=False)
-
-        await asyncio.sleep(300)
-        await message.delete()
-        embed = discord.Embed(color=7830745, title=_("**\\🔧 Bot update**"),
-                              description=_("Bot will now be shut down.").format(ctx.author.mention))
-        await ctx.send(embed=embed, content=ctx.author.mention)
-
+        await ctx.send(embed=embed)
+        self.shiro.shutdown()
 
 def setup(shiro):
     shiro.add_cog(Utility(shiro))

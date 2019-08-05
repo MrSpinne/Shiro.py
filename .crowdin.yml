@@ -1,0 +1,3 @@
+files:
+  - source: /locales/%locale%/LC_MESSAGES/base.po
+    translation: /locales/%locale%/LC_MESSAGES/base.mo

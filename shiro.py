@@ -4,7 +4,7 @@
 
 import discord
 from discord.ext import commands, tasks
-from library import exceptions, checks, statposter
+from library import exceptions, checks, statposter, tests
 
 import psycopg2.extras
 import psycopg2.sql
@@ -14,42 +14,72 @@ import gettext
 import builtins
 import sentry_sdk.integrations.aiohttp
 import logging
-import dbl
 import os
 import lavalink
 import Pymoe
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import configparser
+import signal
 
 
 class Shiro(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
-        self.db_connector, self.db_cursor, self.app_info, self.gspread = None, None, None, None
+        signal.signal(signal.SIGTERM, self.shutdown)
+        self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
-        self.startup()
+        self.parse_config()
 
-    def startup(self):
-        """Prepare start"""
-        logging.basicConfig(level=logging.INFO)
-        self.sentry.init(dsn=os.environ.get("SENTRY_DSN"),
-                         integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
-        self.connect_database()
-        self.add_command_handlers()
-        self.connect_gspread()
-        self.update_songs_list.start()
+    def parse_config(self):
+        """Parse credentials from envs to file"""
+        config = configparser.ConfigParser()
+        config.read("data/config.ini")
+        for section in config.sections():
+            self.config[section.lower()] = {}
+            for option in config.options(section):
+                value = config.get(section, option)
+                env = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
+                if env:
+                    self.config[section.lower()][option] = env
+                else:
+                    self.config[section.lower()][option] = value
 
     async def on_ready(self):
         """Get ready and start"""
-        self.app_info = await self.application_info()
-        self.update_guilds()
+        self.connect_database()
         self.connect_lavalink()
-        self.dbl = dbl.Client(self, os.environ.get("DISCORDBOTS"))
-        self.statposter = statposter.StatPoster(self)
+        self.connect_optionals()
+
+        self.create_tables()
+        self.update_guilds()
         self.load_all_extensions()
-        self.update_status.start()
+        self.add_command_handlers()
+        self.app_info = await self.application_info()
+
+        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
+        await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
+
+        if self.config["tests"]["text_channel"] != "":
+            await tests.Tester(self).run()
+            self.shutdown()
+
+    def connect_optionals(self):
+        """Prepare start"""
+        if self.config["sentry"].get("dsn"):
+            self.sentry.init(**self.config["sentry"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
+
+        if self.config["gspread"].get("type"):
+            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+            credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.config["gspread"], scope)
+            self.gspread = gspread.authorize(credentials)
+            self.update_songs_list.start()
+
+        if self.config["botlist"].get("discordbots"):
+            self.statposter = statposter.StatPoster(self)
+            self.post_stats.start()
 
     def translate(self, string):
         """Translate string to language of ctx got from frame (commands only)"""
@@ -65,16 +95,31 @@ class Shiro(commands.Bot):
 
         try:
             translation = gettext.translation("base", "locales/", [language], codeset="utf-8").gettext(string)
-        except Exception as e:
+        except FileNotFoundError as e:
             translation = string
             logging.error(e)
             self.sentry.capture_exception(e)
 
         return translation
 
+    def shutdown(self):
+        """Stops all processes running and the bot himself"""
+        embed = discord.Embed(color=10892179, title=_("\\❌ **Bot restart**"),
+                              description=_("We have detected that you're currently running playback. We're sorry, but "
+                                            "we have to stop it because we're rolling out a new update. Shiro will be "
+                                            "back in a minute."))
+
+        for player in self.lavalink.players:
+            player[1].fetch("ctx").send(embed=embed)
+            player[1].queue.clear()
+            player[1].stop()
+
+        self.disconnect_database()
+        self.loop.create_task(self.close)
+
     def connect_database(self):
         """Establish connection to postgres database"""
-        self.db_connector = psycopg2.connect(os.environ.get("DATABASE_URL"))
+        self.db_connector = psycopg2.connect(**self.config["postgres"])
         self.db_cursor = self.db_connector.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     def disconnect_database(self):
@@ -87,7 +132,7 @@ class Shiro(commands.Bot):
         """Commit data to database"""
         try:
             self.db_cursor.execute(sql, variables)
-        except:
+        except psycopg2.DatabaseError:
             self.db_connector.rollback()
         else:
             self.db_connector.commit()
@@ -96,29 +141,15 @@ class Shiro(commands.Bot):
         """Fetch data from database"""
         try:
             self.db_cursor.execute(sql, variables)
-        except:
+        except psycopg2.DatabaseError:
             self.db_connector.rollback()
         else:
             return self.db_cursor.fetchall()
 
-    def connect_gspread(self):
-        """Connect to google api to use sheets"""
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        credentials = {
-            "type": os.environ.get("GSPREAD_TYPE"),
-            "private_key_id": os.environ.get("GSPREAD_PRIVATE_KEY_ID"),
-            "private_key": os.environ.get("GSPREAD_PRIVATE_KEY").replace("\\n", "\n"),
-            "client_email": os.environ.get("GSPREAD_CLIENT_EMAIL"),
-            "client_id": os.environ.get("GSPREAD_CLIENT_ID")
-        }
-        credentials = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scope)
-        self.gspread = gspread.authorize(credentials)
-
     def connect_lavalink(self):
         """Connect to lavalink server"""
         self.lavalink = lavalink.Client(self.user.id)
-        self.lavalink.add_node(os.environ.get("LAVALINK_HOST"), os.environ.get("LAVALINK_PORT"),
-                               os.environ.get("LAVALINK_PASSWORD"), os.environ.get("LAVALINK_REGION"))
+        self.lavalink.add_node(**self.config["lavalink"])
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
@@ -134,20 +165,27 @@ class Shiro(commands.Bot):
 
     def register_guild(self, guild_id):
         """Register guild to database if it is not already registered"""
-        sql = psycopg2.sql.SQL("INSERT INTO public.guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
+        sql = psycopg2.sql.SQL("INSERT INTO guilds (id) VALUES (%s) ON CONFLICT DO NOTHING")
         self.database_commit(sql, [guild_id])
 
     def unregister_guild(self, guild_id):
         """Unregister guild from database with all settings"""
-        sql = psycopg2.sql.SQL("DELETE FROM public.guilds WHERE id = %s")
+        sql = psycopg2.sql.SQL("DELETE FROM guilds WHERE id = %s")
         self.database_commit(sql, [guild_id])
+
+    def create_tables(self):
+        """Create tables if not exist from sql file"""
+        with open("data/schema.sql", "r", encoding="utf-8") as file:
+            sql = psycopg2.sql.SQL(file.read().replace("shiro", self.config["postgres"]["user"]))
+
+        self.database_commit(sql)
 
     def update_guilds(self):
         """Add or remove guilds from database to prevent bugs"""
         for guild in self.guilds:
             self.register_guild(guild.id)
 
-        sql = psycopg2.sql.SQL("SELECT id FROM public.guilds")
+        sql = psycopg2.sql.SQL("SELECT id FROM guilds")
         guild_ids = self.database_fetch(sql)
         for guild_id in guild_ids:
             if self.get_guild(guild_id["id"]) not in self.guilds:
@@ -155,49 +193,44 @@ class Shiro(commands.Bot):
 
     def get_guild_setting(self, guild_id, setting):
         """Get guild setting from database"""
-        sql = psycopg2.sql.SQL("SELECT {} FROM public.guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        sql = psycopg2.sql.SQL("SELECT {} FROM guilds WHERE id = %s").format(psycopg2.sql.Identifier(setting))
         return self.database_fetch(sql, [guild_id])[0][setting]
 
     def set_guild_setting(self, guild_id, setting, value):
         """Set guild setting in database to specified value"""
-        sql = psycopg2.sql.SQL("UPDATE public.guilds SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        sql = psycopg2.sql.SQL("UPDATE guilds SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
         self.database_commit(sql, [value, guild_id])
 
     def get_random_songs(self, category, amount):
         """Get random songs from database"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs WHERE category = %s ORDER BY RANDOM() LIMIT %s")
         return self.database_fetch(sql, [category, amount])
 
     def get_choice_songs(self, category, exclusion):
         """Get songs to fill quiz with"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs WHERE category = %s AND url != %s ORDER BY RANDOM() LIMIT 4")
         return self.database_fetch(sql, [category, exclusion])
 
     def add_song(self, title, reference, url, category):
         """Add a song to the database"""
-        sql = psycopg2.sql.SQL("INSERT INTO public.songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
+        sql = psycopg2.sql.SQL("INSERT INTO songs (title, reference, url, category) VALUES (%s, %s, %s, %s)")
         self.database_commit(sql, [title, reference, url, category])
 
     def get_song(self, song_id):
         """Get a song from database by id if exists"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs WHERE id = %s")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs WHERE id = %s")
         song = self.database_fetch(sql, [song_id])
         return song[0] if song else None
 
     def get_all_songs(self):
         """Get all songs from database in alphabetic order"""
-        sql = psycopg2.sql.SQL("SELECT * FROM public.songs ORDER BY category, reference, title")
+        sql = psycopg2.sql.SQL("SELECT * FROM songs ORDER BY category, reference, title")
         return self.database_fetch(sql)
 
     def edit_song(self, song_id, setting, value):
         """Edit a song entry in database"""
-        sql = psycopg2.sql.SQL("UPDATE public.songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
+        sql = psycopg2.sql.SQL("UPDATE songs SET {} = %s WHERE id = %s").format(psycopg2.sql.Identifier(setting))
         self.database_commit(sql, [value, song_id])
-
-    def get_languages(self):
-        """Get all languages found in locales"""
-        languages = [item.name for item in pathlib.Path("locales").iterdir() if item.is_dir()]
-        return languages
 
     async def delete_command(self, ctx):
         """Delete command if enabled in guild settings"""
@@ -220,11 +253,6 @@ class Shiro(commands.Bot):
             await self.invoke(ctx)
 
         await self.process_commands(message)
-
-    async def shutdown(self):
-        """Stops all processes running and the bot himself"""
-        self.disconnect_database()
-        await self.close()
 
     async def get_prefix(self, message):
         """Return the prefix which the guild has set"""
@@ -327,25 +355,6 @@ class Shiro(commands.Bot):
                 (isinstance(error, commands.BotMissingPermissions) and "embed_links" not in error.missing_perms):
             await ctx.send(embed=embed)
 
-    @tasks.loop(minutes=15)
-    async def update_status(self):
-        """Update status every 30 minutes"""
-        activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
-        await self.change_presence(activity=activity)
-        try:
-            tokens = {
-                "discordbots": os.environ.get("DISCORDBOTS"),
-                "divinediscordbots": os.environ.get("DIVINEDISCORDBOTS"),
-                "discordbotreviews": os.environ.get("DISCORDBOTREVIEWS"),
-                "mythicalbots": os.environ.get("MYTHICALBOTS"),
-                "discordbotlist": os.environ.get("DISCORDBOTLIST"),
-                "discordboats": os.environ.get("DISCORDBOATS")
-            }
-            await self.statposter.post_all(tokens)
-        except Exception as e:
-            self.sentry.capture_exception(e)
-            # TODO: Specify exception
-
     @tasks.loop(hours=1)
     async def update_songs_list(self):
         """Dump all songs in database to google sheet"""
@@ -354,13 +363,24 @@ class Shiro(commands.Bot):
         formatted = []
 
         for song in songs:
-            formatted.append([song["id"], song["title"], song["reference"], song["url"], song["category"],
-                              song["updated"].strftime("%d. %B %Y - %H:%M:%S")])
+            formatted.append([song["id"], song["title"], song["reference"], song["url"],
+                              song["category"], song["updated"].strftime("%d. %B %Y - %H:%M:%S")])
 
         sheet.sheet1.resize(1)
         sheet.sheet1.resize(len(formatted) + 1)
         sheet.values_update("List!A2", params={"valueInputOption": "RAW"}, body={"values": formatted})
 
+    @tasks.loop(minutes=15)
+    async def post_stats(self):
+        """Update status every 30 minutes"""
+        try:
+            await self.statposter.post_all(**self.config["botlist"])
+        except Exception as e:
+            self.sentry.capture_exception(e)
+            # TODO: Specify exception
 
-shiro = Shiro()
-shiro.run(os.environ.get("DISCORD_TOKEN"))
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    shiro = Shiro()
+    shiro.run(shiro.config["discord"]["token"])

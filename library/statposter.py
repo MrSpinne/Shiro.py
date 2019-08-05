@@ -75,6 +75,17 @@ class StatPoster:
         url = f"https://discord.boats/api/V2/bot/{self.bot.user.id}"
         await self._post(url, data, headers)
 
+    async def botsondiscord(self, token):
+        data = json.dumps({
+            "guildCount": len(self.bot.guilds),
+        })
+        headers = {
+            "authorization": token,
+            "content-type": "application/json"
+        }
+        url = f"https://bots.ondiscord.xyz/bot-api/bots/{self.bot.user.id}/guilds"
+        await self._post(url, data, headers)
+
     async def _post(self, url, data, headers):
         try:
             await self.session.post(url, data=data, headers=headers)
@@ -88,3 +99,4 @@ class StatPoster:
         await self.mythicalbots(tokens["mythicalbots"])
         await self.discordbotlist(tokens["discordbotlist"])
         await self.discordboats(tokens["discordboats"])
+        await self.botsondiscord(tokens["botsondiscord"])

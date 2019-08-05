@@ -4,7 +4,7 @@
 
 import discord
 from discord.ext import commands, tasks
-from library import exceptions, checks, statposter
+from library import exceptions, checks, statposter, tests
 
 import psycopg2.extras
 import psycopg2.sql
@@ -20,28 +20,31 @@ import Pymoe
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import configparser
+import signal
 
 
 class Shiro(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
-        self.db_connector, self.db_cursor, self.app_info, self.gspread, self.credentials = None, None, None, None, {}
+        signal.signal(signal.SIGTERM, self.shutdown)
+        self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
-        self.parse_credentials()
+        self.parse_config()
 
-    def parse_credentials(self):
+    def parse_config(self):
         """Parse credentials from envs to file"""
         config = configparser.ConfigParser()
-        config.read("config.ini")
+        config.read("data/config.ini")
         for section in config.sections():
-            self.credentials[section.lower()] = {}
+            self.config[section.lower()] = {}
             for option in config.options(section):
                 value = config.get(section, option)
-                if value == "":
-                    self.credentials[section.lower()][option] = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
+                env = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
+                if env:
+                    self.config[section.lower()][option] = env
                 else:
-                    self.credentials[section.lower()][option] = value
+                    self.config[section.lower()][option] = value
 
     async def on_ready(self):
         """Get ready and start"""
@@ -49,6 +52,7 @@ class Shiro(commands.Bot):
         self.connect_lavalink()
         self.connect_optionals()
 
+        self.create_tables()
         self.update_guilds()
         self.load_all_extensions()
         self.add_command_handlers()
@@ -58,18 +62,22 @@ class Shiro(commands.Bot):
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
+        if self.config["tests"]["text_channel"] != "":
+            await tests.Tester(self).run()
+            self.shutdown()
+
     def connect_optionals(self):
         """Prepare start"""
-        if self.credentials["sentry"].get("dsn"):
-            self.sentry.init(**self.credentials["sentry"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
+        if self.config["sentry"].get("dsn"):
+            self.sentry.init(**self.config["sentry"], integrations=[self.sentry.integrations.aiohttp.AioHttpIntegration()])
 
-        if self.credentials["gspread"].get("type"):
+        if self.config["gspread"].get("type"):
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-            credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.credentials["gspread"], scope)
+            credentials = ServiceAccountCredentials.from_json_keyfile_dict(self.config["gspread"], scope)
             self.gspread = gspread.authorize(credentials)
             self.update_songs_list.start()
 
-        if self.credentials["botlist"].get("discordbots"):
+        if self.config["botlist"].get("discordbots"):
             self.statposter = statposter.StatPoster(self)
             self.post_stats.start()
 
@@ -87,16 +95,31 @@ class Shiro(commands.Bot):
 
         try:
             translation = gettext.translation("base", "locales/", [language], codeset="utf-8").gettext(string)
-        except Exception as e:
+        except FileNotFoundError as e:
             translation = string
             logging.error(e)
             self.sentry.capture_exception(e)
 
         return translation
 
+    def shutdown(self):
+        """Stops all processes running and the bot himself"""
+        embed = discord.Embed(color=10892179, title=_("\\❌ **Bot restart**"),
+                              description=_("We have detected that you're currently running playback. We're sorry, but "
+                                            "we have to stop it because we're rolling out a new update. Shiro will be "
+                                            "back in a minute."))
+
+        for player in self.lavalink.players:
+            player[1].fetch("ctx").send(embed=embed)
+            player[1].queue.clear()
+            player[1].stop()
+
+        self.disconnect_database()
+        self.loop.create_task(self.close)
+
     def connect_database(self):
         """Establish connection to postgres database"""
-        self.db_connector = psycopg2.connect(**self.credentials["postgres"])
+        self.db_connector = psycopg2.connect(**self.config["postgres"])
         self.db_cursor = self.db_connector.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
     def disconnect_database(self):
@@ -109,7 +132,7 @@ class Shiro(commands.Bot):
         """Commit data to database"""
         try:
             self.db_cursor.execute(sql, variables)
-        except:
+        except psycopg2.DatabaseError:
             self.db_connector.rollback()
         else:
             self.db_connector.commit()
@@ -118,7 +141,7 @@ class Shiro(commands.Bot):
         """Fetch data from database"""
         try:
             self.db_cursor.execute(sql, variables)
-        except:
+        except psycopg2.DatabaseError:
             self.db_connector.rollback()
         else:
             return self.db_cursor.fetchall()
@@ -126,7 +149,7 @@ class Shiro(commands.Bot):
     def connect_lavalink(self):
         """Connect to lavalink server"""
         self.lavalink = lavalink.Client(self.user.id)
-        self.lavalink.add_node(**self.credentials["lavalink"])
+        self.lavalink.add_node(**self.config["lavalink"])
 
     def add_command_handlers(self):
         """Add global command checks and command invokes"""
@@ -149,6 +172,13 @@ class Shiro(commands.Bot):
         """Unregister guild from database with all settings"""
         sql = psycopg2.sql.SQL("DELETE FROM guilds WHERE id = %s")
         self.database_commit(sql, [guild_id])
+
+    def create_tables(self):
+        """Create tables if not exist from sql file"""
+        with open("data/schema.sql", "r", encoding="utf-8") as file:
+            sql = psycopg2.sql.SQL(file.read().replace("shiro", self.config["postgres"]["user"]))
+
+        self.database_commit(sql)
 
     def update_guilds(self):
         """Add or remove guilds from database to prevent bugs"""
@@ -223,11 +253,6 @@ class Shiro(commands.Bot):
             await self.invoke(ctx)
 
         await self.process_commands(message)
-
-    async def shutdown(self):
-        """Stops all processes running and the bot himself"""
-        self.disconnect_database()
-        await self.close()
 
     async def get_prefix(self, message):
         """Return the prefix which the guild has set"""
@@ -317,6 +342,10 @@ class Shiro(commands.Bot):
         elif isinstance(error, commands.DisabledCommand):
             embed.description = _("All commands have been disabled because of a bot update. We'll be back in "
                                   "about 5 minutes. Please be patient.")
+        elif isinstance(error, discord.NotFound):
+            embed.description = _("Looks like the bot didn't found what it was looking for.")
+        elif isinstance(error, discord.Forbidden):
+            embed.description = _("Looks like you removed permissions of the bot while it was executing a command.")
         else:
             embed.description = _("An unknown error occurred on command `{0}`. We're going to fix that soon!").format(
                 ctx.message.content)
@@ -349,7 +378,7 @@ class Shiro(commands.Bot):
     async def post_stats(self):
         """Update status every 30 minutes"""
         try:
-            await self.statposter.post_all(**self.credentials["botlist"])
+            await self.statposter.post_all(**self.config["botlist"])
         except Exception as e:
             self.sentry.capture_exception(e)
             # TODO: Specify exception
@@ -358,4 +387,4 @@ class Shiro(commands.Bot):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     shiro = Shiro()
-    shiro.run(shiro.credentials["discord"]["token"])
+    shiro.run(shiro.config["discord"]["token"])

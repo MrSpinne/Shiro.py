@@ -1,6 +1,8 @@
+**/*.md
+**/*.yml
+**/*.po
+**/*.pot
 /.gitignore
-/.travis.yml
-/FUNDING.yml
-/README.md
 /LICENSE
-/locales/template.pot
+/.github/
+/docs/

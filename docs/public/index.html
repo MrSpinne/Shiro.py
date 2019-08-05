@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+	<meta name="generator" content="Hugo 0.56.3" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Shiro Discord Bot</title>
+    
+<link rel="icon" type="image/png" href="http://something-fresh.org/images/favicon.png" />
+<link href="https://fonts.googleapis.com/css?family=Open&#43;Sans:400,600" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/style.min.fa16acdbc2d939e3da23d7d66107f16c7e8099da31b66c6df71be74f9364acd8.css" integrity="sha256-&#43;has28LZOePaI9fWYQfxbH6Amdoxtmxt9xvnT5NkrNg=">
+<link rel="stylesheet" type="text/css" href="http://something-fresh.org/css/icons.css">
+  </head>
+  <body>
+    
+    <div id="preloader">
+      <div id="status"></div>
+    </div>
+
+    
+
+    
+    <section class="hero is-fullheight is-default is-bold">
+  
+
+<nav class="navbar is-fresh is-transparent no-shadow" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <img src="/images/logos/shiro-logo.png" alt="" width="140" height="28">
+      </div>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+      <div id="navbar-menu" class="navbar-menu is-static">
+
+        <div class="navbar-end">
+          <a href="https://discordbots.org/bot/593116701281746955" class="navbar-item is-secondary">
+            Vote
+          </a>
+          <a href="https://donatebot.io/checkout/600761022089003021" class="navbar-item is-secondary">
+            Donate
+          </a>
+          <a href="https://discordapp.com/invite/5z4z8kh" class="navbar-item is-secondary">
+            Support
+          </a>
+          <a href="https://discordapp.com/oauth2/authorize?client_id=593116701281746955&amp;permissions=3238976&amp;redirect_uri=https%3A%2F%2Fmrspinne.github.io%2FShiro.py%2F&amp;scope=bot&amp;response_type=code" class="navbar-item">
+            <span class="button signup-button rounded secondary-btn raised">
+              Invite
+            </span>
+          </a>
+        </div>
+      </div>
+  </div>
+</nav>
+
+  
+
+<nav id="navbar-clone" class="navbar is-fresh is-transparent" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <img src="/images/logos/shiro-logo.png" alt="" width="140" height="28">
+      </div>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="cloned-navbar-menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="cloned-navbar-menu" class="navbar-menu is-fixed">
+
+      <div class="navbar-end">
+        <a href="https://discordbots.org/bot/593116701281746955" class="navbar-item is-secondary">
+          Vote
+        </a>
+        <a href="https://donatebot.io/checkout/600761022089003021" class="navbar-item is-secondary">
+          Donate
+        </a>
+        <a href="https://discordapp.com/invite/5z4z8kh" class="navbar-item is-secondary">
+          Support
+        </a>
+        <a href="https://discordapp.com/oauth2/authorize?client_id=593116701281746955&amp;permissions=3238976&amp;redirect_uri=https%3A%2F%2Fmrspinne.github.io%2FShiro.py%2F&amp;scope=bot&amp;response_type=code" class="navbar-item">
+          <span class="button signup-button rounded secondary-btn raised">
+            Invite
+          </span>
+        </a>
+      </div>
+    </div>
+</div>
+</nav>
+
+  
+
+<style>
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-40px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+.floating {
+	transform: translatey(0px);
+	animation: float 6s ease-in-out infinite;
+	img { width: 100%; height: auto; }
+}
+</style>
+<div class="hero-body">
+  <div class="container">
+    <div class="columns is-vcentered">
+      <div class="column is-5 is-offset-1 landing-caption">
+        <h1 class="title is-1 is-bold is-spaced">
+          Get Shiro 🎶
+        </h1>
+        
+        <h2 class="subtitle is-5 is-muted">
+          Want to guess anime openings with your friends? Get Shiro to play song quizzes and enhance your guild with fun related anime features!
+        </h2>
+        
+        <p>
+          <a class="button cta rounded primary-btn raised" href="https://discordapp.com/oauth2/authorize?client_id=593116701281746955&amp;permissions=3238976&amp;redirect_uri=https%3A%2F%2Fmrspinne.github.io%2FShiro.py%2F&amp;scope=bot&amp;response_type=code">
+            Add to your server
+          </a>
+        </p>
+      </div>
+      <div class="column is-5 is-offset-1">
+        <figure class="image is-4by3">
+          <img class="floating" src="/images/illustrations/shiro-rounded.png" alt="Description">
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<div class="hero-foot mb-20">
+  <div class="container">
+    <div class="tabs is-centered">
+      <ul>
+        <li>
+          <img class="partner-logo" src="/images/logos/clients/fun.svg">
+        </li>
+        <li>
+          <img class="partner-logo" src="/images/logos/clients/anime.svg">
+        </li>
+        <li>
+          <img class="partner-logo" src="/images/logos/clients/music.svg">
+        </li>
+        <li>
+          <img class="partner-logo" src="/images/logos/clients/game.svg">
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+    
+
+    
+    
+<section class="section section-feature-grey is-medium">
+  <div class="container">
+    <div class="title-wrapper has-text-centered">
+      <h2 class="title is-2">Give her a try</h2>
+      <h3 class="subtitle is-5 is-muted">You won&#39;t regret</h3>
+      <div class="divider is-centered"></div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="columns">
+        <div class="column is-one-third">
+          <div class="feature-card is-bordered has-text-centered revealOnScroll delay-1" data-animation="fadeInLeft">
+            <div class="card-title">
+              <h4>100% Free</h4>
+            </div>
+            <div class="card-icon">
+                <img src="/images/illustrations/icons/mouse-globe.svg">
+            </div>
+            <div class="card-text">
+                <p>All commands can be used without paying</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="feature-card is-bordered has-text-centered revealOnScroll delay-1" data-animation="fadeInLeft">
+            <div class="card-title">
+              <h4>Unique Features</h4>
+            </div>
+            <div class="card-icon">
+                <img src="/images/illustrations/icons/laptop-cloud.svg">
+            </div>
+            <div class="card-text">
+                <p>Shiro has features like a unique song quiz, which you also can request songs for</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="feature-card is-bordered has-text-centered revealOnScroll delay-1" data-animation="fadeInLeft">
+            <div class="card-title">
+              <h4>Weekly Updates</h4>
+            </div>
+            <div class="card-icon">
+                <img src="/images/illustrations/icons/plug-cloud.svg">
+            </div>
+            <div class="card-text">
+                <p>We maintain our bot to ensure you&#39;re having a great time</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
+
+    
+
+    
+    
+<section class="section section-feature-grey is-medium">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-10 is-offset-1">
+        <div class="has-text-centered">
+          <img class="pushed-image" src="/images/illustrations/mockups/discord-invite.png">
+        </div>
+      </div>
+    </div>
+
+    <div class="title-wrapper has-text-centered">
+      <h2 class="title is-2">Safe to invite</h2>
+      <h3 class="subtitle is-5 is-muted">Shiro only asks for permission she really needs</h3>
+    </div>
+
+    <p class="has-text-centered mt-20">
+      <a class="button cta is-large rounded secondary-btn raised" href="#">
+        Get started
+      </a>
+    </p>
+  </div>
+</section>
+    
+
+    
+    
+<section class="section is-medium section-secondary">
+  <div class="container">
+
+    <div class="title-wrapper has-text-centered">
+      <h2 class="title is-2 light-text is-spaced">Users like Shiro</h2>
+      <h3 class="subtitle is-5 light-text">Reviews from our awesome users</h3>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="columns is-vcentered">
+        <div class="column is-4 revealOnScroll delay-1" data-animation="fadeInLeft">
+          <figure class="testimonial">
+            <blockquote>
+              The bot has many useful commands and functions. You will always be answered on the support server. In general, the bot is good. I advise you to add it to your server.
+            </blockquote>
+            <div class="author">
+              <img src="/images/illustrations/faces/JustPh03n1x.png" alt=""/>
+              <h5>JustPh03n1x</h5>
+              <span>Translator</span>
+            </div>
+          </figure>
+        </div>
+        <div class="column is-4 revealOnScroll delay-1" data-animation="fadeInLeft">
+          <figure class="testimonial">
+            <blockquote>
+              I accidentally came up with that bot on Disboard and were glad to find it. My members and I love it for its amazing idea and good design.
+            </blockquote>
+            <div class="author">
+              <img src="/images/illustrations/faces/Bidoof.png" alt=""/>
+              <h5>Bidoof</h5>
+              <span>User</span>
+            </div>
+          </figure>
+        </div>
+        <div class="column is-4 revealOnScroll delay-1" data-animation="fadeInLeft">
+          <figure class="testimonial">
+            <blockquote>
+              Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+            </blockquote>
+            <div class="author">
+              <img src="/images/illustrations/faces/3.png" alt=""/>
+              <h5>Gary Blackman</h5>
+              <span>HR Manager</span>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
+
+    
+    <style>
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+.floating {
+	transform: translatey(0px);
+	animation: float 6s ease-in-out infinite;
+	img { width: 100%; height: auto; }
+}
+</style>
+
+<section class="section section-light-grey is-medium">
+  <div class="container">
+    <div class="title-wrapper has-text-centered">
+      <h2 class="title is-2 is-spaced">Used on many servers </h2>
+      <h3 class="subtitle is-5 is-muted">Check out Shiro's stats</h3>
+      <div class="divider is-centered"></div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="columns">
+        <div class="column is-6 is-offset-3">
+          <a href="https://discordbots.org/bot/593116701281746955" >
+			<center><img class="floating" src="https://discordbots.org/api/widget/593116701281746955.svg" alt="Shiro" width=400/></center>
+		  </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
+
+    
+    
+<style>
+.footer {
+	padding: 2.5rem 1.5rem 2.5rem;
+}
+body > footer > div > div > div:nth-child(2) {
+	transform: translateY(10%);
+}
+</style>
+<footer class="footer footer-dark">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="footer-logo">
+          <img src="/images/logos/shiro-logo-white.png">
+        </div>
+      </div>
+        <div class="column">
+          <div class="footer-column">
+            <div class="footer-header">
+				<h3>Copyright © 2019 MrSpinne. All rights reserved.</h3>
+            </div>
+            <ul class="link-list">
+            </ul>
+          </div>
+        </div>
+  </div>
+</footer>
+
+    
+
+    
+    <div id="backtotop"><a href="#"></a></div>
+
+    
+    
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="http://something-fresh.org/js/fresh.js"></script>
+<script src="http://something-fresh.org/js/jquery.panelslider.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  </body>
+</html>

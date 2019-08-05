@@ -13,5 +13,3 @@ aiohttp
 gspread
 oauth2client
 PyOpenSSL
-coverage
-codacy-coverage

@@ -11,7 +11,7 @@ create table if not exists guilds
   );
 
   alter table guilds
-  owner to $POSTGRES_USER;
+  owner to shiro;
 
   create unique index guilds_id_uindex
   on guilds (id);
@@ -29,7 +29,7 @@ create table if not exists songs
   );
 
   alter table songs
-  owner to $POSTGRES_USER;
+  owner to shiro;
 
   create unique index songs_id_uindex
   on songs (id);
@@ -38,12 +38,13 @@ create table if not exists users
   (
     id        bigint not null,
     last_vote timestamp,
-    updates   timestamp default now() not null
+    updates   timestamp default now() not null,
+    constraint users_pk
+    primary key (id)
   );
+
+  alter table users
+  owner to shiro;
 
   create unique index users_id_uindex
   on users (id);
-
-  alter table users
-  add constraint users_pk
-  primary key (id);

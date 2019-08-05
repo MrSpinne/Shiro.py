@@ -39,7 +39,7 @@ class General(commands.Cog):
                                   "`{0}language <{1}>` ‧ Change bot language\n"
                                   "`{0}config` ‧ Display current configuration").format(ctx.prefix, languages)
             await ctx.author.send(embed=embed)
-        except exceptions.NotGuildAdmin:
+        except (exceptions.NotGuildAdmin, commands.CommandNotFound):
             pass
 
         try:
@@ -51,7 +51,7 @@ class General(commands.Cog):
                                   "`{0}editurl <song id> <url>` ‧ Edit url of song\n"
                                   "`{0}editcategory <song id> <category>` ‧ Edit category of song").format(ctx.prefix)
             await ctx.author.send(embed=embed)
-        except exceptions.NotTeam:
+        except (exceptions.NotTeam, commands.CommandNotFound):
             pass
 
     @commands.command(aliases=["information", "about", "credits", "spinne", "shiro"])

@@ -62,7 +62,7 @@ class Shiro(commands.Bot):
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
 
-        if self.config["tests"]["enabled"] == "True":
+        if self.config["tests"]["text_channel"] != "":
             await tests.Tester(self).run()
             self.shutdown()
 

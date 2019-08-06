@@ -1,0 +1,90 @@
+baseURL: http://something-fresh.org/
+languageCode: en-us
+title: Shiro Discord Bot
+theme: hugo-fresh
+
+params:
+  navbarlogo:
+  # Logo (from static/images/logos/___)
+   image: logos/shiro-logo.png
+   link: /
+  font:
+    name: "Open Sans"
+    sizes: [400,600]
+  hero:
+    # Main hero title
+    title: Get Shiro 🎶
+    # Hero subtitle (optional)
+    subtitle: Want to guess anime openings with your friends? Get Shiro to play song quizzes and enhance your guild with fun related anime features!
+    # Button text
+    buttontext: Add to your server
+    # Where the main hero button links to
+    buttonlink: "https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&redirect_uri=https%3A%2F%2Fmrspinne.github.io%2FShiro.py%2F&scope=bot&response_type=code"
+    # Hero image (from static/images/___)
+    image: illustrations/shiro-rounded.png
+    # Footer logos (from static/images/logos/clients/___.svg)
+    clientlogos:
+    - anime
+    - fun
+    - music
+    - game
+  # Customizable navbar. For a dropdown, add a "sublinks" list.
+  navbar:
+  - title: Vote
+    url: https://discordbots.org/bot/593116701281746955
+  - title: Donate
+    url: https://donatebot.io/checkout/600761022089003021
+  - title: Support
+    url: https://discordapp.com/invite/5z4z8kh
+  - title: Invite
+    url: https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&redirect_uri=https%3A%2F%2Fmrspinne.github.io%2FShiro.py%2F&scope=bot&response_type=code
+    button: true
+  section1:
+    title: Give her a try
+    subtitle: You won't regret
+    tiles:
+    - title: 100% Free
+      icon: mouse-globe
+      text: All commands can be used without paying
+      url: /
+      buttonText: Free trial
+    - title: Unique Features
+      icon: laptop-cloud
+      text: Shiro has features like a unique song quiz, which you also can request songs for
+      url: /
+      buttonText: Get started
+    - title: Weekly Updates
+      icon: plug-cloud
+      text: We maintain our bot to ensure you're having a great time
+      url: https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&redirect_uri=https%3A%2F%2Fmrspinne.github.io%2FShiro.py%2F&scope=bot&response_type=code
+      buttonText: Get started
+  section3:
+    title: Safe to invite
+    subtitle: Shiro only asks for permission she really needs
+    image: illustrations/mockups/discord-invite.png
+    buttonText: Get started
+    buttonLink: "#"
+  section4:
+    title: Users like Shiro
+    subtitle: Reviews from our awesome users
+    clients:
+    - name: JustPh03n1x
+      quote: The bot has many useful commands and functions. You will always be answered on the support server. In general, the bot is good. I advise you to add it to your server.
+      job: Translator
+      img: JustPh03n1x
+    - name: Bidoof
+      quote: I accidentally came up with that bot on Disboard and were glad to find it. My members and I love it for its amazing idea and good design.
+      job: User
+      img: Bidoof
+    - name: Gary Blackman
+      quote: Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+      job: HR Manager
+      img: 3
+  section5: true
+  footer:
+    # Logo (from /images/logos/___)
+    logo: shiro-logo-white.png
+    # Social media links (GitHub, Twitter, etc.). All are optional.
+    quicklinks:
+      column1:
+        title: "Copyright © 2019 MrSpinne. All rights reserved."

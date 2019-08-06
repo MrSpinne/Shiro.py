@@ -13,8 +13,8 @@ class Tester:
 
     async def create_message(self):
         """Create fake message"""
-        text_channel = await self.shiro.fetch_channel(self.shiro.config["tests"]["text_channel"])
-        voice_channel = await self.shiro.fetch_channel(self.shiro.config["tests"]["voice_channel"])
+        text_channel = self.shiro.get_channel(self.shiro.config["tests"]["text_channel"])
+        voice_channel = self.shiro.get_channel(self.shiro.config["tests"]["voice_channel"])
         await voice_channel.connect()
         self.message = await text_channel.send("Starting tests!")
 
@@ -30,7 +30,7 @@ class Tester:
         await self.test_command("stats")
         await self.test_command("oprequest Test Test https://www.youtube.com/watch?v=5_iuNaULT5k")
         await self.test_command("edrequest \"Test Test\" Test https://www.youtube.com/watch?v=xhtC1YU2RME")
-        await self.test_command("ostrequest ´\"Test Test\" \"Test Test\" https://www.youtube.com/watch?v=TKeI8eYtWyQ&t=109s")
+        await self.test_command("ostrequest \"Test Test\" \"Test Test\" https://www.youtube.com/watch?v=TKeI8eYtWyQ&t=109s")
 
     async def test_songs(self):
         """Run test for every songs command"""

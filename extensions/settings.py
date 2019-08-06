@@ -6,6 +6,7 @@ import typing
 
 
 class Settings(commands.Cog):
+    """Settings cog to change bots behavior per guild"""
     def __init__(self, shiro):
         self.shiro = shiro
 

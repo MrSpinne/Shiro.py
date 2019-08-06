@@ -9,8 +9,6 @@
 ![Discord Server](https://img.shields.io/discord/600761022089003021)
 ![License](https://img.shields.io/github/license/MrSpinne/Shiro.py)
 
-[![Discord Bots](https://discordbots.org/api/widget/593116701281746955.svg)](https://discordbots.org/bot/593116701281746955)
-
 Want to guess anime openings with your friends? 
 Get Shiro to play song quizzes and enhance your guild with fun related anime features!
 
@@ -27,6 +25,8 @@ Get Shiro to play song quizzes and enhance your guild with fun related anime fea
     *   [Environmental Variables](#environmental-variables)
 
 *   [Contribute](#contribute)
+
+*   [Bot lists](#bot-lists)
 
 *   [Links](#links)
 
@@ -112,7 +112,17 @@ Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSW
 ## Contribute
 I'd like to hear your thoughts about the whole project. It's far from perfect so feel free to contribute.
 
+# Bot lists
+As you can see below, the bot is already listed on many sites.
+
+[![Discord Bots](https://discordbots.org/api/widget/593116701281746955.svg)](https://discordbots.org/bot/593116701281746955)
+[![Discord Bot List](https://discordbotlist.com/bots/593116701281746955/widget)](https://discordbotlist.com/bots/593116701281746955)
+[![Divine Discord Bot List](https://divinediscordbots.com/api/widget/593116701281746955.svg)](https://divinediscordbots.com/bot/593116701281746955)
+[![Discord Boats](https://discord.boats/api/widget/593116701281746955)](https://discord.boats/bot/593116701281746955)
+[![Bots on Discord](https://bots.ondiscord.xyz/bots/593116701281746955/embed?theme=dark&showGuilds=true)](https://bots.ondiscord.xyz/bots/593116701281746955)
+
 ## Links
+*   [Website](https://mrspinne.github.io/Shiro.py)
 *   [Support Server](https://discord.gg/5z4z8kh)
 *   [Discord Bots](https://discordbots.org/bot/593116701281746955)
 *   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)

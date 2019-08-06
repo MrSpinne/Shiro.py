@@ -1,3 +1,6 @@
+import logging
+
+
 class Tester:
     def __init__(self, shiro):
         self.shiro = shiro
@@ -15,7 +18,7 @@ class Tester:
         """Create fake message"""
         text_channel = self.shiro.get_channel(self.shiro.config["tests"]["text_channel"])
         voice_channel = self.shiro.get_channel(self.shiro.config["tests"]["voice_channel"])
-        await voice_channel.connect()
+        logging.info(await voice_channel.connect())
         self.message = await text_channel.send("Starting tests!")
 
     async def test_command(self, message_content):

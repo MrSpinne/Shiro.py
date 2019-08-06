@@ -3,17 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://something-fresh.org/categories/</loc>
+    <loc>https://mrspinne.github.io/Shiro.py/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://something-fresh.org/</loc>
+    <loc>https://mrspinne.github.io/Shiro.py/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://something-fresh.org/tags/</loc>
+    <loc>https://mrspinne.github.io/Shiro.py/tags/</loc>
     <priority>0</priority>
   </url>
   

@@ -115,6 +115,7 @@ class Shiro(commands.Bot):
             player[1].stop()
 
         self.disconnect_database()
+        logging.info("Shutting down")
         self.loop.create_task(self.close)
 
     def connect_database(self):

@@ -2,7 +2,7 @@ engines:
   coverage:
     exclude_paths:
       - /Dockerfile
-      - /data/*
-      - /docs/*
+      - "/data/**"
+      - "/docs/**"
       - "**/*.md"
       - "**/*.yml"

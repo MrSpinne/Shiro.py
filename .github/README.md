@@ -26,9 +26,9 @@ Get Shiro to play song quizzes and enhance your guild with fun related anime fea
 
 *   [Contribute](#contribute)
 
-*   [Bot lists](#bot-lists)
-
 *   [Links](#links)
+
+*   [Bot lists](#bot-lists)
 
 ## Setup
 The following setup is done with **docker on debian**. If you're using another os, it may variate a bit.
@@ -112,7 +112,13 @@ Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSW
 ## Contribute
 I'd like to hear your thoughts about the whole project. It's far from perfect so feel free to contribute.
 
-# Bot lists
+## Links
+*   [Website](https://mrspinne.github.io/Shiro.py)
+*   [Support Server](https://discord.gg/5z4z8kh)
+*   [Discord Bots](https://discordbots.org/bot/593116701281746955)
+*   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)
+
+## Bot lists
 As you can see below, the bot is already listed on many sites.
 
 [![Discord Bots](https://discordbots.org/api/widget/593116701281746955.svg)](https://discordbots.org/bot/593116701281746955)
@@ -120,9 +126,3 @@ As you can see below, the bot is already listed on many sites.
 [![Divine Discord Bot List](https://divinediscordbots.com/api/widget/593116701281746955.svg)](https://divinediscordbots.com/bot/593116701281746955)
 [![Discord Boats](https://discord.boats/api/widget/593116701281746955)](https://discord.boats/bot/593116701281746955)
 [![Bots on Discord](https://bots.ondiscord.xyz/bots/593116701281746955/embed?theme=dark&showGuilds=true)](https://bots.ondiscord.xyz/bots/593116701281746955)
-
-## Links
-*   [Website](https://mrspinne.github.io/Shiro.py)
-*   [Support Server](https://discord.gg/5z4z8kh)
-*   [Discord Bots](https://discordbots.org/bot/593116701281746955)
-*   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)

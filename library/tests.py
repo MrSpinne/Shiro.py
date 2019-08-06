@@ -2,7 +2,6 @@ class Tester:
     def __init__(self, shiro):
         self.shiro = shiro
         self.message = None
-        self.prefix = None
 
     async def run(self):
         """Start tests"""
@@ -21,9 +20,9 @@ class Tester:
 
     async def test_command(self, message_content):
         """Create fake ctx with command"""
-        self.prefix = await self.shiro.get_prefix(self.message)
-        self.message.content = "{0}{1}".format(self.prefix, message_content)
-        self.shiro.invoke(self.shiro.get_context(self.message))
+        prefix = await self.shiro.get_prefix(self.message)
+        self.message.content = "{0}{1}".format(prefix, message_content)
+        self.shiro.invoke(await self.shiro.get_context(self.message))
 
     async def test_general(self):
         """Run tests for every general command"""

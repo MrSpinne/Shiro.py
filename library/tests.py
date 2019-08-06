@@ -1,6 +1,3 @@
-import logging
-
-
 class Tester:
     def __init__(self, shiro):
         self.shiro = shiro

@@ -121,7 +121,7 @@ I'd like to hear your thoughts about the whole project. It's far from perfect so
 ## Bot lists
 Below are all bot lists, Shiro is currently on. (Only lists with widget)
 
-[<img src="https://discordbots.org/api/widget/593116701281746955.svg" height="150">](https://discordbots.org/api/widget/593116701281746955.svg)
+[<img src="https://discordbots.org/api/widget/593116701281746955.svg" height="150">](https://discordbots.org/bot/593116701281746955)
 [<img src="https://discordbotlist.com/bots/593116701281746955/widget" height="150">](https://discordbotlist.com/bots/593116701281746955)
 [<img src="https://divinediscordbots.com/api/widget/593116701281746955.svg" height="150">](https://divinediscordbots.com/bot/593116701281746955)
 [<img src="https://discord.boats/api/widget/593116701281746955" height="150">](https://discord.boats/bot/593116701281746955)

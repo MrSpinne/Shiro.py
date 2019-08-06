@@ -9,10 +9,10 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: shiro-py\n"
 "X-Crowdin-Language: ru\n"
-"X-Crowdin-File: /master/locales/es-CO/LC_MESSAGES/base.po\n"
+"X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Russian\n"
-"PO-Revision-Date: 2019-08-06 19:24\n"
+"PO-Revision-Date: 2019-08-06 19:26\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"

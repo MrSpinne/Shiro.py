@@ -15,6 +15,11 @@ Want to guess anime openings with your friends?
 Get Shiro to play song quizzes and enhance your guild with fun related anime features!
 
 ## Table of Contents
+
+[TOCM]
+
+[TOC]
+
 *   [Setup](#setup)
     *   [Docker](#docker)
     *   [Postgres Database](#postgres-database)
@@ -113,6 +118,7 @@ Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSW
 I'd like to hear your thoughts about the whole project. It's far from perfect so feel free to contribute.
 
 ## Links
+*   [Website](https://mrspinne.github.io/Shiro.py)
 *   [Support Server](https://discord.gg/5z4z8kh)
 *   [Discord Bots](https://discordbots.org/bot/593116701281746955)
 *   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)

@@ -119,10 +119,10 @@ I'd like to hear your thoughts about the whole project. It's far from perfect so
 *   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)
 
 ## Bot lists
-As you can see below, the bot is already listed on many sites.
+Below are all bot lists, Shiro is currently on. (Only lists with widget)
 
-[![Discord Bots](https://discordbots.org/api/widget/593116701281746955.svg)](https://discordbots.org/bot/593116701281746955)
-[![Discord Bot List](https://discordbotlist.com/bots/593116701281746955/widget)](https://discordbotlist.com/bots/593116701281746955)
-[![Divine Discord Bot List](https://divinediscordbots.com/api/widget/593116701281746955.svg)](https://divinediscordbots.com/bot/593116701281746955)
-[![Discord Boats](https://discord.boats/api/widget/593116701281746955)](https://discord.boats/bot/593116701281746955)
-[![Bots on Discord](https://bots.ondiscord.xyz/bots/593116701281746955/embed?theme=dark&showGuilds=true)](https://bots.ondiscord.xyz/bots/593116701281746955)
+[<img src="https://discordbots.org/api/widget/593116701281746955.svg" height="150">](https://discordbots.org/api/widget/593116701281746955.svg)
+[<img src="https://discordbotlist.com/bots/593116701281746955/widget" height="150">](https://discordbotlist.com/bots/593116701281746955)
+[<img src="https://divinediscordbots.com/api/widget/593116701281746955.svg" height="150">](https://divinediscordbots.com/bot/593116701281746955)
+[<img src="https://discord.boats/api/widget/593116701281746955" height="150">](https://discord.boats/bot/593116701281746955)
+[<img src="https://bots.ondiscord.xyz/bots/593116701281746955/embed?theme=dark&showGuilds=true" height="150">](https://bots.ondiscord.xyz/bots/593116701281746955)

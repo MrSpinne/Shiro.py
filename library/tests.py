@@ -15,8 +15,8 @@ class Tester:
         """Create fake message"""
         text_channel = await self.shiro.fetch_channel(self.shiro.config["tests"]["text_channel"])
         voice_channel = await self.shiro.fetch_channel(self.shiro.config["tests"]["voice_channel"])
+        await voice_channel.connect()
         self.message = await text_channel.send("Starting tests!")
-        self.message.author.voice.channel = voice_channel
 
     async def test_command(self, message_content):
         """Create fake ctx with command"""

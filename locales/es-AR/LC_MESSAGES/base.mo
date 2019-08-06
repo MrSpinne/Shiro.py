@@ -9,10 +9,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: shiro-py\n"
 "X-Crowdin-Language: es-AR\n"
-"X-Crowdin-File: /master/locales/template.pot\n"
+"X-Crowdin-File: /master/locales/es-AR/LC_MESSAGES/base.po\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Spanish, Argentina\n"
-"PO-Revision-Date: 2019-08-04 18:48\n"
+"PO-Revision-Date: 2019-08-06 19:24\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"

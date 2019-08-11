@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Shiro Discord Bot</title>
-    <link>https://mrspinne.github.io/Shiro.py/tags/</link>
+    <link>http://shiro.pro/tags/</link>
     <description>Recent content in Tags on Shiro Discord Bot</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://mrspinne.github.io/Shiro.py/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://shiro.pro/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

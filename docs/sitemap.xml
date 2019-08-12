@@ -3,17 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://shiro.pro/categories/</loc>
+    <loc>https://shiro.pro/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shiro.pro/</loc>
+    <loc>https://shiro.pro/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://shiro.pro/tags/</loc>
+    <loc>https://shiro.pro/tags/</loc>
     <priority>0</priority>
   </url>
   

@@ -1,4 +1,5 @@
 FROM python:3.7
+MAINTAINER MrSpinne <spinningplays.gaming@gmail.com>
 
 COPY . .
 RUN pip install -r requirements.txt

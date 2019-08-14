@@ -51,7 +51,7 @@ Then you have to download and run the postgres docker image and mount it to a di
 ```bash
 docker pull postgres
 mkdir -p $HOME/docker/volumes/postgres
-docker run --rm --name postgres -e POSTGRES_DATABASE=shiro -e POSTGRES_USER=shiro -e POSTGRES_PASSWORD=shiro -d -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
+docker run --rm --name postgres -e POSTGRES_DATABASE=shiro -e POSTGRES_USER=shiro -e POSTGRES_PASSWORD=shiro -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
 ```
 
 ### Lavalink Server
@@ -59,7 +59,9 @@ Also, you have to setup a Lavalink server in order for the bot to play music.
 [More about Lavalink](https://github.com/Frederikam/Lavalink)
 ```bash
 docker pull fredboat/lavalink:master
-docker run --rm --name lavalink -e LAVALINK_SERVER_PASSWORD=shiro -d fredboat/lavalink:master
+mkdir -p $HOME/docker/volumes/lavalink
+nano $HOME/docker/volumes/lavalink/application.yml # Paste default config from Lavalink and set password
+docker docker run --rm --name lavalink -v $HOME/docker/volumes/lavalink/application.yml:/opt/Lavalink/application.yml -d -p 2333:2333 fredboat/lavalink:master
 ```
 
 ### Shiro
@@ -75,7 +77,7 @@ The following will keep you docker container up to date. If you only want to aut
 [have a look here](https://containrrr.github.io/watchtower/arguments/).
 ```bash
 docker pull containrrr/watchtower
-docker run --rm --name watchtower -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower
+docker run --rm --name watchtower -d -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower
 ```
 
 ## Configuration
@@ -113,13 +115,13 @@ Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSW
 I'd like to hear your thoughts about the whole project. It's far from perfect so feel free to contribute.
 
 ## Links
-*   [Website](https://mrspinne.github.io/Shiro.py)
+*   [Website](https://shiro.pro)
 *   [Support Server](https://discord.gg/5z4z8kh)
 *   [Discord Bots](https://discordbots.org/bot/593116701281746955)
 *   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)
 
 ## Bot lists
-Below are all bot lists, Shiro is currently on. (Only lists with widget)
+Below are all bot lists, Shiro is currently on. (Only lists with widget shown)
 
 [<img src="https://discordbots.org/api/widget/593116701281746955.svg" height="150">](https://discordbots.org/bot/593116701281746955)
 [<img src="https://discordbotlist.com/bots/593116701281746955/widget" height="150">](https://discordbotlist.com/bots/593116701281746955)

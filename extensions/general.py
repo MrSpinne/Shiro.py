@@ -67,7 +67,7 @@ class General(commands.Cog):
             "https://docs.google.com/spreadsheets/d/1S8u-V3LBMSzf8g78ZEE1I7_YT8SSFa8ROpXysoqvSFg")
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["status", "stat"])
+    @commands.command(aliases=["status"])
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def stats(self, ctx):
         """List up some stats of Shiro"""

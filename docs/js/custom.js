@@ -1,15 +1,47 @@
 window.onload = function () {
-	if (new URLSearchParams(window.location.search).get("code")) {
+	params = new URLSearchParams(window.location.search);
+	if (params.get("code")) {
+		clearUrl();
 		Swal.fire({
 			title: "Shiro is ready!",
 			text: "Are you too? Type s.help in your guild to get started.",
 			type: "success",
 			confirmButtonText: "Okay",
 			confirmButtonColor: "#777CD9"
+		});
+	} else if (params.get("error")) {
+		clearUrl();
+		description = "";
+		if (params.get("description")) {
+			description = params.get("description") + ". ";
+		}
+		Swal.fire({
+			title: "Invitation failed!",
+			text: description + "If you need help, check out our support server.",
+			type: "error",
+			confirmButtonText: "Get Help",
+			confirmButtonColor: "#777CD9",
+			showCancelButton: true,
+			cancelButtonText: "Close",
+			cancelButtonColor: "#777CD9"
+		}).then((result) => {
+			if (result.dismiss === Swal.DismissReason.confirm) {
+				var win = window.open("https://support.shiro.pro", "_blank");
+				win.focus();
+				Swal.fire({
+					title: "You have joined!",
+					text: "Start talking to others. Ask your questions if you have any.",
+					type: "success",
+					confirmButtonText: "Okay",
+					confirmButtonColor: "#777CD9"
+		});
+			}
 		})
-		
-		var getUrl = window.location;
-		var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split("/")[1];
-		window.history.pushState({id: "homepage"}, "Shiro Discord Bot", baseUrl);
 	}
+}
+
+function clearUrl() {
+	var getUrl = window.location;
+	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split("/")[1];
+	window.history.pushState({id: "homepage"}, "Shiro Discord Bot", baseUrl);
 }

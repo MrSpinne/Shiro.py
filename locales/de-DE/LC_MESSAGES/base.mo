@@ -12,11 +12,11 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: German\n"
-"PO-Revision-Date: 2019-08-04 18:48\n"
+"PO-Revision-Date: 2019-08-24 21:26\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
-msgstr ""
+msgstr "**\\📄 Allgemein**"
 
 #: extensions/general.py:25
 msgid "Here're all commands for **{0}**:"

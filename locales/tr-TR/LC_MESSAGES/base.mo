@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Turkish\n"
-"PO-Revision-Date: 2019-08-25 09:48\n"
+"PO-Revision-Date: 2019-08-25 09:55\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -36,20 +36,25 @@ msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
 "`{0}language <{1}>` ‧ Change bot language\n"
 "`{0}config` ‧ Display current configuration"
-msgstr ""
+msgstr "`{0}prefix <1-10 symbols>` ‧ Bot komutlarının sunucudaki ön ekini değiştir\n"
+"`{0}deletion <on/off>` ‧ Mesaj silme komutunu etkinleştir ya da kapat\n"
+"`{0}channel <none/channel>` ‧ Komutlar için kanallar kur, yalnızca şu roller için\n"
+"`{0}language <{1}>` ‧ Botun dilini değiştir\n"
+"`{0}config` ‧ Şu anki bot yapılandırmasını görüntüle"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr ""
+msgstr "**\\📄 Shiro Hakkında**"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"
 "[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
-msgstr ""
+msgstr "Shiro, **{0}** tarafından Python dilinde geliştirildi. Eğer aklınızda bot kullanımı ya da diğer detaylar hakkında soru işaretleri var ise bizimle iletişime geçmekten çekinmeyin.\n\n"
+"[Destek&Geri Bildirim]({1}) ‧ [Çevirilere yardım et!]({1}) ‧ [Oyla]({2}) ‧ [Şarkılar]({3})"
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
-msgstr ""
+msgstr "**\\⚙️ Ön Ek**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."

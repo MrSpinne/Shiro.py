@@ -38,7 +38,7 @@ class LengthStr(commands.Converter):
 class Prefix(commands.Converter):
     """Converts to str if values length is in range"""
     async def convert(self, ctx, argument):
-        if 1 <= len(argument) <= 10 and argument.isalnum():
+        if all(ord(c) < 128 for c in argument):
             return argument
 
         raise exceptions.NotPrefix(argument)

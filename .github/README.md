@@ -1,8 +1,7 @@
 # Shiro.py - Work in progress
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Coverage)
 [![Build Status](https://travis-ci.org/MrSpinne/Shiro.py.svg?branch=master)](https://travis-ci.org/MrSpinne/Shiro.py)
-[![Crowdin](https://badges.crowdin.net/shiro-py/localized.svg)](https://crowdin.com/project/shiro-py)
+[![Crowdin](https://badges.crowdin.net/shiro-py/localized.svg)](https://translate.shiro.pro)
 
 ![Python Version](https://img.shields.io/badge/python-3.7-blue)
 ![Bot Version](https://img.shields.io/badge/version-1.3-orange)
@@ -13,22 +12,22 @@ Want to guess anime openings with your friends?
 Get Shiro to play song quizzes and enhance your guild with fun related anime features!
 
 ## Table of Contents
-*   [Setup](#setup)
-    *   [Docker](#docker)
-    *   [Postgres Database](#postgres-database)
-    *   [Lavalink Server](#lavalink-server)
-    *   [Shiro](#shiro)
-    *   [Watchtower](#watchtower)
+* [Setup](#setup)
+  * [Docker](#docker)
+  * [Postgres Database](#postgres-database)
+  * [Lavalink Server](#lavalink-server)
+  * [Shiro](#shiro)
+  * [Watchtower](#watchtower)
 
-*   [Configuration](#configuration)
-    *   [Config options](#config-options)
-    *   [Environmental Variables](#environmental-variables)
+* [Configuration](#configuration)
+  * [Config options](#config-options)
+  * [Environmental Variables](#environmental-variables)
 
-*   [Contribute](#contribute)
+* [Contribute](#contribute)
 
-*   [Links](#links)
+* [Links](#links)
 
-*   [Bot lists](#bot-lists)
+* [Bot lists](#bot-lists)
 
 ## Setup
 The following setup is done with **docker on debian**. If you're using another os, it may variate a bit.
@@ -115,10 +114,7 @@ Example envs: `DISCORD_TOKEN`, `POSTGRES_HOST`, `POSTGRES_PORT`, `LAVALINK_PASSW
 I'd like to hear your thoughts about the whole project. It's far from perfect so feel free to contribute.
 
 ## Links
-*   [Website](https://shiro.pro)
-*   [Support Server](https://discord.gg/5z4z8kh)
-*   [Discord Bots](https://discordbots.org/bot/593116701281746955)
-*   [Invite Bot](https://discordapp.com/oauth2/authorize?client_id=593116701281746955&permissions=3238976&scope=bot)
+All important links can be found on the landing page at https://shiro.pro.
 
 ## Bot lists
 Below are all bot lists, Shiro is currently on. (Only lists with widget shown)

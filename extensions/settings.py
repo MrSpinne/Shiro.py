@@ -13,7 +13,7 @@ class Settings(commands.Cog):
     @commands.command(aliases=["setprefix"])
     @commands.check(checks.is_guild_admin)
     async def prefix(self, ctx, prefix: converters.Prefix):
-        """Change  guild prefix"""
+        """Change guild prefix"""
         self.shiro.set_guild_setting(ctx.guild.id, "prefix", prefix)
         embed = discord.Embed(color=7830745, title=_("**\\⚙️ Prefix**"))
         embed.description = _("Server prefix were set to `{0}`. If you forget it, "

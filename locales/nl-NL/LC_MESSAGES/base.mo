@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Dutch\n"
-"PO-Revision-Date: 2019-08-25 16:59\n"
+"PO-Revision-Date: 2019-08-25 17:05\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -54,7 +54,7 @@ msgstr "Shiro is gemaakt door **{0}** in Python. Als je vragen hebt, neem contac
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
-msgstr ""
+msgstr "**\\⚙ voorvoegsel**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
@@ -154,7 +154,7 @@ msgstr "{0} heeft gelijkspel met {1}/{2} het aantal goed geraden liedjes."
 
 #: extensions/songs.py:225
 msgid "**\\🎵 Stop quiz**"
-msgstr ""
+msgstr "**\\🎵 Stop Vragenspel**"
 
 #: shiro.py:242
 msgid "\\❌ **Error on command**"

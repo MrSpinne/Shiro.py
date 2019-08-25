@@ -1,20 +1,5 @@
 jobs:
   include:
-    - stage: update translations
-      if: branch = unstable
-      language: python
-      python: "3.7"
-      env:
-        - PROJECT_IDENTIFIER=shiro-py
-        - secure: j2bKc+N9jWnlfCOJZ8G2xHeyGQb40St2bgfa/qhwyhiICR2WvKikRRIuerCSnj1rghzaZoEad5WExW8ItMPPbZ99QRPFWoXpYQIvAfcDiBHwt+24fY2tbfvrgi2dkaHPB6rHM2W+4QoxnD1lkOLXH8ab7swcVhidIP9pRWJMctMcds7VrNY3I59UZb52XpTUmaz5P/tpRR06QIdzsKbkBrAnRtxqVqOR9/M5odhxwcJq083ZUa7hMvTHSQvcUK0cynTrv4HHjClTLxfgF4xb5BFBNr14+X+M5+sHJBzK5iLrMn1+gn2YG+KHM5OhCH+tKMzl67cINMG7iBVnXDeqIXhyIHfrrMfJrFHSywvjgBHye72HsL5ngizs2S6US4IKwBocZozpyqmkccyvADqsuE3Ch8UwZkfaTPsdyskMSgnh8fOlz9XQUiopOIbHi1pH+2S9XY87wiBOGLI5rJsefZCuX9KgnYiMlXdiU4CKRcdagyN2AYWh+soeGdrrdWOZaGYkv7n6pGxVVVMYrDNAwoKvwvgviD1h1V5pP9/Dkm3XQOcetFWAHIarbgSZc+/o6V/ywVboVW077Bj5h1OVac/neTFOZ20s30jzgeVuFygnwriiYYhHPplSkQNaM0ZOZJStg94ZqSP4du4PgnB8GOSXp5OQFRPdvmbXFeXQ1js=
-      install:
-        - pip install polib
-        - wget -O script.py https://gist.githubusercontent.com/MrSpinne/63c711795cf5a2e581b5a426b48b279b/raw/d2e2ac4c4c6295e2159065d9a43e0299afc493fe/script.py
-      script:
-        - wget -O template.pot https://api.crowdin.com/api/project/$PROJECT_IDEMTIFIER/export-file?key=$API_KEY&file=/master/locales/template.pot&language=en-US
-        - python script.py
-        - cat eu-US.po
-        - curl -F "files[0]=@en-US.po" -F "language=en-US" -F "auto_approve_imported=1" https://api.crowdin.com/api/project/$PROJECT_IDENTIFIER/upload-translation?key=$API_KEY
     - stage: build docker image
       env:
         - DOCKER_USERNAME=mrspinne

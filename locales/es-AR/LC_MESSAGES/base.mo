@@ -12,11 +12,11 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Spanish, Argentina\n"
-"PO-Revision-Date: 2019-08-24 21:45\n"
+"PO-Revision-Date: 2019-08-25 15:56\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
-msgstr ""
+msgstr "**\\📄 General**"
 
 #: extensions/general.py:25
 msgid "Here're all commands for **{0}**:"
@@ -275,12 +275,18 @@ msgid "Guilds ‧ {0}\n"
 "Votes (on dbl) ‧ {3}\n"
 "Ping ‧ {4}ms\n"
 "Songs ‧ {5}"
-msgstr ""
+msgstr "Alianzas ‧ {0}\n"
+"Usuarios ‧ {1}\n"
+"Reproductores de musica ‧ {2}\n"
+"Votos (en dbl) ‧ {3}\n"
+"Ping ‧ {4}ms\n"
+"Canciones ‧ {5}"
 
 #: extensions/songs.py:170
 msgid "Get ready, the quiz will start in {0} seconds!\n"
 "{1}"
-msgstr ""
+msgstr "Preparate, el quiz comenzara en {0} segundos!\n"
+"{1}"
 
 #: extensions/songs.py:227
 msgid "Playback will now end after the first song is played."

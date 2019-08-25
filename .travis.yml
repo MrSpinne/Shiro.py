@@ -1,7 +1,7 @@
 jobs:
   include:
     - stage: update translations
-      if: branch = l10n_master
+      if: branch = unstable
       language: python
       python: "3.7"
       env:

@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Spanish, Argentina\n"
-"PO-Revision-Date: 2019-08-25 16:15\n"
+"PO-Revision-Date: 2019-08-25 16:25\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -346,11 +346,11 @@ msgstr "\\❌ **Actualización del bot**"
 
 #: extensions/utility.py:78
 msgid "We have detected that you're currently running playback. We're sorry, butwe have to stop it after this song because we're rolling out a new update. This will occur in 5 minutes, please be patient."
-msgstr ""
+msgstr "Hemos detectado que estas ahora mismo en una playlist. Lo sentimos, pero teneemos que detenerlo despues de esta canción porque estamos trabajando en una nueva actualización. Esto ocurrira en 5 minutos por favor tene paciencia."
 
 #: extensions/utility.py:94
 msgid "Bot will now be shut down. {0}"
-msgstr ""
+msgstr "El bot se apagará. {0}"
 
 #: shiro.py:253
 msgid "The argument `{0}` is too long. Maximum allowed characters are {1}."

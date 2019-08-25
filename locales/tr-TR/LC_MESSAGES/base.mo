@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Turkish\n"
-"PO-Revision-Date: 2019-08-25 09:55\n"
+"PO-Revision-Date: 2019-08-25 10:05\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -58,27 +58,27 @@ msgstr "**\\⚙️ Ön Ek**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
-msgstr ""
+msgstr "Bu sunucudaki komut ön eki `{0}` olarak ayarlandı. Ön ekin ne olduğunu unutursan yardım için Shiro'nun görebildiği kanallardan bir tanesine `@Shiro` yu etiketle."
 
 #: extensions/settings.py:28
 msgid "**\\⚙️ Command deletion**"
-msgstr ""
+msgstr "**\\⚙️ Komut Silme**"
 
 #: extensions/settings.py:29
 msgid "Command message deletion were {0}."
-msgstr ""
+msgstr "{0} komut mesajı silindi."
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "disabled"
-msgstr ""
+msgstr "kapatıldı"
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "enabled"
-msgstr ""
+msgstr "etkinleştirildi"
 
 #: extensions/settings.py:37
 msgid "**\\⚙️ Channel only**"
-msgstr ""
+msgstr "**\\⚙️ Sadece kanal**"
 
 #: extensions/settings.py:38
 msgid "Commands can now be executed {0}."
@@ -86,30 +86,33 @@ msgstr ""
 
 #: extensions/settings.py:39
 msgid "everywhere"
-msgstr ""
+msgstr "heryerde"
 
 #: extensions/settings.py:39
 msgid "in channel {0}"
-msgstr ""
+msgstr "{0} kanalında"
 
 #: extensions/settings.py:47
 msgid "**\\⚙️ Language**"
-msgstr ""
+msgstr "**\\⚙️ Dil**"
 
 #: extensions/settings.py:48
 msgid "Language were set to `{0}`."
-msgstr ""
+msgstr "Dil `{0}` olarak ayarlandı."
 
 #: extensions/settings.py:56
 msgid "**\\⚙️ Config**"
-msgstr ""
+msgstr "**\\⚙️ Yapılandır**"
 
 #: extensions/settings.py:57
 msgid "Prefix ‧ `{0}`\n"
 "Command deletion ‧ `{1}`\n"
 "Channel only ‧ {2}\n"
 "Language ‧ `{3}`"
-msgstr ""
+msgstr "Ön ek ‧ `{0}`\n"
+"Komut silme ‧ `{1}`\n"
+"Yalnızca kanal ‧ {2}\n"
+"Dil ‧ `{3}`"
 
 #: extensions/settings.py:66
 msgid "`disabled`"
@@ -117,32 +120,33 @@ msgstr ""
 
 #: extensions/songs.py:124 extensions/songs.py:153
 msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"
-msgstr ""
+msgstr "**\\🎵 {0} yarışma ‧ El {1}/{2}**"
 
 #: extensions/songs.py:145
 msgid "Nobody"
-msgstr ""
+msgstr "Hiçkimse"
 
 #: extensions/songs.py:155
 msgid "{0} has won the round!\n"
 "Song: [{1} ‧ {2}]({3})"
-msgstr ""
+msgstr "Bu eli {0} kazandı!\n"
+"Şarkı: [{1} ‧ {2}]({3})"
 
 #: extensions/songs.py:169
 msgid "**\\🎵 {0} quiz ‧ Starting**"
-msgstr ""
+msgstr "**\\🎵 {0} yarışma ‧ Başlıyor**"
 
 #: extensions/songs.py:183
 msgid "**\\🎵 {0} quiz ‧ End**"
-msgstr ""
+msgstr "**\\🎵 {0} yarışma ‧ Bitti**"
 
 #: extensions/songs.py:186
 msgid "Nobody won the song quiz! There were {0} round(s)."
-msgstr ""
+msgstr "Yarışmayı kimse kazanamadı! Yarışma {0} el(ler)."
 
 #: extensions/songs.py:188
 msgid "{0} has guessed {1}/{2} songs correctly and won!"
-msgstr ""
+msgstr "{0}, {1}/{2} şarkısını doğru tahmin etti ve yarışmayı kazandı!"
 
 #: extensions/songs.py:191
 msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."

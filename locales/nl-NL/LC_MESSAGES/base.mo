@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Dutch\n"
-"PO-Revision-Date: 2019-08-24 21:35\n"
+"PO-Revision-Date: 2019-08-25 16:59\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -330,7 +330,7 @@ msgstr "{0} ‧ {1} (Na)"
 
 #: extensions/utility.py:72 extensions/utility.py:93
 msgid "**\\🔧 Bot update**"
-msgstr ""
+msgstr "**\\🔧 Bot Bijwerkingen**"
 
 #: extensions/utility.py:73
 msgid "Bot will stop in 5 minutes, {0} players will be shut down."
@@ -338,7 +338,7 @@ msgstr "Bot zal stoppen in 5 minuten, {0} spelers worden afgesloten."
 
 #: extensions/utility.py:77
 msgid "\\❌ **Bot update**"
-msgstr ""
+msgstr "\\❌ **Bot Bijwerkingen**"
 
 #: extensions/utility.py:78
 msgid "We have detected that you're currently running playback. We're sorry, butwe have to stop it after this song because we're rolling out a new update. This will occur in 5 minutes, please be patient."

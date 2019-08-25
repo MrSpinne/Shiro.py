@@ -64,15 +64,6 @@ class Utility(commands.Cog):
                         value=f"[{after['reference']} ‧ {after['title']}]({after['url']})")
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["shutdown", "update"])
-    @commands.check(checks.is_owner)
-    async def commit(self, ctx):
-        """Shut down bot for update"""
-        embed = discord.Embed(color=7830745, title=_("**\\🔧 Bot update**"),
-                              description=_("Bot stopping, {0} audio players will be shut down.").format(
-                                  len(self.shiro.lavalink.players)))
-        await ctx.send(embed=embed)
-        self.shiro.shutdown()
 
 def setup(shiro):
     shiro.add_cog(Utility(shiro))

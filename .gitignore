@@ -2,3 +2,5 @@
 /tools/
 /.coverage
 /coverage.xml
+**/*.mo
+**/*.po

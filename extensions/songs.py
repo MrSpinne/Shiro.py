@@ -194,19 +194,19 @@ class Songs(commands.Cog):
         await ctx.send(embed=embed)
         await player.skip()
 
-    @commands.command(aliases=["openingquiz", "openings", "ops", "op", "play", "p"])
+    @commands.command(aliases=["openingquiz", "openings", "op", "ops", "play", "p"])
     @commands.check(checks.voice_available)
     async def opquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Guess anime openings with specified amount of rounds\n"""
         await self.run_quiz(ctx, "Opening", rounds)
 
-    @commands.command(aliases=["endingquiz", "endings", "eds", "ed"])
+    @commands.command(aliases=["endingquiz", "endings", "ed", "eds"])
     @commands.check(checks.voice_available)
     async def edquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):
         """Openings are too easy for you? This is next level!"""
         await self.run_quiz(ctx, "Ending", rounds)
 
-    @commands.command(aliases=["osts", "ost", "soundtrack", "soundtracks"])
+    @commands.command(aliases=["ost", "osts", "soundtrack", "soundtracks"])
     @commands.check(checks.voice_available)
     @commands.check(checks.has_voted)
     async def ostquiz(self, ctx, rounds: converters.RangeInt(1, 25) = 10):

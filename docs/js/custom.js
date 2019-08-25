@@ -12,8 +12,8 @@ window.onload = function () {
 	} else if (params.get("error")) {
 		clearUrl();
 		description = "";
-		if (params.get("description")) {
-			description = params.get("description") + ". ";
+		if (params.get("error_description")) {
+			description = params.get("error_description") + ". ";
 		}
 		Swal.fire({
 			title: "Invitation failed!",
@@ -29,7 +29,7 @@ window.onload = function () {
 				var win = window.open("https://support.shiro.pro", "_blank");
 				win.focus();
 				Swal.fire({
-					title: "You have joined!",
+					title: "You have been invited!",
 					text: "Start talking to others. Ask your questions if you have any.",
 					type: "success",
 					confirmButtonText: "Okay",

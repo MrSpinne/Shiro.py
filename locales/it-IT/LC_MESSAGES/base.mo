@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Italian\n"
-"PO-Revision-Date: 2019-08-25 09:25\n"
+"PO-Revision-Date: 2019-08-25 09:35\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -49,23 +49,24 @@ msgstr "\\📄Informazioni su Shiro"
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"
 "[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
-msgstr ""
+msgstr "Shiro è stato creato da **{0}** in Python. In caso di domande, sentitevi liberi di contattare.\n\n"
+"[supporta & valuta]({1}) - [Aiuta a tradurre]({1}) - [Vota]({2} - [tutte le canzoni]({3})"
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
-msgstr ""
+msgstr "\\⚙️Prefisso"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
-msgstr ""
+msgstr "Il prefisso del server è stato impostato su {0}. Se lo dimentichi, puoi sempre usare @Shiro per chiedere aiuto."
 
 #: extensions/settings.py:28
 msgid "**\\⚙️ Command deletion**"
-msgstr ""
+msgstr "\\⚙️ Eliminazione dei comandi"
 
 #: extensions/settings.py:29
 msgid "Command message deletion were {0}."
-msgstr ""
+msgstr "L'eliminazione dei messaggi di comando sono {0}."
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "disabled"

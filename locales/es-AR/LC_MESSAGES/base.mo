@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Spanish, Argentina\n"
-"PO-Revision-Date: 2019-08-25 16:06\n"
+"PO-Revision-Date: 2019-08-25 16:15\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -290,11 +290,11 @@ msgstr "Preparate, el quiz comenzara en {0} segundos!\n"
 
 #: extensions/songs.py:227
 msgid "Playback will now end after the first song is played."
-msgstr ""
+msgstr "La playlist ahora acabara despues de que la primera cancion sea reproducida."
 
 #: extensions/songs.py:229
 msgid "Playback already ends after this song. It will be stopped then."
-msgstr ""
+msgstr "La playlist acbara despues de esta canción. Sera detenida por entonces."
 
 #: extensions/songs.py:231
 msgid "Reducing songs from {0} to {1}. Playback will end after current round."
@@ -322,7 +322,7 @@ msgstr "**\\🔧 {0} cambiada**"
 
 #: extensions/utility.py:61
 msgid "You've updated the song with the id `{0}`."
-msgstr ""
+msgstr "Haas actualizado la canción con la id `{0}`."
 
 #: extensions/utility.py:62
 msgid "{0} ‧ {1} (Before)"
@@ -338,7 +338,7 @@ msgstr "**\\🔧 Actualización del bot**"
 
 #: extensions/utility.py:73
 msgid "Bot will stop in 5 minutes, {0} players will be shut down."
-msgstr ""
+msgstr "El bot parara en 5 minutos, {0} jugadores seran silenciados."
 
 #: extensions/utility.py:77
 msgid "\\❌ **Bot update**"

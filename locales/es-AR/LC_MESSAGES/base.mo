@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Spanish, Argentina\n"
-"PO-Revision-Date: 2019-08-25 15:56\n"
+"PO-Revision-Date: 2019-08-25 16:06\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -298,27 +298,27 @@ msgstr ""
 
 #: extensions/songs.py:231
 msgid "Reducing songs from {0} to {1}. Playback will end after current round."
-msgstr ""
+msgstr "Reduciendo canciones de {0} a {1}. La playlist actual acabara despues de esta ronda."
 
 #: extensions/songs.py:243
 msgid "\\❌ **Bot kicked from voice**"
-msgstr ""
+msgstr "\\❌ **Bot expulsado de voz**"
 
 #: extensions/songs.py:244
 msgid "The bot was kicked from voice channel. Current playback will be stopped."
-msgstr ""
+msgstr "El bot fue expulsado del canal de voz. La playlist actual sera detenida."
 
 #: extensions/utility.py:21
 msgid "**\\🔧 Song search**"
-msgstr ""
+msgstr "**\\🔧 Busqueda de canción**"
 
 #: extensions/utility.py:22
 msgid "Top results for `{0}`"
-msgstr ""
+msgstr "Mejores resultados para `{0}`"
 
 #: extensions/utility.py:60
 msgid "**\\🔧 {0} changed**"
-msgstr ""
+msgstr "**\\🔧 {0} cambiada**"
 
 #: extensions/utility.py:61
 msgid "You've updated the song with the id `{0}`."
@@ -326,15 +326,15 @@ msgstr ""
 
 #: extensions/utility.py:62
 msgid "{0} ‧ {1} (Before)"
-msgstr ""
+msgstr "{0} ‧ {1} (Antes)"
 
 #: extensions/utility.py:64
 msgid "{0} ‧ {1} (After)"
-msgstr ""
+msgstr "{0} ‧ {1} (Despues)"
 
 #: extensions/utility.py:72 extensions/utility.py:93
 msgid "**\\🔧 Bot update**"
-msgstr ""
+msgstr "**\\🔧 Actualización del bot**"
 
 #: extensions/utility.py:73
 msgid "Bot will stop in 5 minutes, {0} players will be shut down."
@@ -342,7 +342,7 @@ msgstr ""
 
 #: extensions/utility.py:77
 msgid "\\❌ **Bot update**"
-msgstr ""
+msgstr "\\❌ **Actualización del bot**"
 
 #: extensions/utility.py:78
 msgid "We have detected that you're currently running playback. We're sorry, butwe have to stop it after this song because we're rolling out a new update. This will occur in 5 minutes, please be patient."

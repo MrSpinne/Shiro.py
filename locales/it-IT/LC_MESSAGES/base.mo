@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Italian\n"
-"PO-Revision-Date: 2019-08-25 09:48\n"
+"PO-Revision-Date: 2019-08-25 09:55\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -150,39 +150,39 @@ msgstr "{0} ha indovinato {1}/{2} canzoni correttamente e ha vinto!"
 
 #: extensions/songs.py:191
 msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."
-msgstr ""
+msgstr "{0} hanno segnato un pareggio con {1}/{2} brani indovinati correttamente ogniuno."
 
 #: extensions/songs.py:225
 msgid "**\\🎵 Stop quiz**"
-msgstr ""
+msgstr "\\🎵 Ferma quiz"
 
 #: shiro.py:242
 msgid "\\❌ **Error on command**"
-msgstr ""
+msgstr "\\❌ **Errore al comando**"
 
 #: shiro.py:247
 msgid "The command `{0}` is missing the `{1}`."
-msgstr ""
+msgstr "Il comando `{0}` manca il `{1}`."
 
 #: shiro.py:250
 msgid "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
-msgstr ""
+msgstr "Il numero `{0}` non è consentito, deve essere nel raggio {1}-{2}."
 
 #: shiro.py:256
 msgid "The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only consist out of numbers and letters."
-msgstr ""
+msgstr "Il prefisso `{0}` non è consentito, deve essere lungo 1-10 caratteri e può essere costituito solo da numeri e lettere."
 
 #: shiro.py:259
 msgid "The value `{0}` isn't allowed, it has to be on or off."
-msgstr ""
+msgstr "Il valore `{0}` non è consentito, deve essere acceso o spento."
 
 #: shiro.py:261
 msgid "The language `{0}` isn't a available language. Available languages: {1}"
-msgstr ""
+msgstr "La lingua `{0}` non è una lingua disponibile. Lingue disponibili: {1}"
 
 #: shiro.py:264
 msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
-msgstr ""
+msgstr "L'Url `{0}` non è un Url di YouTube valido o è geo limitato."
 
 #: shiro.py:271
 msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"

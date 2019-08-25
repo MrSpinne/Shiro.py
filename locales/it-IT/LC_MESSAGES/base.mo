@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Italian\n"
-"PO-Revision-Date: 2019-08-25 09:15\n"
+"PO-Revision-Date: 2019-08-25 09:25\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -36,11 +36,15 @@ msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
 "`{0}language <{1}>` ‧ Change bot language\n"
 "`{0}config` ‧ Display current configuration"
-msgstr ""
+msgstr "''{0} refisso <1-10 simboli'> - Modificare il prefisso del server\n"
+"{0} eliminazione <on/off> - attivare o disattivare l'eliminazione dei messaggi di comando\n"
+"{0} canale <nessuno/canale> - Imposta il canale in cui sono consentiti solo i comandi\n"
+"{0} lingua <{1}> - cambia la lingua del bot\n"
+"{0} configurazione - Visualizza la configurazione corrente"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr ""
+msgstr "\\📄Informazioni su Shiro"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"

@@ -7,6 +7,9 @@ import random
 import collections
 import lavalink
 
+import polib
+polib.POEntry
+
 
 class Songs(commands.Cog):
     def __init__(self, shiro):

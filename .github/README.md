@@ -4,8 +4,8 @@
 [![Crowdin](https://badges.crowdin.net/shiro-py/localized.svg)](https://translate.shiro.pro)
 
 ![Python Version](https://img.shields.io/badge/python-3.7-blue)
-![Bot Version](https://img.shields.io/badge/version-1.3-orange)
 ![Discord Server](https://img.shields.io/discord/600761022089003021)
+![Bot Version](https://img.shields.io/badge/version-1.3-orange)
 ![License](https://img.shields.io/github/license/MrSpinne/Shiro.py)
 
 Want to guess anime openings with your friends? 

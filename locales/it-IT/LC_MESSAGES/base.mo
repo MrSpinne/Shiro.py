@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Italian\n"
-"PO-Revision-Date: 2019-08-25 09:55\n"
+"PO-Revision-Date: 2019-08-25 10:05\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -186,31 +186,31 @@ msgstr "L'Url `{0}` non è un Url di YouTube valido o è geo limitato."
 
 #: shiro.py:271
 msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
-msgstr ""
+msgstr "L'argomento `{0}` nel comando `{1}` deve essere uno di questi: {2}"
 
 #: shiro.py:274
 msgid "A wrong argument were passed into the command `{0}`."
-msgstr ""
+msgstr "Un argomento sbagliato sono stati passati al comando `{0}`."
 
 #: shiro.py:289
 msgid "To use the command `{0}` you have to be in an voice channel (not afk). Also, the bot can't serve multiple channels."
-msgstr ""
+msgstr "Per utilizzare il comando `{0}` devi essere in un canale vocale (non afk). Inoltre, il bot non può servire più canali."
 
 #: shiro.py:286
 msgid "This command is only available for voters. Please [vote for free]({0}) to support this bot!"
-msgstr ""
+msgstr "Questo comando è disponibile solo per gli elettori. Per favore [vota gratis] ({0}) per supportare questo bot!"
 
 #: shiro.py:296
 msgid "On this server commands can only be executed in channel {0}."
-msgstr ""
+msgstr "Su questo server i comandi possono essere eseguiti solo nel canale {0}."
 
 #: shiro.py:299
 msgid "The bot is missing permissions to execute commands, please grant: `{0}`"
-msgstr ""
+msgstr "Il bot mancano le autorizzazioni per eseguire i comandi, si prega di concedere: `{0}`"
 
 #: shiro.py:302
 msgid "You're lacking permission to execute command `{0}`."
-msgstr ""
+msgstr "Non hai il permesso di eseguire il comando `{0}`."
 
 #: extensions/general.py:108
 msgid "**\\📄 {0} request**"

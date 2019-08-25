@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Turkish\n"
-"PO-Revision-Date: 2019-08-25 10:05\n"
+"PO-Revision-Date: 2019-08-25 10:15\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -150,7 +150,7 @@ msgstr "{0}, {1}/{2} şarkısını doğru tahmin etti ve yarışmayı kazandı!"
 
 #: extensions/songs.py:191
 msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."
-msgstr ""
+msgstr "{0}, {1}/{2} şarkıyı doğru bildi ve berabere kaldı."
 
 #: extensions/songs.py:225
 msgid "**\\🎵 Stop quiz**"

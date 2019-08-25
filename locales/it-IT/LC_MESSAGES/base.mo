@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Italian\n"
-"PO-Revision-Date: 2019-08-25 09:35\n"
+"PO-Revision-Date: 2019-08-25 09:48\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -70,79 +70,83 @@ msgstr "L'eliminazione dei messaggi di comando sono {0}."
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "disabled"
-msgstr ""
+msgstr "disattivato"
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "enabled"
-msgstr ""
+msgstr "attivo"
 
 #: extensions/settings.py:37
 msgid "**\\⚙️ Channel only**"
-msgstr ""
+msgstr "\\⚙️ Solo canale"
 
 #: extensions/settings.py:38
 msgid "Commands can now be executed {0}."
-msgstr ""
+msgstr "I comandi possono ora essere eseguiti {0}"
 
 #: extensions/settings.py:39
 msgid "everywhere"
-msgstr ""
+msgstr "dovunque"
 
 #: extensions/settings.py:39
 msgid "in channel {0}"
-msgstr ""
+msgstr "nel canale {0}"
 
 #: extensions/settings.py:47
 msgid "**\\⚙️ Language**"
-msgstr ""
+msgstr "\\⚙️ lingua"
 
 #: extensions/settings.py:48
 msgid "Language were set to `{0}`."
-msgstr ""
+msgstr "La lingua è stata impostata su {0}."
 
 #: extensions/settings.py:56
 msgid "**\\⚙️ Config**"
-msgstr ""
+msgstr "\\⚙️ Configurazione"
 
 #: extensions/settings.py:57
 msgid "Prefix ‧ `{0}`\n"
 "Command deletion ‧ `{1}`\n"
 "Channel only ‧ {2}\n"
 "Language ‧ `{3}`"
-msgstr ""
+msgstr "Prefisso - {0}\n"
+"Eliminazione dei comandi - {1} \n"
+"Solo canale - {2} \n"
+"Lingua - {3}"
 
 #: extensions/settings.py:66
 msgid "`disabled`"
-msgstr ""
+msgstr "dasattivato"
 
 #: extensions/songs.py:124 extensions/songs.py:153
 msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"
-msgstr ""
+msgstr "\\🎵 {0} quiz - Round {1}/{2}"
 
 #: extensions/songs.py:145
 msgid "Nobody"
-msgstr ""
+msgstr "Nessuno"
 
 #: extensions/songs.py:155
 msgid "{0} has won the round!\n"
 "Song: [{1} ‧ {2}]({3})"
-msgstr ""
+msgstr "{0} ha vinto il round!\n"
+"Canzone: [{1} ‧ {2}]({3})"
 
 #: extensions/songs.py:169
 msgid "**\\🎵 {0} quiz ‧ Starting**"
-msgstr ""
+msgstr "\\🎵 {0} quiz - sta iniziando"
 
 #: extensions/songs.py:183
 msgid "**\\🎵 {0} quiz ‧ End**"
-msgstr ""
+msgstr "\\🎵 {0} quiz ‧ fine"
 
 #: extensions/songs.py:186
 msgid "Nobody won the song quiz! There were {0} round(s)."
-msgstr ""
+msgstr "Nessuno ha vinto il quiz canzone! C'erano {0} round(s)."
 
 #: extensions/songs.py:188
 msgid "{0} has guessed {1}/{2} songs correctly and won!"
-msgstr ""
+msgstr "{0} ha indovinato {1}/{2} canzoni correttamente e ha vinto!"
 
 #: extensions/songs.py:191
 msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."

@@ -13,8 +13,8 @@ jobs:
       script:
         - wget -O template.pot https://api.crowdin.com/api/project/$PROJECT_IDEMTIFIER/export-file?key=$API_KEY&file=/master/locales/template.pot&language=en-US
         - python script.py
-        - ls
-        - curl -F "files[0]=en-US.po" -F "language=en-US" -F "auto_approve_imported=1" https://api.crowdin.com/api/project/$PROJECT_IDENTIFIER/upload-translation?key=$API_KEY
+        - cat eu-US.po
+        - curl -F "files[0]=@en-US.po" -F "language=en-US" -F "auto_approve_imported=1" https://api.crowdin.com/api/project/$PROJECT_IDENTIFIER/upload-translation?key=$API_KEY
     - stage: build docker image
       env:
         - DOCKER_USERNAME=mrspinne

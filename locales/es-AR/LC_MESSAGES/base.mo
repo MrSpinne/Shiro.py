@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Spanish, Argentina\n"
-"PO-Revision-Date: 2019-08-25 16:25\n"
+"PO-Revision-Date: 2019-08-25 16:35\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -354,7 +354,7 @@ msgstr "El bot se apagará. {0}"
 
 #: shiro.py:253
 msgid "The argument `{0}` is too long. Maximum allowed characters are {1}."
-msgstr ""
+msgstr "El argumento `{0}` es muy largo. El maximo permitido de caracteres es {1}."
 
 #: shiro.py:266
 msgid "The song id `{0}` isn't valid!"

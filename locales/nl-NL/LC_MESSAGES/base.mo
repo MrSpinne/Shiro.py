@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Dutch\n"
-"PO-Revision-Date: 2019-08-25 17:05\n"
+"PO-Revision-Date: 2019-08-26 15:06\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -40,7 +40,7 @@ msgstr "`{0}prefix <1-10 symbolen>` ‧ Verander server prefix.\n"
 "`{0}deletion <on/off>` ‧ Schakel berichten van het command in of uit.\n"
 "`{0}channel <none/channel>` ‧ Specificeer in welke channel je alleen commands mag gebruiken.\n"
 "`{0}language <{1}>` ‧ Verander de taal van de bot.\n"
-"`{0}config` ‧ Laat de momentele configuratie zien."
+"`{0}config` ‧ Laat de momentele configuratie zien"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"

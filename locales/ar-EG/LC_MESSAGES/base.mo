@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 13:09\n"
+"PO-Revision-Date: 2019-08-26 13:18\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -390,21 +390,21 @@ msgstr "لقد أفسدت عرض أسعار في _`{0}`_. إذا كنت تستخ
 
 #: shiro.py:307
 msgid "You messed up quotation on `{0}`. You have to separate the quoted arguments with spaces."
-msgstr ""
+msgstr "لقد أفسدت عرض أسعار في _`{0}`_. يجب عليك فصل الوسائط المقتبسة بمسافات."
 
 #: shiro.py:310
 msgid "Command on cooldown! Try again in {0} seconds."
-msgstr ""
+msgstr "القيادة على تباطوء! حاول مرة أخرى خلال {0} ثانية."
 
 #: shiro.py:312
 msgid "All commands have been disabled because of a bot update. We'll be back in about 5 minutes. Please be patient."
-msgstr ""
+msgstr "تم تعطيل جميع الأوامر بسبب تحديث البوت. سنعود بعد حوالي 5 دقائق. يرجى التحلي بالصبر."
 
 #: shiro.py:315
 msgid "An unknown error occurred on command `{0}`. We're going to fix that soon!"
-msgstr ""
+msgstr "حدث خطأ غير معروف في الأمر `{0}`. سنقوم بإصلاح ذلك قريبًا!"
 
 #: extensions/utility.py:78
 msgid "We have detected that you're currently running playback. We're sorry, but we have to stop it after this song because we're rolling out a new update. Shiro will be unavailable the next 5 minutes, please be patient."
-msgstr ""
+msgstr "لقد اكتشفنا أنك تستعمل البوت الأن. نأسف ، لكن يتعين علينا إيقافها بعد هذه الأغنية لأننا نطرح تحديثًا جديدًا. لن يكون Shiro متاحًا لمدة 5 دقائق ، فيرجى التحلي بالصبر."
 

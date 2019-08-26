@@ -12,23 +12,23 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Chinese Simplified\n"
-"PO-Revision-Date: 2019-08-25 18:45\n"
+"PO-Revision-Date: 2019-08-26 15:44\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
-msgstr ""
+msgstr "** \\📄一般**"
 
 #: extensions/general.py:25
 msgid "Here're all commands for **{0}**:"
-msgstr ""
+msgstr "以下是** {0} **的所有命令："
 
 #: extensions/general.py:27
 msgid "**\\🎵 Songs**"
-msgstr ""
+msgstr "** \\🎵歌**"
 
 #: extensions/general.py:40
 msgid "**\\⚙️ Settings**"
-msgstr ""
+msgstr "** \\⚙️设置**"
 
 #: extensions/general.py:41
 msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
@@ -36,16 +36,21 @@ msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
 "`{0}language <{1}>` ‧ Change bot language\n"
 "`{0}config` ‧ Display current configuration"
-msgstr ""
+msgstr "`{0}前缀<1-10符号>`‧更改服务器前缀\n"
+"`{0}删除<开/关>`‧启用或禁用命令消息删除\n"
+"`{0} channel <none / channel>`‧设置通道命令只允许\n"
+"`{0}语言<{1}>`‧更改机器人语言\n"
+"`{0}config`‧显示当前配置"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr ""
+msgstr "** \\📄关于Shiro **"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"
 "[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
-msgstr ""
+msgstr "Shiro是由Python {**} **制作的。如果您有任何疑问，请随时联系。 \n\n"
+"[支持与反馈]（{1}）‧[帮助翻译]（{1}）‧[投票]（{2}）‧[所有歌曲]（{3}）"
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"

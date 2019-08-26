@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 11:56\n"
+"PO-Revision-Date: 2019-08-26 12:07\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -58,62 +58,65 @@ msgstr "**\\⚙️ رمز**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
-msgstr ""
+msgstr "تم تعيين رمز الخادم على `{0}`. إذا نسيت ذلك ، فيمكنك دائمًا استخدام `@ Shiro` للحصول على المساعدة."
 
 #: extensions/settings.py:28
 msgid "**\\⚙️ Command deletion**"
-msgstr ""
+msgstr "** \\ ⚙️ حذف الأوامر **"
 
 #: extensions/settings.py:29
 msgid "Command message deletion were {0}."
-msgstr ""
+msgstr "تم حذف رسالة الأوامر {0}."
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "disabled"
-msgstr ""
+msgstr "تم الايقاف"
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "enabled"
-msgstr ""
+msgstr "تم التشغيل"
 
 #: extensions/settings.py:37
 msgid "**\\⚙️ Channel only**"
-msgstr ""
+msgstr "**\\⚙️ الغرف فقط**"
 
 #: extensions/settings.py:38
 msgid "Commands can now be executed {0}."
-msgstr ""
+msgstr "يمكن تنفيذ الأوامر الآن {0}."
 
 #: extensions/settings.py:39
 msgid "everywhere"
-msgstr ""
+msgstr "في كل مكان"
 
 #: extensions/settings.py:39
 msgid "in channel {0}"
-msgstr ""
+msgstr "في الغرفة {0}"
 
 #: extensions/settings.py:47
 msgid "**\\⚙️ Language**"
-msgstr ""
+msgstr "**\\⚙️ لغة**"
 
 #: extensions/settings.py:48
 msgid "Language were set to `{0}`."
-msgstr ""
+msgstr "تم تعيين اللغة الي `{0}`."
 
 #: extensions/settings.py:56
 msgid "**\\⚙️ Config**"
-msgstr ""
+msgstr "**\\⚙️ تهيئة**"
 
 #: extensions/settings.py:57
 msgid "Prefix ‧ `{0}`\n"
 "Command deletion ‧ `{1}`\n"
 "Channel only ‧ {2}\n"
 "Language ‧ `{3}`"
-msgstr ""
+msgstr "الرمز‧ `{0}`\n"
+"حذف الأوامر ‧ `{1}`\n"
+"الغرف فقط ‧ {2}\n"
+"لغة ‧ `{3}`"
 
 #: extensions/settings.py:66
 msgid "`disabled`"
-msgstr ""
+msgstr "`تم الايقاف`"
 
 #: extensions/songs.py:124 extensions/songs.py:153
 msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"

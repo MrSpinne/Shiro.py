@@ -12,23 +12,23 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 10:13\n"
+"PO-Revision-Date: 2019-08-26 11:06\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
-msgstr ""
+msgstr "ألقائمة الرئيسية"
 
 #: extensions/general.py:25
 msgid "Here're all commands for **{0}**:"
-msgstr ""
+msgstr "إليك جميع أوامر ** {0} **:"
 
 #: extensions/general.py:27
 msgid "**\\🎵 Songs**"
-msgstr ""
+msgstr "** \\ 🎵 أغاني **"
 
 #: extensions/general.py:40
 msgid "**\\⚙️ Settings**"
-msgstr ""
+msgstr "** \\ ⚙️ الإعدادات **"
 
 #: extensions/general.py:41
 msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"

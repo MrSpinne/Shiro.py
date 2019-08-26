@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 12:18\n"
+"PO-Revision-Date: 2019-08-26 12:41\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -170,55 +170,55 @@ msgstr "الرقم `{0}` غير مسموح به ، يجب أن يكون في ا�
 
 #: shiro.py:256
 msgid "The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only consist out of numbers and letters."
-msgstr ""
+msgstr "الرمز`{0}` غير مسموح بها ، يجب أن يكون طولها من 1 إلى 10 أحرف ويمكن أن تتكون فقط من أرقام وحروف."
 
 #: shiro.py:259
 msgid "The value `{0}` isn't allowed, it has to be on or off."
-msgstr ""
+msgstr "القيمة `{0}` غير مسموح بها ، يجب أن تكون on أو off."
 
 #: shiro.py:261
 msgid "The language `{0}` isn't a available language. Available languages: {1}"
-msgstr ""
+msgstr "اللغة `{0}` ليست لغة متاحة. اللغات المتاحة: {1}"
 
 #: shiro.py:264
 msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
-msgstr ""
+msgstr "عنوان Url `{0}` ليس عنوان Url صالحًا على YouTube أو أنه مقيد جغرافيًا."
 
 #: shiro.py:271
 msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
-msgstr ""
+msgstr "يجب أن تكون الوسيطة `{0}` في الأمر `{1}` واحدة من هذه: {2}"
 
 #: shiro.py:274
 msgid "A wrong argument were passed into the command `{0}`."
-msgstr ""
+msgstr "تم تمرير وسيطة خاطئة إلى الأمر `{0}`."
 
 #: shiro.py:289
 msgid "To use the command `{0}` you have to be in an voice channel (not afk). Also, the bot can't serve multiple channels."
-msgstr ""
+msgstr "لاستخدام الأمر `{0}` عليك أن تكون في قناة صوتية (وليس AFK). أيضا ، لا يمكن أن يخدم الروبوت قنوات متعددة."
 
 #: shiro.py:286
 msgid "This command is only available for voters. Please [vote for free]({0}) to support this bot!"
-msgstr ""
+msgstr "هذا الأمر متاح فقط للناخبين. يرجى [التصويت مجانًا] ({0}) لدعم هذا الروبوت!"
 
 #: shiro.py:296
 msgid "On this server commands can only be executed in channel {0}."
-msgstr ""
+msgstr "على هذا الخادم ، لا يمكن تنفيذ الأوامر إلا في القناة {0}."
 
 #: shiro.py:299
 msgid "The bot is missing permissions to execute commands, please grant: `{0}`"
-msgstr ""
+msgstr "يفتقد bot أذونات تنفيذ الأوامر ، يرجى منح: `_{0}`_"
 
 #: shiro.py:302
 msgid "You're lacking permission to execute command `{0}`."
-msgstr ""
+msgstr "أنت تفتقر إلى إذن لتنفيذ الأمر `{0}`."
 
 #: extensions/general.py:108
 msgid "**\\📄 {0} request**"
-msgstr ""
+msgstr "** \\ 📄 {0} طلب **"
 
 #: extensions/general.py:109
 msgid "You requested [{0} ‧ {1}]({2}) to be added into the {3} quiz. Thank you for your support, our bot staff will review it."
-msgstr ""
+msgstr "لقد طلبت [{0} ‧ {1}] ({2}) لإضافتها إلى اختبار {3}. شكرًا لدعمكم ، سيقوم فريق الروبوت لدينا بمراجعته."
 
 #: extensions/general.py:18
 msgid "`{0}help` ‧ Display all commands\n"

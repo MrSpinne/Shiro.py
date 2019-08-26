@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 12:41\n"
+"PO-Revision-Date: 2019-08-26 12:47\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -227,18 +227,26 @@ msgid "`{0}help` ‧ Display all commands\n"
 "`{0}oprequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request opening for quiz\n"
 "`{0}edrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request ending for quiz\n"
 "`{0}ostrequest \"<song>\" \"<anime>\" \"<yt url>\"` ‧ Request OST for quiz"
-msgstr ""
+msgstr "`{0} help` ‧ عرض جميع الأوامر\n"
+"`{0} info` ‧ عرض أرصدة الروبوت والروابط (مثل خادم الدعم)\n"
+"`{0} stats` قائمة بعض احصائيات شيرو\n"
+"`{0} oprequest\" <song> \"\" <anime> \"\" <yt url> \"` ‧ طلب فتح مسابقة\n"
+"`{0} edrequest\" <song> \"\" <anime> \"\" <yt url> \"` ‧ طلب إنهاء الاختبار\n"
+"`{0} ostrequest\" <song> \"\" <anime> \"\" <yt url> \"` ‧ طلب OST للاختبار"
 
 #: extensions/general.py:28
 msgid "`{0}opquiz [1-25]` ‧ Guess anime openings with specified amount of rounds\n"
 "`{0}edquiz [1-25]` ‧ Openings are too easy for you? This is next level!\n"
 "`{0}ostquiz [1-25]` ‧ Guess OST's from animes! Only for pros.\n"
 "`{0}stop` ‧ Stop running quiz or playback"
-msgstr ""
+msgstr "`{0} opquiz [1-25]` ‧ تخمين فتحات أنيمي مع كمية محددة من جولات\n"
+"`{0} edquiz [1-25]` ings الفتحات سهلة للغاية بالنسبة لك؟ هذا هو المستوى التالي!\n"
+"`{0} ostquiz [1-25]` ‧ تخمين OST من الرسوم الكرتونية! فقط للايجابيات.\n"
+"`{0} stop` ‧ توقف عن تشغيل الاختبار أو التشغيل"
 
 #: extensions/general.py:53
 msgid "**\\🔧 Utility**"
-msgstr ""
+msgstr "** \\ 🔧 المساعدة **"
 
 #: extensions/general.py:54
 msgid "`{0}search <query>` ‧ Search for songs in database\n"

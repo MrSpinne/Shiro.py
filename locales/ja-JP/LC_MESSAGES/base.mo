@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Japanese\n"
-"PO-Revision-Date: 2019-08-26 04:48\n"
+"PO-Revision-Date: 2019-08-26 08:30\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -154,11 +154,11 @@ msgstr ""
 
 #: extensions/songs.py:225
 msgid "**\\🎵 Stop quiz**"
-msgstr ""
+msgstr "**\\🎵 クイズをストップ**"
 
 #: shiro.py:242
 msgid "\\❌ **Error on command**"
-msgstr ""
+msgstr "\\❌ **コマンドエラー**"
 
 #: shiro.py:247
 msgid "The command `{0}` is missing the `{1}`."

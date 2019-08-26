@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 11:06\n"
+"PO-Revision-Date: 2019-08-26 11:27\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -36,11 +36,15 @@ msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
 "`{0}language <{1}>` ‧ Change bot language\n"
 "`{0}config` ‧ Display current configuration"
-msgstr ""
+msgstr "`{0}prefix <1-10 symbols>` ‧ تغيير بادئة الخادم\n"
+"`{0}deletion <on/off>` ‧ تمكين أو تعطيل حذف رسالة الأوامر\n"
+"`{0}channel <none/channel>` ‧ قم بتعيين القناة التي يُسمح فيها بالأوامر فقط\n"
+"`{0}language <{1}>` ‧ تغيير لغة البوت\n"
+"`{0}config` ‧ عرض الاعدادات الحالي"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr ""
+msgstr "** \\ 📄 معلومات عن شيرو **"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"

@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Japanese\n"
-"PO-Revision-Date: 2019-08-26 04:25\n"
+"PO-Revision-Date: 2019-08-26 04:35\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -20,15 +20,15 @@ msgstr "総説"
 
 #: extensions/general.py:25
 msgid "Here're all commands for **{0}**:"
-msgstr ""
+msgstr "ここでのすべてのコマンド**{0}**."
 
 #: extensions/general.py:27
 msgid "**\\🎵 Songs**"
-msgstr ""
+msgstr "**\\🎵歌**"
 
 #: extensions/general.py:40
 msgid "**\\⚙️ Settings**"
-msgstr ""
+msgstr "**\\⚙️settings**"
 
 #: extensions/general.py:41
 msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
@@ -36,11 +36,15 @@ msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
 "`{0}language <{1}>` ‧ Change bot language\n"
 "`{0}config` ‧ Display current configuration"
-msgstr ""
+msgstr "`{0}prefix <1-10 symbols>` ‧ サーバーのプレフィックスを変更する\n"
+"`{0}deletion <on/off>` ‧ コマンドメッセージの削除を有効または無効にする\n"
+"`{0}channel <none/channel>` ‧ コマンドのみが許可されるチャネルを設定します\n"
+"`{0}language <{1}>` ‧ ボットの言語を変更する\n"
+"`{0}config` ‧ 現在の構成を表示する"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr ""
+msgstr "** \\📄シロについて**"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"

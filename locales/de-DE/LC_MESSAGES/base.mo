@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: German\n"
-"PO-Revision-Date: 2019-08-24 22:35\n"
+"PO-Revision-Date: 2019-08-26 16:23\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -198,7 +198,7 @@ msgstr "Um den Befehl `{0}` zu nutzen musst du in einem Voicechannel sein (nicht
 
 #: shiro.py:286
 msgid "This command is only available for voters. Please [vote for free]({0}) to support this bot!"
-msgstr "Dieser Befehl kann nur von Votern genutzt werden. Bitte [vote kostenlos]({0}) um den Bot zu unterstützen."
+msgstr "Dieser Befehl kann nur von Votern genutzt werden. Bitte [vote kostenlos]({0}) um den Bot zu unterstützen!"
 
 #: shiro.py:296
 msgid "On this server commands can only be executed in channel {0}."
@@ -242,7 +242,7 @@ msgid "`{0}opquiz [1-25]` ‧ Guess anime openings with specified amount of roun
 msgstr "`{0}opquiz [1-25]` ‧ Errate Anime Openings mit spezifischer Anzahl von Runden\n"
 "`{0}edquiz [1-25]` ‧ Openings sind zu leicht für dich? Das ist das nächste Level für dich!\n"
 "`{0}ostquiz [1-25]` ‧ Errate OST's von Anime! Nur für Profis.\n"
-"`{0}stop` ‧ Stoppt laufendes Quiz oder Playback."
+"`{0}stop` ‧ Stoppt laufendes Quiz oder Playback"
 
 #: extensions/general.py:53
 msgid "**\\🔧 Utility**"
@@ -386,7 +386,7 @@ msgstr "Nur der Nutzer der das Playback gestartet hat oder ein Admin kann es sto
 
 #: shiro.py:304
 msgid "You messed up quotation on `{0}`. If you use `\"`, you have to close it. If you want to use it as an input, escape it with `\\`."
-msgstr "Du hast ein Anführungszeichen bei `{0}` falsch gesetzt. Wenn du `\"` nutzt, dann musst du es auch schließen. Wenn du es als Eingabe nutzen willst, benutze `\\\"`."
+msgstr "Du hast ein Anführungszeichen bei `{0}` falsch gesetzt. Wenn du `\"` nutzt, dann musst du es auch schließen. Wenn du es als Eingabe nutzen willst, benutze `\"`."
 
 #: shiro.py:307
 msgid "You messed up quotation on `{0}`. You have to separate the quoted arguments with spaces."

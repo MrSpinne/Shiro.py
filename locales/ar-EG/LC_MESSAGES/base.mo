@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 12:07\n"
+"PO-Revision-Date: 2019-08-26 12:18\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -120,52 +120,53 @@ msgstr "`تم الايقاف`"
 
 #: extensions/songs.py:124 extensions/songs.py:153
 msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"
-msgstr ""
+msgstr "** \\ 🎵 {0} مسابقة ‧ الجولة {1} / {2} **"
 
 #: extensions/songs.py:145
 msgid "Nobody"
-msgstr ""
+msgstr "لا أحد"
 
 #: extensions/songs.py:155
 msgid "{0} has won the round!\n"
 "Song: [{1} ‧ {2}]({3})"
-msgstr ""
+msgstr "{0} فاز بالجولة!\n"
+"الأغنية: [{1} ‧ {2}]({3})"
 
 #: extensions/songs.py:169
 msgid "**\\🎵 {0} quiz ‧ Starting**"
-msgstr ""
+msgstr "** \\ 🎵 {0} مسابقة ‧ تبدأ **"
 
 #: extensions/songs.py:183
 msgid "**\\🎵 {0} quiz ‧ End**"
-msgstr ""
+msgstr "** \\ 🎵 {0} مسابقة ‧ انتهت**"
 
 #: extensions/songs.py:186
 msgid "Nobody won the song quiz! There were {0} round(s)."
-msgstr ""
+msgstr "لا أحد فاز في مسابقة الأغنية! كان هناك {0} جولة."
 
 #: extensions/songs.py:188
 msgid "{0} has guessed {1}/{2} songs correctly and won!"
-msgstr ""
+msgstr "{0} خمن {1} / {2} أغاني بشكل صحيح وفاز!"
 
 #: extensions/songs.py:191
 msgid "{0} have scored a draw with {1}/{2} songs correctly guessed each."
-msgstr ""
+msgstr "سجل {0} تعادلًا مع {1} / {2} من الأغاني التي خمن كل منها بشكل صحيح."
 
 #: extensions/songs.py:225
 msgid "**\\🎵 Stop quiz**"
-msgstr ""
+msgstr "** \\ 🎵 اقاف المسابقة **"
 
 #: shiro.py:242
 msgid "\\❌ **Error on command**"
-msgstr ""
+msgstr "\\ ❌ ** خطأ في الأمر **"
 
 #: shiro.py:247
 msgid "The command `{0}` is missing the `{1}`."
-msgstr ""
+msgstr "الأمر `{0}` يفتقد `{1}`."
 
 #: shiro.py:250
 msgid "The number `{0}` isn't allowed, it has to be in range {1}-{2}."
-msgstr ""
+msgstr "الرقم `{0}` غير مسموح به ، يجب أن يكون في النطاق {1} - {2}."
 
 #: shiro.py:256
 msgid "The prefix `{0}` isn't allowed, it has to be 1-10 characters long and can only consist out of numbers and letters."

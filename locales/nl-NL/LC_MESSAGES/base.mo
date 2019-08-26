@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Dutch\n"
-"PO-Revision-Date: 2019-08-26 15:06\n"
+"PO-Revision-Date: 2019-08-26 16:07\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -182,7 +182,7 @@ msgstr "De taal `{0}` is geen beschikbare taal. Beschikbare talen: {1}"
 
 #: shiro.py:264
 msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
-msgstr "De URL `{0}` is geen echte YouTube URL of het is geo"
+msgstr "De URL `{0}` is geen echte YouTube URL of het is geo."
 
 #: shiro.py:271
 msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
@@ -386,7 +386,7 @@ msgstr "Alleen de gebruiker, of een admin, wie het afspelen heeft gestart kan he
 
 #: shiro.py:304
 msgid "You messed up quotation on `{0}`. If you use `\"`, you have to close it. If you want to use it as an input, escape it with `\\`."
-msgstr "Je hebt geen fout gemaakt met `{0}`.Als je `\"` gebruikt, moet je het ook weer afsluiten. Als je het als input wil gebruiken, voeg `\\` er aan toe."
+msgstr "Je hebt geen fout gemaakt met `{0}`. Als je `\"` gebruikt, moet je het ook weer afsluiten. Als je het als input wil gebruiken, voeg `\\` er aan toe."
 
 #: shiro.py:307
 msgid "You messed up quotation on `{0}`. You have to separate the quoted arguments with spaces."

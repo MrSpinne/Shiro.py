@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 11:27\n"
+"PO-Revision-Date: 2019-08-26 11:56\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -44,16 +44,17 @@ msgstr "`{0}prefix <1-10 symbols>` ‧ تغيير بادئة الخادم\n"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr "** \\ 📄 معلومات عن شيرو **"
+msgstr "** \\ 📄 معلومات عن Shiro**"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"
 "[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
-msgstr ""
+msgstr "صنع Shiro بواسطة ** {0} ** عن طريق Python. إذا كان لديك أي أسئلة ، فلا تتردد في الاتصال.\n\n"
+"[الدعم والتعليقات]({1}) ‧ [مساعدة الترجمة]({1}) ‧ [التصويت]({2}) ‧ [كل الأغاني]({3})"
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
-msgstr ""
+msgstr "**\\⚙️ رمز**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."

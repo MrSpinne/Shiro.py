@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Arabic, Egypt\n"
-"PO-Revision-Date: 2019-08-26 12:47\n"
+"PO-Revision-Date: 2019-08-26 13:09\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -254,11 +254,15 @@ msgid "`{0}search <query>` ‧ Search for songs in database\n"
 "`{0}editreference <song id> <reference>` ‧ Edit reference of song\n"
 "`{0}editurl <song id> <url>` ‧ Edit url of song\n"
 "`{0}editcategory <song id> <category` ‧ Edit category of song"
-msgstr ""
+msgstr "`{0} search <query>` ‧ ابحث عن الأغاني في قاعدة البيانات\n"
+"`{0} edittitle <song id> <title>` ‧ تحرير عنوان الأغنية\n"
+"`{0} editreference <معرف الأغنية> <مرجع>` ‧ تحرير مرجع للأغنية\n"
+"`{0} editurl <song id> <url>` ‧ تحرير عنوان url للأغنية\n"
+"`{0} editcategory <معرف الأغنية> <category` ‧ تحرير فئة الأغنية"
 
 #: extensions/general.py:81
 msgid "**\\📄 Statistics**"
-msgstr ""
+msgstr "** \\ 📄 الاحصائيات **"
 
 #: extensions/general.py:82
 msgid "Guilds ‧ {0}\n"
@@ -267,116 +271,122 @@ msgid "Guilds ‧ {0}\n"
 "Votes (on dbl) ‧ {3}\n"
 "Ping ‧ {4}ms\n"
 "Songs ‧ {5}"
-msgstr ""
+msgstr "السيرفرات‧ {0}\n"
+"المستخدمين ‧ {1}\n"
+"مشغلات الصوت ‧ {2}\n"
+"الأصوات (علي dbl). {}\n"
+"سرعة الاتصال. {}ms\n"
+"أغاني ‧ {5}"
 
 #: extensions/songs.py:170
 msgid "Get ready, the quiz will start in {0} seconds!\n"
 "{1}"
-msgstr ""
+msgstr "استعد ، سيبدأ الاختبار في {0} ثانية!\n"
+"{1}"
 
 #: extensions/songs.py:227
 msgid "Playback will now end after the first song is played."
-msgstr ""
+msgstr "سينتهي التشغيل الآن بعد تشغيل الأغنية الأولى."
 
 #: extensions/songs.py:229
 msgid "Playback already ends after this song. It will be stopped then."
-msgstr ""
+msgstr "انتهى التشغيل بالفعل بعد هذه الأغنية. سيتم إيقافها بعد ذلك."
 
 #: extensions/songs.py:231
 msgid "Reducing songs from {0} to {1}. Playback will end after current round."
-msgstr ""
+msgstr "تقليل الأغاني من {0} إلى {1}. سوف ينتهي التشغيل بعد الجولة الحالية."
 
 #: extensions/songs.py:243
 msgid "\\❌ **Bot kicked from voice**"
-msgstr ""
+msgstr "\\ ❌ ** ركل بوت من صوت **"
 
 #: extensions/songs.py:244
 msgid "The bot was kicked from voice channel. Current playback will be stopped."
-msgstr ""
+msgstr "تم ركلة الروبوت من القناة الصوتية. سيتم إيقاف التشغيل الحالي."
 
 #: extensions/utility.py:21
 msgid "**\\🔧 Song search**"
-msgstr ""
+msgstr "** \\ 🔧 البحث عن أغنية **"
 
 #: extensions/utility.py:22
 msgid "Top results for `{0}`"
-msgstr ""
+msgstr "أهم النتائج لـ `{0}`"
 
 #: extensions/utility.py:60
 msgid "**\\🔧 {0} changed**"
-msgstr ""
+msgstr "تم تغيير ** \\ 🔧 {0} **"
 
 #: extensions/utility.py:61
 msgid "You've updated the song with the id `{0}`."
-msgstr ""
+msgstr "لقد قمت بتحديث الأغنية `{0}`."
 
 #: extensions/utility.py:62
 msgid "{0} ‧ {1} (Before)"
-msgstr ""
+msgstr "{0} ‧ {1} (قبل)"
 
 #: extensions/utility.py:64
 msgid "{0} ‧ {1} (After)"
-msgstr ""
+msgstr "{0} ‧ {1} (بعد)"
 
 #: extensions/utility.py:72 extensions/utility.py:93
 msgid "**\\🔧 Bot update**"
-msgstr ""
+msgstr "** \\ 🔧 تحديث بوت **"
 
 #: extensions/utility.py:73
 msgid "Bot will stop in 5 minutes, {0} players will be shut down."
-msgstr ""
+msgstr "سيتوقف البوت في 5 دقائق ، وسيتم إيقاف {0}."
 
 #: extensions/utility.py:77
 msgid "\\❌ **Bot update**"
-msgstr ""
+msgstr "\\ ❌ ** تحديث بوت **"
 
 #: extensions/utility.py:78
 msgid "We have detected that you're currently running playback. We're sorry, butwe have to stop it after this song because we're rolling out a new update. This will occur in 5 minutes, please be patient."
-msgstr ""
+msgstr "لقد اكتشفنا أنك تستعمل البوت الأن. نأسف ، لكن يتعين علينا إيقافها بعد هذه الأغنية لأننا نطرح تحديثًا جديدًا. سيحدث هذا في 5 دقائق ، يرجى التحلي بالصبر."
 
 #: extensions/utility.py:94
 msgid "Bot will now be shut down. {0}"
-msgstr ""
+msgstr "سيتم الآن إغلاق البوت. {0}"
 
 #: shiro.py:253
 msgid "The argument `{0}` is too long. Maximum allowed characters are {1}."
-msgstr ""
+msgstr "الوسيطة `{0}` طويلة جدًا. الحد الأقصى المسموح به من الأحرف هو {1}."
 
 #: shiro.py:266
 msgid "The song id `{0}` isn't valid!"
-msgstr ""
+msgstr "معرف الأغنية `{0}` غير صالح!"
 
 #: shiro.py:268
 msgid "`{0}` isn't a valid song category."
-msgstr ""
+msgstr "`{0}` ليس فئة أغنية صالحة."
 
 #: shiro.py:276
 msgid "The command `{0}` wasn't found. To get a list of commands use `{1}`."
-msgstr ""
+msgstr "لم يتم العثور على الأمر _`{0}`_. للحصول على قائمة بالأوامر ، استخدم _`{1}`_."
 
 #: shiro.py:279
 msgid "The command `{0}` can only be executed by team members on this server."
-msgstr ""
+msgstr "لا يمكن تنفيذ الأمر `{0}` إلا من قبل أعضاء الفريق على هذا السيرفر."
 
 #: shiro.py:282
 msgid "The command `{0}` can only be executed by {1} on this server."
-msgstr ""
+msgstr "لا يمكن تنفيذ الأمر _`{0}`_ إلا من خلال {1} على هذا السيرفر."
 
 #: shiro.py:284
 msgid "The command `{0}` can only be executed by server admins."
-msgstr ""
+msgstr "لا يمكن تنفيذ الأمر _`{0}`_ إلا عن طريق مسؤولي السيرفر."
 
 #: shiro.py:292
 msgid "There's no playback to stop."
-msgstr ""
+msgstr "ليس هناك شئ يعمل لكي اوقفة."
 
 #: shiro.py:294
 msgid "Only the user who started the playback or an admin can stop it."
-msgstr ""
+msgstr "يمكن فقط للمستخدم الذي بدأ التشغيل أو المسؤول إيقافه."
 
 #: shiro.py:304
 msgid "You messed up quotation on `{0}`. If you use `\"`, you have to close it. If you want to use it as an input, escape it with `\\`."
-msgstr ""
+msgstr "لقد أفسدت عرض أسعار في _`{0}`_. إذا كنت تستخدم `\"` ، فيجب عليك إغلاقه. إذا كنت ترغب في استخدامه كمدخل ، فهرب منه باستخدام `\\`."
 
 #: shiro.py:307
 msgid "You messed up quotation on `{0}`. You have to separate the quoted arguments with spaces."

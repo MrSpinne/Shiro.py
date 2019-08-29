@@ -1,7 +1,3 @@
-#
-#   SHIRO / Copyright MrSpinne / All rights reserved
-#
-
 import discord
 from discord.ext import commands, tasks
 from library import exceptions, checks, statposter, tests
@@ -23,7 +19,7 @@ import configparser
 import signal
 
 
-class Shiro(commands.Bot):
+class Shiro(commands.AutoShardedBot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
@@ -31,6 +27,7 @@ class Shiro(commands.Bot):
         self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
         self.parse_config()
+        print(self.shards, self.shard_count, self.shard_ids, self.shard_id)
 
     def parse_config(self):
         """Parse credentials from envs to file"""

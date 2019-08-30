@@ -10,8 +10,8 @@ Find more on our `landing page`_.
 
 .. _`landing page`: https://shiro.pro
 
-Guide
-^^^^^
+General
+^^^^^^^
 
 .. toctree::
    :maxdepth: 2

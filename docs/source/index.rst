@@ -1,14 +1,22 @@
-.. Shiro.py documentation master file, created by
-   sphinx-quickstart on Thu Aug 29 19:27:39 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to Shiro.py's documentation!
+Documentation of Shiro.py
 ====================================
+
+
+Welcome to Shiro.py documentation!
+Shiro is a fun related anime Discord bot to enhance servers. 
+Guess anime openings with your friends and feel the vibe!
+
+Find more on our `landing page`_.
+
+.. _`landing page`: https://shiro.pro
+
+Guide
+^^^^^
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   
+   license
 
 
 

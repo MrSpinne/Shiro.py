@@ -1,4 +1,4 @@
-<img align="right" src="https://shiro.pro/images/apple-touch-icon.png" alt="Shiro Avatar" height="280" width="280">
+<img align="right" src="https://shiro.pro/images/apple-touch-icon.png" alt="Shiro Avatar" height="220" width="220">
 
 # Shiro.py - Work in progress
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Grade)

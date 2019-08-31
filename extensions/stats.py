@@ -135,7 +135,7 @@ class Stats(commands.Cog):
             }
             self.dbl = dbl.Client(**credentials)
 
-    async def on_dbl_test(self, data):
+    async def on_dbl_vote(self, data):
         """Track votes from DiscordBots.org and save it to database.
 
         This is automatically called by the event handler.
@@ -146,6 +146,8 @@ class Stats(commands.Cog):
             Data with vote info.
 
         """
+        # TODO: Register user to database
+        pass
 
     @tasks.loop(minutes=30.0)
     async def post_bot_lists(self):

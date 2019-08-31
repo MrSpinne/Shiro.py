@@ -10,11 +10,11 @@ Main
 Extensions
 ##########
 
-.. automodule:: extensions/
+.. automodule:: extensions
    :members:
 
 Library
 #######
 
-.. automodule:: library/
+.. automodule:: library
    :members:

@@ -1,14 +1,17 @@
 Source
 ======
 
-Main
-####
+Shiro
+#####
 
 .. automodule:: shiro
    :members:
 
 Extensions
 ##########
+
+Stats
+*****
 
 .. automodule:: extensions
    :members:

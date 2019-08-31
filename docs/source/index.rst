@@ -13,7 +13,7 @@ Find more on our `landing page`_.
 General
 ^^^^^^^
 
-.. automodule:: shiro
+.. automodule:: shiro, extensions/, library/
    :members:
 
 .. toctree::

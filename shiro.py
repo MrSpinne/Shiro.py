@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from library import exceptions, checks, statposter, tests
+from library import exceptions, checks, statposter
 
 import psycopg2.extras
 import psycopg2.sql
@@ -57,10 +57,6 @@ class Shiro(commands.AutoShardedBot):
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
-
-        if self.config["tests"]["text_channel"] != "":
-            await tests.Tester(self).run()
-            self.shutdown()
 
     def connect_optionals(self):
         """Prepare start"""

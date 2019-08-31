@@ -2,21 +2,10 @@ import aiohttp
 import json
 
 
-class StatPoster:
+class StatsPoster:
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=self.bot.loop, raise_for_status=True)
-
-    async def discordbots(self, token):
-        data = json.dumps({
-            "server_count": len(self.bot.guilds)
-        })
-        headers = {
-            "authorization": token,
-            "content-type": "application/json"
-        }
-        url = f"https://discordbots.org/api/bots/{self.bot.user.id}/stats"
-        await self._post(url, data, headers)
 
     async def divinediscordbots(self, token):
         data = json.dumps({
@@ -92,11 +81,26 @@ class StatPoster:
         except Exception as e:
             raise Exception(e)
 
-    async def post_all(self, tokens):
-        await self.discordbots(tokens["discordbots"])
-        await self.divinediscordbots(tokens["divinediscordbots"])
-        await self.discordbotreviews(tokens["discordbotreviews"])
-        await self.mythicalbots(tokens["mythicalbots"])
-        await self.discordbotlist(tokens["discordbotlist"])
-        await self.discordboats(tokens["discordboats"])
-        await self.botsondiscord(tokens["botsondiscord"])
+    async def post_all(self, **kwargs):
+        """Post the stats to the bot lists which have been configured.
+
+        Parameters
+        ----------
+        divinediscordbots: :obj:`str`
+            Api key for
+
+        """
+        for bot_list, api_key in kwargs:
+            if api_key:
+                if bot_list == "divinediscordbots":
+                    await self.divinediscordbots(api_key)
+                elif bot_list == "discordbotreviews":
+                    await self.discordbotreviews(api_key)
+                elif bot_list == "mythicalbots":
+                    await self.mythicalbots(api_key)
+                elif bot_list == "discordbotlist":
+                    await self.discordbotlist(api_key)
+                elif bot_list == "discordboats":
+                    await self.discordboats(api_key)
+                elif bot_list == "botsondiscord":
+                    await self.botsondiscord(api_key)

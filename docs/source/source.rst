@@ -61,8 +61,8 @@ Exceptions
 .. automodule:: library.exceptions
    :members:
 
-Statposter
-**********
+Statsposter
+***********
 
-.. automodule:: library.statposter
+.. automodule:: library.statsposter
    :members:

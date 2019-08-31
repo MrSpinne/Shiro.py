@@ -20,6 +20,8 @@ from discord.ext import commands, tasks
 from datadog import initialize, statsd
 import dbl
 
+from library import statsposter
+
 
 class Stats(commands.Cog):
     """Post bot stats to Datadog and Discord bot lists.
@@ -37,6 +39,9 @@ class Stats(commands.Cog):
         Datadog api key to post events to.
     dd_app_key: :obj:`str`
         Datadog app key to post events to.
+    statsposter: :obj:`statsposter.StatsPoster`
+        Used to post bot stats to the bot lists.
+        DiscordBots excluded.
     dbl: :obj:`dbl.Client`
         DiscordBots client. This is `None` if no configuration found.
     dbl_api_key: :obj:`str`
@@ -67,6 +72,8 @@ class Stats(commands.Cog):
         self.dd_api_key = self.bot.get_config("datadog", "api_key")
         self.dd_app_key = self.bot.get_config("datadog", "app_key")
 
+        self.statsposter = statsposter.StatsPoster(self.bot)
+
         self.dbl = None
         self.dbl_api_key = self.bot.get_config("discordbots", "api_key")
         self.dbl_webhook_auth = self.bot.get_config("discordbots", "webhook_auth")
@@ -82,6 +89,7 @@ class Stats(commands.Cog):
 
         self.init_datadog()
         self.init_discordbots()
+        self.post_bot_lists.start()
 
     def init_datadog(self):
         """Initialize connection to Datadog to post metrics to and add event listener.
@@ -117,12 +125,14 @@ class Stats(commands.Cog):
 
         """
         if self.dbl_api_key:
-            credentials = {"token": self.dbl_api_key,
-                           "bot": self.bot,
-                           "autopost": True,
-                           "webhook_auth": self.dbl_webhook_auth,
-                           "webhook_path": self.dbl_webhook_path,
-                           "webhook_port": self.dbl_webhook_port}
+            credentials = {
+                "token": self.dbl_api_key,
+                "bot": self.bot,
+                "autopost": True,
+                "webhook_auth": self.dbl_webhook_auth,
+                "webhook_path": self.dbl_webhook_path,
+                "webhook_port": self.dbl_webhook_port
+            }
             self.dbl = dbl.Client(**credentials)
 
     async def on_dbl_test(self, data):
@@ -142,8 +152,19 @@ class Stats(commands.Cog):
     async def post_bot_lists(self):
         """Post bot stats to the bot lists which have been configured.
 
+        Currently available lists can be looked up from the config or the class attributes.
+
         """
-        pass
+        credentials = {
+            "divinediscordbots": self.bl_divinediscordbots,
+            "discordbotreviews": self.bl_discordbotreviews,
+            "mythicalbots": self.bl_mythicalbots,
+            "discordbotlist": self.bl_discordbotlist,
+            "discordboats": self.bl_discordboats,
+            "botsondiscord": self.bl_botsondiscord
+        }
+        await self.statsposter.post_all(**credentials)
+
 
 def setup(bot):
     """Load the cog into the bot instance.

@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from library import exceptions, checks, statposter
+from library import exceptions, checks, statsposter
 
 import psycopg2.extras
 import psycopg2.sql
@@ -65,7 +65,7 @@ class Shiro(commands.AutoShardedBot):
             self.update_songs_list.start()
 
         if self.config["botlist"].get("discordbots"):
-            self.statposter = statposter.StatPoster(self)
+            self.statposter = statsposter.StatPoster(self)
             self.post_stats.start()
 
     def translate(self, string):
@@ -361,15 +361,6 @@ class Shiro(commands.AutoShardedBot):
         sheet.sheet1.resize(1)
         sheet.sheet1.resize(len(formatted) + 1)
         sheet.values_update("List!A2", params={"valueInputOption": "RAW"}, body={"values": formatted})
-
-    @tasks.loop(minutes=15)
-    async def post_stats(self):
-        """Update status every 30 minutes"""
-        try:
-            await self.statposter.post_all(**self.config["botlist"])
-        except Exception as e:
-            self.sentry.capture_exception(e)
-            # TODO: Specify exception
 
 
 if __name__ == "__main__":

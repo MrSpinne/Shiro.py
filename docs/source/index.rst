@@ -19,13 +19,11 @@ General
 
 .. toctree::
    :maxdepth: 2
-   
-   license
 
 
 Indices and tables
 ==================
 
+* :ref:`license`
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`

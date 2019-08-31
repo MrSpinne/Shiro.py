@@ -25,12 +25,12 @@ class Stats(commands.Cog):
 
     Parameters
     ----------
-    bot: :obj:`commands.AutoShardedBot`
+    bot: :obj:`discord.ext.commands.AutoShardedBot`
         Bot instance the cog was loaded into.
 
     Attributes
     ----------
-    bot: :obj:`commands.AutoShardedBot`
+    bot: :obj:`discord.ext.commands.AutoShardedBot`
         Bot instance the cog was loaded into.
     dd_api_key: :obj:`str`
         Datadog api key to post stats to.
@@ -52,10 +52,6 @@ class Stats(commands.Cog):
         If no credentials are provided, Datadog won't be enabled.
 
         The `on_socket_response` event is called on any event.
-
-        Returns
-        -------
-        None
 
         """
         if self.dd_api_key != "" and self.dd_app_key != "":

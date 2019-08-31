@@ -10,11 +10,11 @@ Find more on our `landing page`_.
 
 .. _`landing page`: https://shiro.pro
 
-General
-^^^^^^^
+Table of Contents
+^^^^^^^^^^^^^^^^^
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    source
    license

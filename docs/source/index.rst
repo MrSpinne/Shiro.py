@@ -1,5 +1,5 @@
 Documentation of Shiro.py
-====================================
+=========================
 
 
 Welcome to Shiro.py documentation!
@@ -17,7 +17,6 @@ General
    :maxdepth: 2
    
    license
-
 
 
 Indices and tables

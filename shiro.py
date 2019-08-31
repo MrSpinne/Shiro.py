@@ -27,7 +27,6 @@ class Shiro(commands.AutoShardedBot):
         self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
         self.parse_config()
-        print(self.shards, self.shard_count, self.shard_ids, self.shard_id)
 
     def parse_config(self):
         """Parse credentials from envs to file"""

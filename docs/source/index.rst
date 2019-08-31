@@ -13,6 +13,10 @@ Find more on our `landing page`_.
 General
 ^^^^^^^
 
+.. automodule:: shiro
+   :members:
+
+
 .. toctree::
    :maxdepth: 2
    

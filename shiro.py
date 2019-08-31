@@ -26,7 +26,6 @@ class Shiro(commands.AutoShardedBot):
         signal.signal(signal.SIGTERM, self.shutdown)
         self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
-        self.parse_config()
 
     def get_config(self, option, key):
         """Get config value"""
@@ -36,7 +35,7 @@ class Shiro(commands.AutoShardedBot):
         else:
             config = configparser.ConfigParser()
             config.read("data/config.ini")
-            return config.get(option.lower(), key)
+            return config.get(option.capitalize(), key)
 
     async def on_ready(self):
         """Get ready and start"""
@@ -376,4 +375,4 @@ class Shiro(commands.AutoShardedBot):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     shiro = Shiro()
-    shiro.run(shiro.config["discord"]["token"])
+    shiro.run(shiro.get_config("discord", "token"))

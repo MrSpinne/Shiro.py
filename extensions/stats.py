@@ -16,8 +16,9 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from discord.ext import commands
+from discord.ext import commands, tasks
 from datadog import initialize, statsd
+import dbl
 
 
 class Stats(commands.Cog):
@@ -36,9 +37,16 @@ class Stats(commands.Cog):
         Datadog api key to post events to.
     dd_app_key: :obj:`str`
         Datadog app key to post events to.
-    bl_discordbots: :obj:`str`
+    dbl: :obj:`dbl.Client`
+        DiscordBots client. This is `None` if no configuration found.
+    dbl_api_key: :obj:`str`
         Api key for discordbots.org to post stats to.
-        Also used to enabled vote locking.
+    dbl_webhook_auth: :obj:`str`
+        Webhook authorization for discordbots.org.
+    dbl_webhook_path: :obj:`str`
+        Path of the webhook to use for discordbots.org.
+    dbl_webhook_port: :obj:`str`
+        Port to use the webhook for discordbots.org on.
     bl_divinediscordbots: :obj:`str`
         Api key for divinediscordbots.com to post stats to.
     bl_discordbotreviews: :obj:`str`
@@ -58,7 +66,13 @@ class Stats(commands.Cog):
         self.bot = bot
         self.dd_api_key = self.bot.get_config("datadog", "api_key")
         self.dd_app_key = self.bot.get_config("datadog", "app_key")
-        self.bl_discordbots = self.bot.get_config("botlists", "discordbots")
+
+        self.dbl = None
+        self.dbl_api_key = self.bot.get_config("discordbots", "api_key")
+        self.dbl_webhook_auth = self.bot.get_config("discordbots", "webhook_auth")
+        self.dbl_webhook_path = self.bot.get_config("discordbots", "webhook_path")
+        self.dbl_webhook_port = self.bot.get_config("discordbots", "webhook_port")
+
         self.bl_divinediscordbots = self.bot.get_config("botlists", "divinediscordbots")
         self.bl_discordbotreviews = self.bot.get_config("botlists", "discordbotreviews")
         self.bl_mythicalbots = self.bot.get_config("botlists", "mythicalbots")
@@ -67,7 +81,7 @@ class Stats(commands.Cog):
         self.bl_botsondiscord = self.bot.get_config("botlists", "botsondiscord")
 
         self.init_datadog()
-        self.init_bot_lists()
+        self.init_discordbots()
 
     def init_datadog(self):
         """Initialize connection to Datadog to post metrics to and add event listener.
@@ -78,7 +92,7 @@ class Stats(commands.Cog):
         The `on_socket_response` event is called on any event.
 
         """
-        if self.dd_api_key != "" and self.dd_app_key != "":
+        if self.dd_api_key and self.dd_app_key:
             initialize(self.dd_api_key, self.dd_app_key)
             self.bot.add_listener(self.track_events, "on_socket_response")
 
@@ -95,11 +109,38 @@ class Stats(commands.Cog):
         event = payload.get("t")
         statsd.increment(event)
 
-    def init_bot_lists(self):
-        """Initialize stats posting to the bot lists. This will also setup vote recognition.
+    def init_discordbots(self):
+        """Initialize stats posting to the bot lists and vote recognition.
 
-        Only bot lists with credentials will be initialized.
-        If DiscordBot credentials are not set then vote locking will be disabled.
+        This also registers a webhook to track votes.
+        If DiscordBot credentials are not set, then it will be disabled.
+
+        """
+        if self.dbl_api_key:
+            credentials = {"token": self.dbl_api_key,
+                           "bot": self.bot,
+                           "autopost": True,
+                           "webhook_auth": self.dbl_webhook_auth,
+                           "webhook_path": self.dbl_webhook_path,
+                           "webhook_port": self.dbl_webhook_port}
+            self.dbl = dbl.Client(**credentials)
+
+    async def on_dbl_test(self, data):
+        """Track votes from DiscordBots.org and save it to database.
+
+        This is automatically called by the event handler.
+
+        Parameters
+        ----------
+        data: :obj:`dict`
+            Data with vote info.
+
+        """
+        # TODO: Register vote to db
+
+    @tasks.loop(minutes=30.0)
+    async def post_bot_lists(self):
+        """Post bot stats to the bot lists which have been configured.
 
         """
 
@@ -110,7 +151,7 @@ def setup(bot):
 
     Parameters
     ----------
-    bot: :class:`commands.AutoShardedBot`
+    bot: :class:`discord.ext.commands.AutoShardedBot`
 
     """
     bot.add_cog(Stats(bot))

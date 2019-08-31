@@ -143,8 +143,7 @@ class Stats(commands.Cog):
         """Post bot stats to the bot lists which have been configured.
 
         """
-
-
+        pass
 
 def setup(bot):
     """Load the cog into the bot instance.

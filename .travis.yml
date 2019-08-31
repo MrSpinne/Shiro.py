@@ -1,19 +1,7 @@
 jobs:
   include:
-    - stage: update translations
-      language: python
-      python: "3.7"
-      env:
-        - PROJECT_IDENTIFIER=shiro-py
-        - secure: j2bKc+N9jWnlfCOJZ8G2xHeyGQb40St2bgfa/qhwyhiICR2WvKikRRIuerCSnj1rghzaZoEad5WExW8ItMPPbZ99QRPFWoXpYQIvAfcDiBHwt+24fY2tbfvrgi2dkaHPB6rHM2W+4QoxnD1lkOLXH8ab7swcVhidIP9pRWJMctMcds7VrNY3I59UZb52XpTUmaz5P/tpRR06QIdzsKbkBrAnRtxqVqOR9/M5odhxwcJq083ZUa7hMvTHSQvcUK0cynTrv4HHjClTLxfgF4xb5BFBNr14+X+M5+sHJBzK5iLrMn1+gn2YG+KHM5OhCH+tKMzl67cINMG7iBVnXDeqIXhyIHfrrMfJrFHSywvjgBHye72HsL5ngizs2S6US4IKwBocZozpyqmkccyvADqsuE3Ch8UwZkfaTPsdyskMSgnh8fOlz9XQUiopOIbHi1pH+2S9XY87wiBOGLI5rJsefZCuX9KgnYiMlXdiU4CKRcdagyN2AYWh+soeGdrrdWOZaGYkv7n6pGxVVVMYrDNAwoKvwvgviD1h1V5pP9/Dkm3XQOcetFWAHIarbgSZc+/o6V/ywVboVW077Bj5h1OVac/neTFOZ20s30jzgeVuFygnwriiYYhHPplSkQNaM0ZOZJStg94ZqSP4du4PgnB8GOSXp5OQFRPdvmbXFeXQ1js=
-      install:
-        - pip install polib
-        - echo "import polib\n\npo_file = polib.POFile()\npo_file.metadata = {\n'Project-Id-Version': '1.0',\n'Report-Msgid-Bugs-To': 'you@example.com',\n'POT-Creation-Date': '2007-10-18 14:00+0100',\n'PO-Revision-Date': '2007-10-18 14:00+0100',\n'Last-Translator': 'you <you@example.com>',\n'Language-Team': 'English <yourteam@example.com>',\n'MIME-Version': '1.0',\n'Content-Type': 'text/plain; charset=utf-8',\n'Content-Transfer-Encoding': '8bit',\n}\n\nfor entry in polib.pofile('template.pot'):\npo_entry = polib.POEntry(msgid=entry.msgid, msgstr=entry.msgid)\npo_file.append(po_entry)\n\npo_file.save('en-US.po')\n" > script.py
-      script:
-        - wget -O template.pot "https://api.crowdin.com/api/project/$PROJECT_IDEMTIFIER/export-file?key=$API_KEY&file=/master/locales/template.pot&language=en-US"
-        - python script.py
-        - curl -F "files[en-US.po]=@en-US.po" -F "language=en-US" -F "auto_approve_imported=1" https://api.crowdin.com/api/project/$PROJECT_IDENTIFIER/upload-translation?key=$API_KEY
     - stage: build docker image
+      if: branch = master or branch = unstable
       env:
         - DOCKER_USERNAME=mrspinne
         - secure: EpUfXKASylABRk5lFhaec5HFE6RikGgoXOf3TAUaNegS2G/cEEXLhfH3mDM1zGg2YyIG6Ut/6wKJ4v07XLGJQngNTSog5jZr7s27r4q+kb2y1sFMm3K50LcXpAFZw/aGh05WxMUlW3s5YvgCa0z09he3G2fps6AUxtzzS6HYbax97fcloqa6dA68J6/nEpCLE+yHvwzT7V75RCk6INOd66vOdotL2RE/s6sbWohV1mf0sZI2husr4WsfeN9i+BsUD+pmoswJw5pSKtLK3RgjHdHayfKzZvrZh8NSKeuvz+zxUwalXR9RLjfByyj9Y5y8vB9LATkyDMUcBQ6xUQh99sbYMohmSpgLl57ta9zydr6kA2vvsSIihw4aJE4rC505CFx7oRTq3BEaBqxJ4Uv/wUext5sNnlkt40a5vZuvRgygWJu9QT+iVZPf6nSHqV5GJociG22AG3UW8/GMqEACnap0AOzXJj3m6MB5Y9OL7kGK1WQf6w9xQoCKOQtphJgqj3LHJeSpCPOlfRaMPDxDp3GWpHR6bwI/d0Ca6qFIZjAZ263MoXV8m/S4v2T+1UE3BUM6hRG6EudMZ82FjFhLe7n7Mida2ds+iRQgzxoTM5UzB+d+Ji83mp+xjoAN2P4J3C/h1q/FZdwyf+AA1uTuklDlBn1gEOz7JB5VlVlfL7s=

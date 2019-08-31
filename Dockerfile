@@ -1,5 +1,5 @@
 FROM python:3.7
-MAINTAINER MrSpinne <spinningplays.gaming@gmail.com>
+MAINTAINER MrSpinne <contact@shiro.pro>
 
 COPY . .
 RUN pip install -r requirements.txt

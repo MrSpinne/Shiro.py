@@ -1,10 +1,6 @@
-#
-#   SHIRO / Copyright MrSpinne / All rights reserved
-#
-
 import discord
 from discord.ext import commands, tasks
-from library import exceptions, checks, statposter, tests
+from library import exceptions, checks, statsposter
 
 import psycopg2.extras
 import psycopg2.sql
@@ -23,48 +19,39 @@ import configparser
 import signal
 
 
-class Shiro(commands.Bot):
+class Shiro(commands.AutoShardedBot):
     def __init__(self):
         super().__init__(command_prefix=self.get_prefix, case_insensitive=True, help_command=None, guild_subscriptions=False)
         builtins.__dict__["_"] = self.translate
         signal.signal(signal.SIGTERM, self.shutdown)
         self.db_connector, self.db_cursor, self.app_info, self.gspread, self.config = None, None, None, None, {}
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
-        self.parse_config()
 
-    def parse_config(self):
-        """Parse credentials from envs to file"""
-        config = configparser.ConfigParser()
-        config.read("data/config.ini")
-        for section in config.sections():
-            self.config[section.lower()] = {}
-            for option in config.options(section):
-                value = config.get(section, option)
-                env = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
-                if env:
-                    self.config[section.lower()][option] = env
-                else:
-                    self.config[section.lower()][option] = value
+    def get_config(self, option, key):
+        """Get config value"""
+        env = "{0}_{1}".format(option.upper(), key.upper())
+        if os.environ.get(env):
+            return os.environ.get(env)
+        else:
+            config = configparser.ConfigParser()
+            config.read("data/config.ini")
+            return config.get(option.capitalize(), key)
 
     async def on_ready(self):
         """Get ready and start"""
-        self.connect_database()
-        self.connect_lavalink()
-        self.connect_optionals()
-
-        self.create_tables()
-        self.update_guilds()
-        self.load_all_extensions()
-        self.add_command_handlers()
+        #self.connect_database()
+        #self.connect_lavalink()
+        #self.connect_optionals()
+        self.load_extension("extensions.stats")
+        #self.create_tables()
+        #self.update_guilds()
+        #self.load_all_extensions()
+        #self.add_command_handlers()
         self.app_info = await self.application_info()
 
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")
         await self.change_presence(activity=activity)
         logging.info(f"Ready to serve {len(self.users)} users in {len(self.guilds)} guilds")
-
-        if self.config["tests"]["text_channel"] != "":
-            await tests.Tester(self).run()
-            self.shutdown()
 
     def connect_optionals(self):
         """Prepare start"""
@@ -78,7 +65,7 @@ class Shiro(commands.Bot):
             self.update_songs_list.start()
 
         if self.config["botlist"].get("discordbots"):
-            self.statposter = statposter.StatPoster(self)
+            self.statposter = statsposter.StatPoster(self)
             self.post_stats.start()
 
     def translate(self, string):
@@ -375,17 +362,8 @@ class Shiro(commands.Bot):
         sheet.sheet1.resize(len(formatted) + 1)
         sheet.values_update("List!A2", params={"valueInputOption": "RAW"}, body={"values": formatted})
 
-    @tasks.loop(minutes=15)
-    async def post_stats(self):
-        """Update status every 30 minutes"""
-        try:
-            await self.statposter.post_all(**self.config["botlist"])
-        except Exception as e:
-            self.sentry.capture_exception(e)
-            # TODO: Specify exception
-
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     shiro = Shiro()
-    shiro.run(shiro.config["discord"]["token"])
+    shiro.run(shiro.get_config("discord", "token"))

@@ -16,10 +16,8 @@ General
 .. automodule:: shiro
    :members:
 
-
 .. toctree::
    :maxdepth: 2
-
 
 Indices and tables
 ==================

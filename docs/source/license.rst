@@ -2,6 +2,7 @@ License
 =======
 
 Shiro Discord Bot - A fun related anime bot
+
 Copyright (C) 2019 MrSpinne
 
 This program is free software: you can redistribute it and/or modify

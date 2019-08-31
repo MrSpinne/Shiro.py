@@ -13,7 +13,7 @@ Extensions
 Stats
 *****
 
-.. automodule:: extensions
+.. automodule:: extensions.stats
    :members:
 
 Library

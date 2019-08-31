@@ -28,19 +28,15 @@ class Shiro(commands.AutoShardedBot):
         self.sentry, self.lavalink, self.dbl, self.statposter, self.anilist = sentry_sdk, None, None, None, Pymoe.Anilist()
         self.parse_config()
 
-    def parse_config(self):
-        """Parse credentials from envs to file"""
-        config = configparser.ConfigParser()
-        config.read("data/config.ini")
-        for section in config.sections():
-            self.config[section.lower()] = {}
-            for option in config.options(section):
-                value = config.get(section, option)
-                env = os.environ.get("{0}_{1}".format(section.upper(), option.upper()))
-                if env:
-                    self.config[section.lower()][option] = env
-                else:
-                    self.config[section.lower()][option] = value
+    def get_config(self, option, key):
+        """Get config value"""
+        env = "{0}_{1}".format(option.upper(), key.upper())
+        if os.environ.get(env):
+            return os.environ.get(env)
+        else:
+            config = configparser.ConfigParser()
+            config.read("data/config.ini")
+            return config.get(option.lower(), key)
 
     async def on_ready(self):
         """Get ready and start"""

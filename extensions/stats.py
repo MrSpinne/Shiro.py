@@ -33,17 +33,41 @@ class Stats(commands.Cog):
     bot: :obj:`discord.ext.commands.AutoShardedBot`
         Bot instance the cog was loaded into.
     dd_api_key: :obj:`str`
-        Datadog api key to post stats to.
+        Datadog api key to post events to.
     dd_app_key: :obj:`str`
-        Datadog app key to post stats to.
+        Datadog app key to post events to.
+    bl_discordbots: :obj:`str`
+        Api key for discordbots.org to post stats to.
+        Also used to enabled vote locking.
+    bl_divinediscordbots: :obj:`str`
+        Api key for divinediscordbots.com to post stats to.
+    bl_discordbotreviews: :obj:`str`
+        Api key for discordbotreviews.xyz to post stats to.
+    bl_mythicalbots: :obj:`str`
+        Api key for mythical-bots.ml to post stats to.
+    bl_discordbotlist: :obj:`str`
+        Api key for discordbotlist.com to post stats to.
+    bl_discordboats: :obj:`str`
+        Api key for discord.boats to post stats to.
+    bl_botsondiscord: :obj:`str`
+        Api key for bots.ondiscord.xyz to post stats to.
 
     """
 
     def __init__(self, bot):
         self.bot = bot
-        self.dd_api_key = self.bot.config["datadog"]["api_key"]
-        self.dd_app_key = self.bot.config["datadog"]["app_key"]
+        self.dd_api_key = self.bot.get_config("datadog", "api_key")
+        self.dd_app_key = self.bot.get_config("datadog", "app_key")
+        self.bl_discordbots = self.bot.get_config("botlists", "discordbots")
+        self.bl_divinediscordbots = self.bot.get_config("botlists", "divinediscordbots")
+        self.bl_discordbotreviews = self.bot.get_config("botlists", "discordbotreviews")
+        self.bl_mythicalbots = self.bot.get_config("botlists", "mythicalbots")
+        self.bl_discordbotlist = self.bot.get_config("botlists", "discordbotlist")
+        self.bl_discordboats = self.bot.get_config("botlists", "discordboats")
+        self.bl_botsondiscord = self.bot.get_config("botlists", "botsondiscord")
+
         self.init_datadog()
+        self.init_bot_lists()
 
     def init_datadog(self):
         """Initialize connection to Datadog to post metrics to and add event listener.
@@ -67,10 +91,6 @@ class Stats(commands.Cog):
         payload: :obj:`dict`
             Socket response with event type.
 
-        Returns
-        -------
-        None
-
         """
         event = payload.get("t")
         statsd.increment(event)
@@ -81,12 +101,8 @@ class Stats(commands.Cog):
         Only bot lists with credentials will be initialized.
         If DiscordBot credentials are not set then vote locking will be disabled.
 
-        Returns
-        -------
-        None
-
         """
-        pass
+
 
 
 def setup(bot):

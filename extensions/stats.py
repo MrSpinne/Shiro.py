@@ -146,7 +146,6 @@ class Stats(commands.Cog):
             Data with vote info.
 
         """
-        # TODO: Register vote to db
 
     @tasks.loop(minutes=30.0)
     async def post_bot_lists(self):

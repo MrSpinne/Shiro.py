@@ -16,8 +16,8 @@ General
 .. toctree::
    :maxdepth: 2
 
-    source
     license
+
 
 Indices and tables
 ==================

@@ -16,7 +16,7 @@ General
 .. toctree::
    :maxdepth: 2
 
-    license
+   license
 
 
 Indices and tables

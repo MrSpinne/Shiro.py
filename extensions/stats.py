@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from discord.ext import commands
+from datadog import initialize, statsd
 
 
 class Stats(commands.Cog):
@@ -24,21 +25,75 @@ class Stats(commands.Cog):
 
     Parameters
     ----------
-    bot: :class:`commands.AutoShardedBot`
+    bot: :obj:`commands.AutoShardedBot`
         Bot instance the cog was loaded into.
 
     Attributes
     ----------
-    bot: :class:`commands.AutoShardedBot`
+    bot: :obj:`commands.AutoShardedBot`
         Bot instance the cog was loaded into.
+    dd_api_key: :obj:`str`
+        Datadog api key to post stats to.
+    dd_app_key: :obj:`str`
+        Datadog app key to post stats to.
 
     """
 
-    def __init__(self, bot: commands.AutoShardedBot):
+    def __init__(self, bot):
         self.bot = bot
+        self.dd_api_key = self.bot.config["datadog"]["api_key"]
+        self.dd_app_key = self.bot.config["datadog"]["app_key"]
+        self.init_datadog()
+
+    def init_datadog(self):
+        """Initialize connection to Datadog to post metrics to and add event listener.
+
+        This requires a Datadog api and app key to be set in the config.
+        If no credentials are provided, Datadog won't be enabled.
+
+        The `on_socket_response` event is called on any event.
+
+        Returns
+        -------
+        None
+
+        """
+        if self.dd_api_key != "" and self.dd_app_key != "":
+            initialize(self.dd_api_key, self.dd_app_key)
+            self.bot.add_listener(self.track_events, "on_socket_response")
+
+    async def track_events(self, payload):
+        """
+        Track every event and post the type to Datadog for analyzation purposes.
+
+        Parameters
+        ----------
+        payload: :obj:`dict`
+            Socket response with event type.
+
+        Returns
+        -------
+        None
+
+        """
+        event = payload.get("t")
+        statsd.increment(event)
+
+    def init_bot_lists(self):
+        """Initialize stats posting to the bot lists. This will also setup vote recognition.
+
+        Only bot lists with credentials will be initialized.
+        If DiscordBot credentials are not set then vote locking will be disabled.
+
+        Returns
+        -------
+        None
+
+        """
+        pass
 
 
-def setup(bot: commands.AutoShardedBot):
+def setup(bot):
     """Load the cog into the bot instance.
 
     Parameters

@@ -14,4 +14,3 @@ gspread
 oauth2client
 PyOpenSSL
 datadog
-ddtrace

@@ -44,14 +44,14 @@ class Shiro(commands.AutoShardedBot):
 
     async def on_ready(self):
         """Get ready and start"""
-        self.connect_database()
-        self.connect_lavalink()
-        self.connect_optionals()
-
-        self.create_tables()
-        self.update_guilds()
-        self.load_all_extensions()
-        self.add_command_handlers()
+        #self.connect_database()
+        #self.connect_lavalink()
+        #self.connect_optionals()
+        self.load_extension("extensions.stats")
+        #self.create_tables()
+        #self.update_guilds()
+        #self.load_all_extensions()
+        #self.add_command_handlers()
         self.app_info = await self.application_info()
 
         activity = discord.Activity(type=discord.ActivityType.playing, name="Song Quiz 🎵")

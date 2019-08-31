@@ -127,23 +127,43 @@ class StatsPoster:
         url = f"https://discordbotlist.com/api/bots/{self.bot.user.id}/stats"
         await self.post(url, data, headers)
 
-    async def discordboats(self, token):
+    async def discordboats(self, api_key):
+        """Post stats to discord.boats.
+
+        Posted stats: server count
+
+        Parameters
+        ----------
+        api_key: :obj:`str`
+            Api key to post stats to bot page.
+
+        """
         data = json.dumps({
             "server_count": len(self.bot.guilds),
         })
         headers = {
-            "authorization": token,
+            "authorization": api_key,
             "content-type": "application/json"
         }
         url = f"https://discord.boats/api/V2/bot/{self.bot.user.id}"
         await self.post(url, data, headers)
 
-    async def botsondiscord(self, token):
+    async def botsondiscord(self, api_key):
+        """Post stats to bots.ondiscord.xyz.
+
+        Posted stats: server count
+
+        Parameters
+        ----------
+        api_key: :obj:`str`
+            Api key to post stats to bot page.
+
+        """
         data = json.dumps({
             "guildCount": len(self.bot.guilds),
         })
         headers = {
-            "authorization": token,
+            "authorization": api_key,
             "content-type": "application/json"
         }
         url = f"https://bots.ondiscord.xyz/bot-api/bots/{self.bot.user.id}/guilds"

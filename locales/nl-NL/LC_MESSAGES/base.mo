@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Dutch\n"
-"PO-Revision-Date: 2019-08-24 21:35\n"
+"PO-Revision-Date: 2019-08-26 16:07\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -40,7 +40,7 @@ msgstr "`{0}prefix <1-10 symbolen>` ‧ Verander server prefix.\n"
 "`{0}deletion <on/off>` ‧ Schakel berichten van het command in of uit.\n"
 "`{0}channel <none/channel>` ‧ Specificeer in welke channel je alleen commands mag gebruiken.\n"
 "`{0}language <{1}>` ‧ Verander de taal van de bot.\n"
-"`{0}config` ‧ Laat de momentele configuratie zien."
+"`{0}config` ‧ Laat de momentele configuratie zien"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
@@ -54,7 +54,7 @@ msgstr "Shiro is gemaakt door **{0}** in Python. Als je vragen hebt, neem contac
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
-msgstr ""
+msgstr "**\\⚙ voorvoegsel**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
@@ -154,7 +154,7 @@ msgstr "{0} heeft gelijkspel met {1}/{2} het aantal goed geraden liedjes."
 
 #: extensions/songs.py:225
 msgid "**\\🎵 Stop quiz**"
-msgstr ""
+msgstr "**\\🎵 Stop Vragenspel**"
 
 #: shiro.py:242
 msgid "\\❌ **Error on command**"
@@ -182,7 +182,7 @@ msgstr "De taal `{0}` is geen beschikbare taal. Beschikbare talen: {1}"
 
 #: shiro.py:264
 msgid "The url `{0}` isn't a valid YouTube url or it's geo restricted."
-msgstr "De URL `{0}` is geen echte YouTube URL of het is geo"
+msgstr "De URL `{0}` is geen echte YouTube URL of het is geo."
 
 #: shiro.py:271
 msgid "The argument `{0}` in command `{1}` has to be one of these: {2}"
@@ -330,7 +330,7 @@ msgstr "{0} ‧ {1} (Na)"
 
 #: extensions/utility.py:72 extensions/utility.py:93
 msgid "**\\🔧 Bot update**"
-msgstr ""
+msgstr "**\\🔧 Bot Bijwerkingen**"
 
 #: extensions/utility.py:73
 msgid "Bot will stop in 5 minutes, {0} players will be shut down."
@@ -338,7 +338,7 @@ msgstr "Bot zal stoppen in 5 minuten, {0} spelers worden afgesloten."
 
 #: extensions/utility.py:77
 msgid "\\❌ **Bot update**"
-msgstr ""
+msgstr "\\❌ **Bot Bijwerkingen**"
 
 #: extensions/utility.py:78
 msgid "We have detected that you're currently running playback. We're sorry, butwe have to stop it after this song because we're rolling out a new update. This will occur in 5 minutes, please be patient."
@@ -386,7 +386,7 @@ msgstr "Alleen de gebruiker, of een admin, wie het afspelen heeft gestart kan he
 
 #: shiro.py:304
 msgid "You messed up quotation on `{0}`. If you use `\"`, you have to close it. If you want to use it as an input, escape it with `\\`."
-msgstr "Je hebt geen fout gemaakt met `{0}`.Als je `\"` gebruikt, moet je het ook weer afsluiten. Als je het als input wil gebruiken, voeg `\\` er aan toe."
+msgstr "Je hebt geen fout gemaakt met `{0}`. Als je `\"` gebruikt, moet je het ook weer afsluiten. Als je het als input wil gebruiken, voeg `\\` er aan toe."
 
 #: shiro.py:307
 msgid "You messed up quotation on `{0}`. You have to separate the quoted arguments with spaces."

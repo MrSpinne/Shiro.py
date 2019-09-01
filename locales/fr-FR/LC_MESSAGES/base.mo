@@ -12,7 +12,7 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: French\n"
-"PO-Revision-Date: 2019-08-24 21:45\n"
+"PO-Revision-Date: 2019-08-26 16:07\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
@@ -230,7 +230,7 @@ msgid "`{0}help` ‧ Display all commands\n"
 msgstr "`{0}help` ‧ Afficher toutes les commandes\n"
 "`{0}info` ‧ Afficher les crédits du bot et des liens (par exemple, le serveur de support)\n"
 "`{0}stats` ‧ Lister quelques statistiques de Shiro\n"
-"`{0}oprequest  \"chanson\" \"<anime>\" \"<yt url>\" Demande de chanson pour l'ouverture du quiz\n"
+"`{0}oprequest  \"<chanson>\" \"<anime>\" \"<yt url>\" Demande de chanson pour l'ouverture du quiz\n"
 "`{0}edrequest \"<chanson>\" \"<anime>\" \"<yt url>\" Demande de chanson pour la fin du quiz\n"
 "`{0}ostrequest \"<chanson>\" \"<anime>\" \"<yt url>\"`‧ Demander un OST pour le quiz"
 

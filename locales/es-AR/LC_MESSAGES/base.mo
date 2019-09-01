@@ -12,11 +12,11 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Spanish, Argentina\n"
-"PO-Revision-Date: 2019-08-24 21:45\n"
+"PO-Revision-Date: 2019-08-25 16:35\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
-msgstr ""
+msgstr "**\\📄 General**"
 
 #: extensions/general.py:25
 msgid "Here're all commands for **{0}**:"
@@ -275,80 +275,86 @@ msgid "Guilds ‧ {0}\n"
 "Votes (on dbl) ‧ {3}\n"
 "Ping ‧ {4}ms\n"
 "Songs ‧ {5}"
-msgstr ""
+msgstr "Alianzas ‧ {0}\n"
+"Usuarios ‧ {1}\n"
+"Reproductores de musica ‧ {2}\n"
+"Votos (en dbl) ‧ {3}\n"
+"Ping ‧ {4}ms\n"
+"Canciones ‧ {5}"
 
 #: extensions/songs.py:170
 msgid "Get ready, the quiz will start in {0} seconds!\n"
 "{1}"
-msgstr ""
+msgstr "Preparate, el quiz comenzara en {0} segundos!\n"
+"{1}"
 
 #: extensions/songs.py:227
 msgid "Playback will now end after the first song is played."
-msgstr ""
+msgstr "La playlist ahora acabara despues de que la primera cancion sea reproducida."
 
 #: extensions/songs.py:229
 msgid "Playback already ends after this song. It will be stopped then."
-msgstr ""
+msgstr "La playlist acbara despues de esta canción. Sera detenida por entonces."
 
 #: extensions/songs.py:231
 msgid "Reducing songs from {0} to {1}. Playback will end after current round."
-msgstr ""
+msgstr "Reduciendo canciones de {0} a {1}. La playlist actual acabara despues de esta ronda."
 
 #: extensions/songs.py:243
 msgid "\\❌ **Bot kicked from voice**"
-msgstr ""
+msgstr "\\❌ **Bot expulsado de voz**"
 
 #: extensions/songs.py:244
 msgid "The bot was kicked from voice channel. Current playback will be stopped."
-msgstr ""
+msgstr "El bot fue expulsado del canal de voz. La playlist actual sera detenida."
 
 #: extensions/utility.py:21
 msgid "**\\🔧 Song search**"
-msgstr ""
+msgstr "**\\🔧 Busqueda de canción**"
 
 #: extensions/utility.py:22
 msgid "Top results for `{0}`"
-msgstr ""
+msgstr "Mejores resultados para `{0}`"
 
 #: extensions/utility.py:60
 msgid "**\\🔧 {0} changed**"
-msgstr ""
+msgstr "**\\🔧 {0} cambiada**"
 
 #: extensions/utility.py:61
 msgid "You've updated the song with the id `{0}`."
-msgstr ""
+msgstr "Haas actualizado la canción con la id `{0}`."
 
 #: extensions/utility.py:62
 msgid "{0} ‧ {1} (Before)"
-msgstr ""
+msgstr "{0} ‧ {1} (Antes)"
 
 #: extensions/utility.py:64
 msgid "{0} ‧ {1} (After)"
-msgstr ""
+msgstr "{0} ‧ {1} (Despues)"
 
 #: extensions/utility.py:72 extensions/utility.py:93
 msgid "**\\🔧 Bot update**"
-msgstr ""
+msgstr "**\\🔧 Actualización del bot**"
 
 #: extensions/utility.py:73
 msgid "Bot will stop in 5 minutes, {0} players will be shut down."
-msgstr ""
+msgstr "El bot parara en 5 minutos, {0} jugadores seran silenciados."
 
 #: extensions/utility.py:77
 msgid "\\❌ **Bot update**"
-msgstr ""
+msgstr "\\❌ **Actualización del bot**"
 
 #: extensions/utility.py:78
 msgid "We have detected that you're currently running playback. We're sorry, butwe have to stop it after this song because we're rolling out a new update. This will occur in 5 minutes, please be patient."
-msgstr ""
+msgstr "Hemos detectado que estas ahora mismo en una playlist. Lo sentimos, pero teneemos que detenerlo despues de esta canción porque estamos trabajando en una nueva actualización. Esto ocurrira en 5 minutos por favor tene paciencia."
 
 #: extensions/utility.py:94
 msgid "Bot will now be shut down. {0}"
-msgstr ""
+msgstr "El bot se apagará. {0}"
 
 #: shiro.py:253
 msgid "The argument `{0}` is too long. Maximum allowed characters are {1}."
-msgstr ""
+msgstr "El argumento `{0}` es muy largo. El maximo permitido de caracteres es {1}."
 
 #: shiro.py:266
 msgid "The song id `{0}` isn't valid!"

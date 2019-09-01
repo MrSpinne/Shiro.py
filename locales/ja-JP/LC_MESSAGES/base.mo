@@ -12,23 +12,23 @@ msgstr ""
 "X-Crowdin-File: /master/locales/template.pot\n"
 "Last-Translator: MrSpinne\n"
 "Language-Team: Japanese\n"
-"PO-Revision-Date: 2019-08-24 23:55\n"
+"PO-Revision-Date: 2019-08-26 08:30\n"
 
 #: extensions/general.py:17
 msgid "**\\📄 General**"
-msgstr ""
+msgstr "総説"
 
 #: extensions/general.py:25
 msgid "Here're all commands for **{0}**:"
-msgstr ""
+msgstr "ここでのすべてのコマンド**{0}**."
 
 #: extensions/general.py:27
 msgid "**\\🎵 Songs**"
-msgstr ""
+msgstr "**\\🎵歌**"
 
 #: extensions/general.py:40
 msgid "**\\⚙️ Settings**"
-msgstr ""
+msgstr "**\\⚙️settings**"
 
 #: extensions/general.py:41
 msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
@@ -36,104 +36,113 @@ msgid "`{0}prefix <1-10 symbols>` ‧ Change server prefix\n"
 "`{0}channel <none/channel>` ‧ Set channel in which commands are allowed only\n"
 "`{0}language <{1}>` ‧ Change bot language\n"
 "`{0}config` ‧ Display current configuration"
-msgstr ""
+msgstr "`{0}prefix <1-10 symbols>` ‧ サーバーのプレフィックスを変更する\n"
+"`{0}deletion <on/off>` ‧ コマンドメッセージの削除を有効または無効にする\n"
+"`{0}channel <none/channel>` ‧ コマンドのみが許可されるチャネルを設定します\n"
+"`{0}language <{1}>` ‧ ボットの言語を変更する\n"
+"`{0}config` ‧ 現在の構成を表示する"
 
 #: extensions/general.py:65
 msgid "**\\📄 About Shiro**"
-msgstr ""
+msgstr "** \\📄シロについて**"
 
 #: extensions/general.py:67
 msgid "Shiro were made by **{0}** in Python. If you have any questions, feel free to contact.\n\n"
 "[Support & Feedback]({1}) ‧ [Help translate]({1}) ‧ [Vote]({2}) ‧ [All songs]({3})"
-msgstr ""
+msgstr "Shiroは** {0} **によってPythonで作成されました。ご質問がある場合は、お気軽にお問い合わせください。 \n\n"
+"[サポートとフィードバック]（{1}）‧[翻訳のヘルプ]（{1}）‧[Vote]（{2}）‧[すべての曲]（{3}）"
 
 #: extensions/settings.py:17
 msgid "**\\⚙️ Prefix**"
-msgstr ""
+msgstr "** \\⚙️プレフィックス**"
 
 #: extensions/settings.py:18
 msgid "Server prefix were set to `{0}`. If you forget it, you can always use `@Shiro` to get help."
-msgstr ""
+msgstr "サーバーのプレフィックスは `{0}`に設定されました。忘れた場合は、いつでも `@ Shiro`を使用してヘルプを取得できます。"
 
 #: extensions/settings.py:28
 msgid "**\\⚙️ Command deletion**"
-msgstr ""
+msgstr "** \\⚙️コマンドの削除**"
 
 #: extensions/settings.py:29
 msgid "Command message deletion were {0}."
-msgstr ""
+msgstr "コマンドメッセージの削除は{0} でした。"
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "disabled"
-msgstr ""
+msgstr "障害者"
 
 #: extensions/settings.py:29 extensions/settings.py:64
 msgid "enabled"
-msgstr ""
+msgstr "有効化"
 
 #: extensions/settings.py:37
 msgid "**\\⚙️ Channel only**"
-msgstr ""
+msgstr "** \\⚙️チャンネルのみ**"
 
 #: extensions/settings.py:38
 msgid "Commands can now be executed {0}."
-msgstr ""
+msgstr "コマンドを{0} で実行できるようになりました。"
 
 #: extensions/settings.py:39
 msgid "everywhere"
-msgstr ""
+msgstr "どこにでも"
 
 #: extensions/settings.py:39
 msgid "in channel {0}"
-msgstr ""
+msgstr "チャンネル{0}"
 
 #: extensions/settings.py:47
 msgid "**\\⚙️ Language**"
-msgstr ""
+msgstr "** \\⚙️言語**"
 
 #: extensions/settings.py:48
 msgid "Language were set to `{0}`."
-msgstr ""
+msgstr "言語は `{0}`に設定されました。"
 
 #: extensions/settings.py:56
 msgid "**\\⚙️ Config**"
-msgstr ""
+msgstr "** \\⚙️構成**"
 
 #: extensions/settings.py:57
 msgid "Prefix ‧ `{0}`\n"
 "Command deletion ‧ `{1}`\n"
 "Channel only ‧ {2}\n"
 "Language ‧ `{3}`"
-msgstr ""
+msgstr "プレフィックス‧ `{0}`\n"
+"コマンド削除‧ `{1}`\n"
+"チャンネルのみ‧{2}\n"
+"言語‧ `{3}`"
 
 #: extensions/settings.py:66
 msgid "`disabled`"
-msgstr ""
+msgstr "`障害者`"
 
 #: extensions/songs.py:124 extensions/songs.py:153
 msgid "**\\🎵 {0} quiz ‧ Round {1}/{2}**"
-msgstr ""
+msgstr "** \\🎵{0} クイズ‧ラウンド{1} / {2} **"
 
 #: extensions/songs.py:145
 msgid "Nobody"
-msgstr ""
+msgstr "非公開"
 
 #: extensions/songs.py:155
 msgid "{0} has won the round!\n"
 "Song: [{1} ‧ {2}]({3})"
-msgstr ""
+msgstr "{0} がラウンドに勝ちました！\n"
+"歌：[{1} ‧ {2}]({3}）"
 
 #: extensions/songs.py:169
 msgid "**\\🎵 {0} quiz ‧ Starting**"
-msgstr ""
+msgstr "** \\🎵{0} クイズ‧開始**"
 
 #: extensions/songs.py:183
 msgid "**\\🎵 {0} quiz ‧ End**"
-msgstr ""
+msgstr "** \\🎵{0} クイズ‧ラウンド / **"
 
 #: extensions/songs.py:186
 msgid "Nobody won the song quiz! There were {0} round(s)."
-msgstr ""
+msgstr "曲のクイズに勝った人はいません！ {0} ラウンドがありました。"
 
 #: extensions/songs.py:188
 msgid "{0} has guessed {1}/{2} songs correctly and won!"
@@ -145,11 +154,11 @@ msgstr ""
 
 #: extensions/songs.py:225
 msgid "**\\🎵 Stop quiz**"
-msgstr ""
+msgstr "**\\🎵 クイズをストップ**"
 
 #: shiro.py:242
 msgid "\\❌ **Error on command**"
-msgstr ""
+msgstr "\\❌ **コマンドエラー**"
 
 #: shiro.py:247
 msgid "The command `{0}` is missing the `{1}`."

@@ -16,9 +16,10 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from datetime import datetime
+import dbl
 from discord.ext import commands, tasks
 from datadog import initialize, statsd
-import dbl
 
 from library import statsposter
 
@@ -35,13 +36,18 @@ class Stats(commands.Cog):
     ----------
     bot: :obj:`discord.ext.commands.AutoShardedBot`
         Bot instance the cog was loaded into.
+    users: `discord.ext.commands.Cog`
+        Users cog to register votes to.
+    start_time: `float`
+        Time the bot was started.
     dd_api_key: :obj:`str`
         Datadog api key to post events to.
+        Has to be set to activate Datadog.
     dd_app_key: :obj:`str`
         Datadog app key to post events to.
     statsposter: :obj:`statsposter.StatsPoster`
-        Used to post bot stats to the bot lists.
-        DiscordBots excluded.
+        Used to post bot stats to the bot lists but not DiscordBots.org.
+        `None` if not initialized.
     dbl: :obj:`dbl.Client`
         DiscordBots client. This is `None` if no configuration found.
     dbl_api_key: :obj:`str`
@@ -69,10 +75,11 @@ class Stats(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.users = self.bot.get_cog("users")
+        self.start_time = datetime.now()
         self.dd_api_key = self.bot.get_config("datadog", "api_key")
         self.dd_app_key = self.bot.get_config("datadog", "app_key")
-
-        self.statsposter = statsposter.StatsPoster(self.bot)
+        self.statsposter = None
 
         self.dbl = None
         self.dbl_api_key = self.bot.get_config("discordbots", "api_key")
@@ -89,7 +96,7 @@ class Stats(commands.Cog):
 
         self.init_datadog()
         self.init_discordbots()
-        self.post_bot_lists.start()
+        self.init_statsposter()
 
     def init_datadog(self):
         """Initialize connection to Datadog to post metrics to and add event listener.
@@ -100,13 +107,13 @@ class Stats(commands.Cog):
         The `on_socket_response` event is called on any event.
 
         """
-        if self.dd_api_key and self.dd_app_key:
+        if self.dd_api_key:
             initialize(self.dd_api_key, self.dd_app_key)
-            self.bot.add_listener(self.track_events, "on_socket_response")
 
-    async def track_events(self, payload):
+    @commands.Cog.listener()
+    async def on_socket_response(self, payload):
         """
-        Track every event and post the type to Datadog for analyzation purposes.
+        Track every event and post the type to Datadog for analyzation purposes if configured.
 
         Parameters
         ----------
@@ -114,8 +121,9 @@ class Stats(commands.Cog):
             Socket response with event type.
 
         """
-        event = payload.get("t")
-        statsd.increment(event)
+        if self.dd_api_key:
+            event = payload.get("t")
+            statsd.increment(event)
 
     def init_discordbots(self):
         """Initialize stats posting to the bot lists and vote recognition.
@@ -135,6 +143,7 @@ class Stats(commands.Cog):
             }
             self.dbl = dbl.Client(**credentials)
 
+    @commands.Cog.listener()
     async def on_dbl_vote(self, data):
         """Track votes from DiscordBots.org and save it to database.
 
@@ -146,14 +155,12 @@ class Stats(commands.Cog):
             Data with vote info.
 
         """
-        # TODO: Register user to database
-        pass
+        self.users.set_user_info(data.get("user"), "last_vote", datetime.now())
 
-    @tasks.loop(minutes=30.0)
-    async def post_bot_lists(self):
-        """Post bot stats to the bot lists which have been configured.
+    def init_statsposter(self):
+        """Initizialize the stats poster.
 
-        Currently available lists can be looked up from the config or the class attributes.
+        Not configured bot lists won't receive stats.
 
         """
         credentials = {
@@ -164,7 +171,17 @@ class Stats(commands.Cog):
             "discordboats": self.bl_discordboats,
             "botsondiscord": self.bl_botsondiscord
         }
-        await self.statsposter.post_all(**credentials)
+        self.statsposter = statsposter.StatsPoster(self.bot, **credentials)
+        self.post_bot_lists.start()
+
+    @tasks.loop(minutes=30.0)
+    async def post_bot_lists(self):
+        """Post bot stats to the bot lists which have been configured.
+
+        Currently available lists can be looked up from the config or the class attributes.
+
+        """
+        await self.statsposter.post_all()
 
 
 def setup(bot):

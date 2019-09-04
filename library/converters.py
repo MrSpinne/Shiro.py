@@ -1,146 +1,123 @@
+"""
+Shiro Discord Bot - A fun related anime bot
+Copyright (C) 2019 MrSpinne
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 from discord.ext import commands
+
 from library import exceptions
 
-import pycountry
-import re
-import pathlib
 
+class Ascii(commands.Converter):
+    """Checks if a string is ascii only.
 
-class RangeInt(commands.Converter):
-    """Convert to int if number is in range"""
-    def __init__(self, min_num, max_num):
-        self.min_num = min_num
-        self.max_num = max_num
+    This won't convert anything.
+
+    """
 
     async def convert(self, ctx, argument):
-        try:
-            argument = int(float(argument))
-            if argument in range(self.min_num, self.max_num + 1):
-                return argument
-        except ValueError:
-            pass
+        """Check the argument for non ascii symbols.
 
-        raise exceptions.NotInRange(argument, self.min_num, self.max_num)
+        Parameters
+        ----------
+        ctx: :obj:`discord.Context`
+            Context the command was invoked with.
+        argument: :obj:`str`
+            Argument that have been passed to the converter.
 
+        Returns
+        -------
+        str
+            Returns the argument if check has been passed.
 
-class LengthStr(commands.Converter):
-    """Convert if str is not too long"""
-    def __init__(self, max_len):
-        self.max_len = max_len
+        Raises
+        ------
+        exceptions.NotAscii
+            Raised if argument is not ascii.
 
-    async def convert(self, ctx, argument):
-        if len(argument) <= self.max_len:
-            return argument
-
-        raise exceptions.NotLengthStr(argument, self.max_len)
-
-
-class Prefix(commands.Converter):
-    """Converts to str if values length is in range"""
-    async def convert(self, ctx, argument):
+        """
         if all(ord(c) < 128 for c in argument):
             return argument
 
-        raise exceptions.NotPrefix(argument)
+        raise exceptions.NotAscii(argument)
 
 
-class Bool(commands.Converter):
-    """Converts to bool value if it's the specified"""
+class Length(commands.Converter):
+    """Check if a string is not longer than specified.
+
+    Parameters
+    ----------
+    max_length: `int`
+        Max length of the string that is allowed.
+
+    """
+
+    def __init__(self, max_length):
+        self.max_length = max_length
+
     async def convert(self, ctx, argument):
-        argument = argument.lower()
-        if argument in ["true", "enable", "enabled", "on", "activate", "activated", "1"]:
-            argument = True
-        elif argument in ["false", "disable", "disabled", "off", "deactivate", "deactivated", "0"]:
-            argument = False
+        """Check if the argument is not longer than specified.
 
-        if isinstance(argument, bool):
+        Parameters
+        ----------
+        ctx: :obj:`discord.Context`
+            Context the command was invoked with.
+        argument: :obj:`str`
+            Argument that have been passed to the converter.
+
+        Returns
+        -------
+        str
+            Returns the argument if check has passed.
+
+        Raises
+        ------
+        exceptions.NotLength
+            Raised if argument is longer than specified.
+
+        """
+        if len(argument) <= self.max_length:
             return argument
 
-        raise exceptions.NotBool(argument)
+        raise exceptions.NotLength(argument, self.max_length)
 
 
-class Nothing(commands.Converter):
-    """Converts to None if value is meant to be nothing"""
+class Prefix(commands.Converter):
+    """Check if an argument mets the requirements to be set as a prefix.
+
+    A prefix should be ascii and not longer than 10 characters.
+
+    """
+
     async def convert(self, ctx, argument):
-        argument = argument.lower()
-        if argument in ["none", "nil", "reset", "0", "empty"]:
-            return None
+        """Use ascii and length converter to check.
 
-        raise exceptions.NotNothing
+        Parameters
+        ----------
+        ctx: :obj:`discord.Context`
+            Context the command was invoked with.
+        argument: :obj:`str`
+            Argument that have been passed to the converter.
 
+        Returns
+        -------
+        str
+            Returns the argument if check has passed.
 
-class Language(commands.Converter):
-    """Converts to language value if it's the specified"""
-    async def convert(self, ctx, argument):
-        argument = argument.lower()
-        languages = [item.name for item in pathlib.Path("locales").iterdir() if item.is_dir()]
-
-        for language in pycountry.languages:
-            if getattr(language, "name", None) == argument.capitalize():
-
-                if getattr(language, "alpha_2", None) in languages:
-                    return language.alpha_2
-            elif getattr(language, "alpha_2", None) == argument:
-                if getattr(language, "alpha_2") in languages:
-                    return language.alpha_2
-            elif getattr(language, "alpha_3", None) == argument:
-                if getattr(language, "alpha_2", None) in languages:
-                    return language.alpha_2
-
-        raise exceptions.NotLanguage(argument, languages)
-
-
-class YoutubeURL(commands.Converter):
-    """Convert to youtube url if video is available"""
-    async def convert(self, ctx, argument):
-        results = await ctx.bot.lavalink.get_tracks(argument)
-        if results and results["tracks"]:
-            video_id = re.search(r"((?<=([vV])/)|(?<=be/)|(?<=([?&])v=)|(?<=embed/))([\w-]+)", argument)[0]
-            video_url = f"https://www.youtube.com/watch?v={video_id}"
-            return video_url
-
-        raise exceptions.NotYoutubeURL(argument)
-
-
-class Anime(commands.Converter):
-    """Convert to anime"""
-    async def convert(self, ctx, argument):
-        search = ctx.bot.anilist.search.anime(argument, perpage=1)
-        try:
-            titles = search["data"]["Page"]["media"][0]["title"]
-            anime = titles["english"] if titles["english"] is not None else titles["romaji"]
-            return anime
-        except KeyError:
-            raise exceptions.NotAnime(argument)
-
-        # TODO: Will be used in upcoming version
-
-
-class SongID(commands.Converter):
-    """Convert to song id if exits"""
-    async def convert(self, ctx, argument):
-        try:
-            argument = int(argument)
-            if ctx.bot.get_song(argument):
-                return argument
-        except ValueError:
-            pass
-
-        raise exceptions.NotSongID(argument)
-
-
-class Category(commands.Converter):
-    """Convert to category if possible"""
-    async def convert(self, ctx, argument):
-        opening = ["op", "ops", "opening", "openings"]
-        ending = ["ed", "eds", "ending", "endings"]
-        ost = ["ost", "osts", "soundtrack", "soundtracks"]
-
-        if argument.lower() in opening:
-            return "Opening"
-        if argument.lower() in ending:
-            return "Ending"
-        if argument.lower() in ost:
-            return "OST"
-
-        raise exceptions.NotCategory(argument)
+        """
+        argument = await Ascii.convert(ctx, argument)
+        argument = await Length(10).convert(ctx, argument)
+        return argument

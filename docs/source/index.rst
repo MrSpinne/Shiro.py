@@ -18,10 +18,3 @@ Table of Contents
 
    source
    license
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`

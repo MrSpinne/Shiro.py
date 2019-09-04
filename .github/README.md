@@ -3,7 +3,7 @@
 # Shiro.py - Work in progress
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d668927a72f14c19b23ca9a0ed71fb20)](https://www.codacy.com/app/MrSpinne/Shiro.py?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MrSpinne/Shiro.py&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/MrSpinne/Shiro.py.svg?branch=master)](https://travis-ci.org/MrSpinne/Shiro.py)
-[![Documentation Status](https://readthedocs.org/projects/shiropy/badge/?version=latest)](https://docs.shiro.pro/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/shiropy/badge/?version=master)](https://docs.shiro.pro/en/master/?badge=master)
 [![Crowdin](https://badges.crowdin.net/shiro-py/localized.svg)](https://translate.shiro.pro)
 
 ![Python Version](https://img.shields.io/badge/python-3.7-blue)

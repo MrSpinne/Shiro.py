@@ -10,6 +10,12 @@ Shiro
 Extensions
 ##########
 
+Database
+********
+
+.. automodule:: extensions.database
+   :members:
+
 General
 *******
 

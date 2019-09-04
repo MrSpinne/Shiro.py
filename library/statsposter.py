@@ -34,17 +34,42 @@ class StatsPoster:
         Bot instance the cog was loaded into.
     session: `aiohttp.ClientSession`
         Session to use to perform http requests.
+    api_keys: `dict`
+        Api keys of the bot lists.
+        Allowed bot lists can be looked up from the config.
+    user_count: `int`
+        Number of users the bot can see.
+    guild_count: `int`
+        Number of guilds the bot is on.
+    voice_connections: `int`
+        Number of players that are currently playing.
 
     """
 
-    def __init__(self, bot):
+    def __init__(self, bot, **api_keys):
         self.bot = bot
         self.session = aiohttp.ClientSession(loop=self.bot.loop)
+        self.api_keys = api_keys
+        self.user_count = None
+        self.guild_count = None
+        self.voice_connections = None
+        self.update_stats()
+
+    def update_stats(self):
+        """Update the stats of the bot.
+
+        Stats will be formatted stored as attributes.
+        This also makes it possible to know which stats are currently displayed on bot lists.
+
+        """
+        self.user_count = len(self.bot.users)
+        self.guild_count = len(self.bot.guilds)
+        self.voice_connections = sum(player.is_playing is True for player in self.bot.lavalink.players)
 
     async def divinediscordbots(self, api_key):
         """Post stats to divinediscordbots.com.
 
-        Posted stats: server count
+        Posted stats: guild count
 
         Parameters
         ----------
@@ -53,7 +78,7 @@ class StatsPoster:
 
         """
         data = json.dumps({
-            "server_count": len(self.bot.guilds)
+            "server_count": self.guild_count
         })
         headers = {
             "authorization": api_key,
@@ -65,7 +90,7 @@ class StatsPoster:
     async def discordbotreviews(self, api_key):
         """Post stats to discordbotreviews.xyz.
 
-        Stats posted: server count
+        Stats posted: guild count
 
         Parameters
         ----------
@@ -74,7 +99,7 @@ class StatsPoster:
 
         """
         data = json.dumps({
-            "server_count": len(self.bot.guilds)
+            "server_count": self.guild_count
         })
         headers = {
             "authorization": api_key,
@@ -86,7 +111,7 @@ class StatsPoster:
     async def mythicalbots(self, api_key):
         """Post stats to mythical-bots.ml.
 
-        Stats posted: server count
+        Stats posted: guild count
 
         Parameters
         ----------
@@ -95,7 +120,7 @@ class StatsPoster:
 
         """
         data = json.dumps({
-            "server_count": len(self.bot.guilds)
+            "server_count": self.guild_count
         })
         headers = {
             "authorization": api_key,
@@ -107,7 +132,7 @@ class StatsPoster:
     async def discordbotlist(self, api_key):
         """Post stats to discordbotlist.com.
 
-        Stats posted: server count, user count, amount of voice connections
+        Stats posted: user count, guild count, amount of voice connections
 
         Parameters
         ----------
@@ -116,9 +141,9 @@ class StatsPoster:
 
         """
         data = json.dumps({
-            "guilds": len(self.bot.guilds),
-            "users": len(self.bot.users),
-            "voice_connections": len(self.bot.lavalink.players)
+            "users": self.user_count,
+            "guilds": self.guild_count,
+            "voice_connections": self.voice_connections
         })
         headers = {
             "authorization": f"Bot {api_key}",
@@ -130,7 +155,7 @@ class StatsPoster:
     async def discordboats(self, api_key):
         """Post stats to discord.boats.
 
-        Posted stats: server count
+        Posted stats: guild count
 
         Parameters
         ----------
@@ -139,7 +164,7 @@ class StatsPoster:
 
         """
         data = json.dumps({
-            "server_count": len(self.bot.guilds),
+            "server_count": self.guild_count,
         })
         headers = {
             "authorization": api_key,
@@ -151,7 +176,7 @@ class StatsPoster:
     async def botsondiscord(self, api_key):
         """Post stats to bots.ondiscord.xyz.
 
-        Posted stats: server count
+        Posted stats: guild count
 
         Parameters
         ----------
@@ -160,7 +185,7 @@ class StatsPoster:
 
         """
         data = json.dumps({
-            "guildCount": len(self.bot.guilds),
+            "guildCount": self.guild_count,
         })
         headers = {
             "authorization": api_key,
@@ -179,7 +204,7 @@ class StatsPoster:
         url: :obj:`str`
             Url to send data to.
         data: :obj:`str`
-            A JSON formatted string with all data (like server count) to be sent.
+            A JSON formatted string with all data (like guild count) to be sent.
         headers: :obj:`dict`
             All neccessary headers which are expected by the bot list.
             Bot lists will always require an `Authorization` header.
@@ -191,26 +216,14 @@ class StatsPoster:
             # FIXME: Catch specified exception and resolve status codes
             pass
 
-    async def post_all(self, **kwargs):
-        """Post the stats to the bot lists which have been configured.
+    async def post_all(self):
+        """Post the stats to the bot lists.
 
-        Parameters
-        ----------
-        divinediscordbots: :obj:`str`
-            Api key for divinediscordbots.com to post stats to.
-        discordbotreviews: :obj:`str`
-            Api key for discordbotreviews.xyz to post stats to.
-        mythicalbots: :obj:`str`
-            Api key for mythical-bots.ml to post stats to.
-        discordbotlist: :obj:`str`
-            Api key for discordbotlist.com to post stats to.
-        discordboats: :obj:`str`
-            Api key for discord.boats to post stats to.
-        botsondiscord: :obj:`str`
-            Api key for bots.ondiscord.xyz to post stats to.
+        Stats will only be posted to configured lists.
 
         """
-        for bot_list, api_key in kwargs:
+        self.update_stats()
+        for bot_list, api_key in self.api_keys:
             if api_key:
                 if bot_list == "divinediscordbots":
                     await self.divinediscordbots(api_key)
